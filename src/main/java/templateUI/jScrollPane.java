@@ -11,7 +11,6 @@ public class jScrollPane extends JScrollPane {
         super(view, vsbPolicy, hsbPolicy);
         this.setFocusable(false);
         this.setOpaque(false);
-        this.setWheelScrollingEnabled(true);
 
         this.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         this.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
@@ -78,8 +77,6 @@ public class jScrollPane extends JScrollPane {
             g2d.fillRect(thumbBounds.x, thumbBounds.y, thumbBounds.width, thumbBounds.height);
 
             g2d.dispose();
-
-            System.out.println(thumbBounds);
         }
 
         @Override

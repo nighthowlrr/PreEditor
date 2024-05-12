@@ -1,5 +1,7 @@
 package templateUI;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 import java.beans.*;
 import java.io.Serial;
@@ -19,18 +21,19 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
     public final static float CENTER = 0.5f;
     public final static float RIGHT = 1.0f;
 
-    // Text component this TextTextLineNumber component is in sync with
+    // Text component this TextLineNumber component is in sync with
     private final JTextPane component;
 
     // Properties that can be changed
     private boolean updateFont;
     private int borderGap;
     private Color currentLineForeground;
+    private Color lineForeground;
+    private Color separatorColor;
     private float digitAlignment;
     private int minimumDisplayDigits;
 
     // Keep history information to reduce the number of times the component needs to be repainted
-
     private int lastDigits;
     private int lastHeight;
     private int lastLine;
@@ -52,7 +55,7 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
      * @param component the related text component
      * @param minimumDisplayDigits the number of digits used to calculate the minimum width of the component
      */
-    public JTextLineNumber(JTextPane component, int minimumDisplayDigits) {
+    public JTextLineNumber(@NotNull JTextPane component, int minimumDisplayDigits) {
         this.component = component;
         setBorder(null);
         //setFont(component.getFont());
@@ -60,7 +63,9 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
         setBorder(null);
         setBorderGap(5);
         setCurrentLineForeground(Color.BLACK);
-        setDigitAlignment(RIGHT);
+        setLineForeground(new Color(0, 0, 0, 100));
+        setSeparatorColor(new Color(0, 0, 0, 64));
+        setDigitAlignment(LEFT);
         setMinimumDisplayDigits(minimumDisplayDigits);
 
         component.getDocument().addDocumentListener(this);
@@ -70,16 +75,13 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
 
     /**
      * Gets the update font property
-     *
      * @return the update font property
      */
     public boolean getUpdateFont() {
         return updateFont;
     }
-
     /**
      * Set the update font property. Indicates whether this Font should be updated automatically when the Font of the related text component is changed.
-     *
      * @param updateFont when true, update the Font and repaint the line numbers, otherwise repaint the line numbers.
      */
     public void setUpdateFont(boolean updateFont) {
@@ -88,16 +90,13 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
 
     /**
      * Gets the border gap
-     *
      * @return the border gap in pixels
      */
     public int getBorderGap() {
         return borderGap;
     }
-
     /**
      * The border gap is used in calculating the left and right insets of the border. The default value is 5.
-     *
      * @param borderGap the gap in pixels
      */
     public void setBorderGap(int borderGap) {
@@ -107,32 +106,57 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
     }
 
     /**
-     * Gets the current line rendering Color
-     *
+     * Gets the current line number rendering Color
      * @return the Color used to render the current line number
      */
     public Color getCurrentLineForeground() {
-        return currentLineForeground == null ? getForeground() : currentLineForeground;
+        return currentLineForeground;
     }
-
     /**
-     * The Color used to render the current line digits. Default is Color.RED.
-     *
-     * @param currentLineForeground the Color used to render the current line
+     * The Color used to render the current line number. Default is Color.BLACK.
+     * @param currentLineForeground the Color used to render the current line number
      */
     public void setCurrentLineForeground(Color currentLineForeground) {
         this.currentLineForeground = currentLineForeground;
     }
 
     /**
+     * Gets the other line numbers rendering Color
+     * @return the Color used to render the current line number
+     */
+    public Color getLineForeground() {
+        return lineForeground;
+    }
+    /**
+     * The Color used to render the other line numbers. Default is <code>new Color(0, 0, 0, 100)</code>.
+     * @param lineForeground the Color used to render the other line numbers
+     */
+    public void setLineForeground(Color lineForeground) {
+        this.lineForeground = lineForeground;
+    }
+
+    /**
+     * Gets the separating line color
+     * @return the Color used to render the separating line
+     */
+    public Color getSeparatorColor() {
+        return separatorColor;
+    }
+    /**
+     * The Color used to render the separating line. Default is <code>new Color(0, 0, 0, 64)</code>
+     * @param separatorColor the Color used to render the separating line
+     */
+    public void setSeparatorColor(Color separatorColor) {
+        this.separatorColor = separatorColor;
+    }
+
+    /**
      * Gets the digit alignment
-     *
      * @return the alignment of the painted digits
      */
     public float getDigitAlignment() {
         return digitAlignment;
     }
-
     /**
      * Specify the horizontal alignment of the digits within the component. Common values would be:
      * <ul>
@@ -152,7 +176,6 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
     public int getMinimumDisplayDigits() {
         return minimumDisplayDigits;
     }
-
     /**
      * Specify the minimum number of digits used to calculate the preferred width of the component. Default is 3.
      * @param minimumDisplayDigits the number digits used in the preferred width calculation
@@ -175,35 +198,26 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
         int digits = Math.max(String.valueOf(lines).length(), minimumDisplayDigits);
 
         // Update sizes when number of digits in the line number changes
-
         if (lastDigits != digits) {
             lastDigits = digits;
             FontMetrics fontMetrics = getFontMetrics(font);
             int iPreferredWidth;
 
-            if (digits <= 1)
-            {
+            if (digits <= 1) {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("0");
-            } else if (digits == 2)
-            {
+            } else if (digits == 2) {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("00");
-            } else if (digits == 3)
-            {
+            } else if (digits == 3) {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("000");
-            } else if (digits == 4)
-            {
+            } else if (digits == 4) {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("0000");
-            } else if (digits == 5)
-            {
+            } else if (digits == 5) {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("00000");
-            } else if (digits == 6)
-            {
+            } else if (digits == 6) {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("000000");
-            } else if (digits == 7)
-            {
+            } else if (digits == 7) {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("0000000");
-            } else
-            {
+            } else {
                 iPreferredWidth = 10 + fontMetrics.stringWidth("00000000");
             }
 
@@ -218,25 +232,33 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
      */
     @Override
     public void paintComponent(Graphics g) {
-        // Paint the background.
         Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+
+        // Paint the background.
         g2d.setColor(component.getBackground());
         g2d.fillRect(0, 0, getWidth(), getHeight());
-        // Paint a vertical line at the right.
+
+        // Paint the separating vertical line at the right.
         g2d.setStroke(new BasicStroke(1));
-        g2d.setColor(new Color(0, 0, 0, 64));
+        g2d.setColor(separatorColor);
         g2d.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight());
+
         // Define the font.
         Font componentFont = component.getFont();
         Font font = new Font(componentFont.getFamily(), Font.BOLD, componentFont.getSize());
 
         // Determine the width of the space available to draw the line number
-
         FontMetrics fontMetrics = component.getFontMetrics(component.getFont());
         int iRightAlignment = getSize().width - 5;
 
         // Determine the rows to draw within the clipped bounds.
-
         Rectangle clip = g.getClipBounds();
         int rowStartOffset = component.viewToModel(new Point(0, clip.y));
         int endOffset = component.viewToModel(new Point(0, clip.y + clip.height));
@@ -244,8 +266,8 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
 
         while (rowStartOffset <= endOffset) {
             try {
-                if (isCurrentLine(rowStartOffset)) g2d.setColor(new Color(0, 0, 0, 160));
-                else g2d.setColor(new Color(0, 0, 0, 100));
+                if (isCurrentLine(rowStartOffset)) g2d.setColor(currentLineForeground);
+                else g2d.setColor(lineForeground);
 
                 // Get the line number as a string and then determine the
                 // "X" and "Y" offsets for drawing the string.
@@ -269,7 +291,6 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
     private boolean isCurrentLine(int rowStartOffset) {
         int caretPosition = component.getCaretPosition();
         Element root = component.getDocument().getDefaultRootElement();
-
         return root.getElementIndex(rowStartOffset) == root.getElementIndex(caretPosition);
     }
 
