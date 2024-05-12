@@ -1,4 +1,4 @@
-package nos.pre.editor;
+package templateUI;
 
 import java.awt.*;
 import java.beans.*;
