@@ -3,7 +3,6 @@ package templateUI;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.beans.*;
 import java.io.Serial;
 import java.util.HashMap;
 import javax.swing.*;
@@ -15,7 +14,7 @@ import javax.swing.text.*;
  * TextLineNumber supports wrapped lines and will highlight the line number of the current line in the text component.
  * This class was designed to be used as a component added to the row header of a JScrollPane.
  */
-public class JTextLineNumber extends JPanel implements CaretListener, DocumentListener, PropertyChangeListener {
+public class JTextLineNumber extends JPanel implements CaretListener, DocumentListener {
     @Serial private static final long serialVersionUID = 1L;
     public final static float LEFT = 0.0f;
     public final static float CENTER = 0.5f;
@@ -25,11 +24,12 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
     private final JTextPane component;
 
     // Properties that can be changed
-    private boolean updateFont;
     private int borderGap;
+
     private Color currentLineForeground;
     private Color lineForeground;
     private Color separatorColor;
+
     private float digitAlignment;
     private int minimumDisplayDigits;
 
@@ -58,34 +58,18 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
     public JTextLineNumber(@NotNull JTextPane component, int minimumDisplayDigits) {
         this.component = component;
         setBorder(null);
-        //setFont(component.getFont());
 
-        setBorder(null);
         setBorderGap(5);
+
         setCurrentLineForeground(Color.BLACK);
         setLineForeground(new Color(0, 0, 0, 100));
         setSeparatorColor(new Color(0, 0, 0, 64));
+
         setDigitAlignment(LEFT);
         setMinimumDisplayDigits(minimumDisplayDigits);
 
         component.getDocument().addDocumentListener(this);
         component.addCaretListener(this);
-        component.addPropertyChangeListener("font", this);
-    }
-
-    /**
-     * Gets the update font property
-     * @return the update font property
-     */
-    public boolean getUpdateFont() {
-        return updateFont;
-    }
-    /**
-     * Set the update font property. Indicates whether this Font should be updated automatically when the Font of the related text component is changed.
-     * @param updateFont when true, update the Font and repaint the line numbers, otherwise repaint the line numbers.
-     */
-    public void setUpdateFont(boolean updateFont) {
-        this.updateFont = updateFont;
     }
 
     /**
@@ -250,10 +234,6 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
         g2d.setColor(separatorColor);
         g2d.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight());
 
-        // Define the font.
-        Font componentFont = component.getFont();
-        Font font = new Font(componentFont.getFamily(), Font.BOLD, componentFont.getSize());
-
         // Determine the width of the space available to draw the line number
         FontMetrics fontMetrics = component.getFontMetrics(component.getFont());
         int iRightAlignment = getSize().width - 5;
@@ -262,7 +242,7 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
         Rectangle clip = g.getClipBounds();
         int rowStartOffset = component.viewToModel(new Point(0, clip.y));
         int endOffset = component.viewToModel(new Point(0, clip.y + clip.height));
-        g2d.setFont(font);
+        g2d.setFont(getFont());
 
         while (rowStartOffset <= endOffset) {
             try {
@@ -397,20 +377,5 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
                 ex.printStackTrace();
             }
         });
-    }
-
-    // Implement PropertyChangeListener interface
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getNewValue() instanceof Font) {
-            if (updateFont) {
-                Font newFont = (Font) evt.getNewValue();
-                setFont(newFont);
-                lastDigits = 0;
-                setPreferredWidth();
-            } else {
-                repaint();
-            }
-        }
     }
 }
