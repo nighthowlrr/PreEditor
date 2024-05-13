@@ -23,9 +23,10 @@ public class EditorView extends JPanel {
     }
 
     private void addTextContent() {
-        textPane.setBackground(new Color(0x1e1f22));
-        textPane.setForeground(Color.WHITE);
+        textPane.setBackground(Colors.editorBackground);
+        textPane.setForeground(Colors.editorForeground);
         textPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
+        textPane.setCaretColor(Colors.editorCaretColor);
         textPane.addCaretListener(_ -> caretLocationLabel.setText(String.valueOf(textPane.getCaretPosition()))); // caretUpdate - e
         textContentPanel.add(textPane, BorderLayout.CENTER);
 
@@ -35,7 +36,7 @@ public class EditorView extends JPanel {
         textContentPanel.add(textLineNumber, BorderLayout.WEST);
 
         scrollPane.setViewportView(textContentPanel);
-        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(0x2b2d30), 2));
+        scrollPane.setBorder(BorderFactory.createLineBorder(Colors.editorBorderColor, 2));
         this.add(scrollPane, BorderLayout.CENTER);
     }
 
