@@ -7,13 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class EditorView extends JPanel {
-    private final jScrollPane scrollPane = new jScrollPane();
+    private final jScrollPane editorScrollPane = new jScrollPane();
     private final JPanel textContentPanel = new JPanel(new BorderLayout(), true);
-    private final JTextPane textPane = new JTextPane();
-    private final JTextLineNumber textLineNumber = new JTextLineNumber(textPane);
+    private final JTextPane editingPane = new JTextPane();
+    private final JTextLineNumber editorLineNumber = new JTextLineNumber(editingPane);
 
     private final JPanel bottomPanel = new JPanel(new BorderLayout(), true);
-    private final JLabel caretLocationLabel = new JLabel(String.valueOf(textPane.getCaretPosition()));
+    private final JLabel caretLocationLabel = new JLabel(String.valueOf(editingPane.getCaretPosition()));
 
     public EditorView() {
         super(new BorderLayout(), true);
@@ -23,21 +23,22 @@ public class EditorView extends JPanel {
     }
 
     private void addTextContent() {
-        textPane.setBackground(Colors.editorBackground);
-        textPane.setForeground(Colors.editorForeground);
-        textPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
-        textPane.setCaretColor(Colors.editorCaretColor);
-        textPane.addCaretListener(_ -> caretLocationLabel.setText(String.valueOf(textPane.getCaretPosition()))); // caretUpdate - e
-        textContentPanel.add(textPane, BorderLayout.CENTER);
+        editingPane.setBackground(Colors.editorBackground);
+        editingPane.setForeground(Colors.editorForeground);
+        editingPane.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
+        editingPane.setCaretColor(Colors.editorCaretColor);
+        editingPane.setSelectionColor(Colors.editorSelectionColor);
+        editingPane.addCaretListener(_ -> caretLocationLabel.setText(String.valueOf(editingPane.getCaretPosition()))); // caretUpdate - e
+        textContentPanel.add(editingPane, BorderLayout.CENTER);
 
-        textLineNumber.setCurrentLineForeground(Color.WHITE);
-        textLineNumber.setLineForeground(Color.DARK_GRAY);
-        textLineNumber.setFont(textPane.getFont());
-        textContentPanel.add(textLineNumber, BorderLayout.WEST);
+        editorLineNumber.setCurrentLineForeground(Color.WHITE);
+        editorLineNumber.setLineForeground(Color.DARK_GRAY);
+        editorLineNumber.setFont(editingPane.getFont());
+        textContentPanel.add(editorLineNumber, BorderLayout.WEST);
 
-        scrollPane.setViewportView(textContentPanel);
-        scrollPane.setBorder(BorderFactory.createLineBorder(Colors.editorBorderColor, 2));
-        this.add(scrollPane, BorderLayout.CENTER);
+        editorScrollPane.setViewportView(textContentPanel);
+        editorScrollPane.setBorder(BorderFactory.createLineBorder(Colors.editorBorderColor, 2));
+        this.add(editorScrollPane, BorderLayout.CENTER);
     }
 
     private void addBottomPanel() {

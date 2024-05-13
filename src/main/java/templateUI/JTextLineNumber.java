@@ -3,7 +3,6 @@ package templateUI;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.io.Serial;
 import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -15,7 +14,6 @@ import javax.swing.text.*;
  * This class was designed to be used as a component added to the row header of a JScrollPane.
  */
 public class JTextLineNumber extends JPanel implements CaretListener, DocumentListener {
-    @Serial private static final long serialVersionUID = 1L;
     public final static float LEFT = 0.0f;
     public final static float CENTER = 0.5f;
     public final static float RIGHT = 1.0f;

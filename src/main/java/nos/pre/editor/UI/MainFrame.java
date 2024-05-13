@@ -1,8 +1,5 @@
 package nos.pre.editor.UI;
 
-import templateUI.JTextLineNumber;
-import templateUI.jScrollPane;
-
 import javax.swing.*;
 import java.awt.*;
 
