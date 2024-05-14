@@ -16,7 +16,7 @@ public class EditorView extends JPanel {
     private final JTextLineNumber editorLineNumber = new JTextLineNumber(editingPane);
 
     private final JPanel bottomPanel = new JPanel(new BorderLayout(), true);
-    private final JLabel caretLocationLabel = new JLabel(String.valueOf(editingPane.getCaretPosition()));
+    private final JLabel caretLocationLabel = new JLabel("1:1");
 
     public EditorView() {
         super(new BorderLayout(), true);
@@ -27,7 +27,7 @@ public class EditorView extends JPanel {
     }
 
     private void addTextContent() {
-        editingPane.addCaretListener(_ -> caretLocationLabel.setText(String.valueOf(editingPane.getCaretPosition()))); // caretUpdate - e
+        editingPane.getCaretLocationOnJLabel(caretLocationLabel);
         textContentPanel.add(editingPane, BorderLayout.CENTER);
 
         editorLineNumber.setCurrentLineForeground(Color.WHITE);
@@ -44,10 +44,13 @@ public class EditorView extends JPanel {
         bottomPanel.setPreferredSize(new Dimension(0, 20));
         bottomPanel.setBackground(new Color(0x2b2d30));
 
-        caretLocationLabel.setBorder(BorderFactory.createLineBorder(bottomPanel.getBackground(), 2));
+        caretLocationLabel.setPreferredSize(new Dimension(100, 0)); // TODO: Adaptive size
         caretLocationLabel.setForeground(Color.LIGHT_GRAY);
+        caretLocationLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
+        caretLocationLabel.setBorder(BorderFactory.createLineBorder(bottomPanel.getBackground(), 2));
+        caretLocationLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        bottomPanel.add(caretLocationLabel);
+        bottomPanel.add(caretLocationLabel, BorderLayout.EAST);
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
