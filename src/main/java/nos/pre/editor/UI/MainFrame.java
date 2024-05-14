@@ -1,5 +1,7 @@
 package nos.pre.editor.UI;
 
+import nos.pre.editor.UI.Editor.EditorView;
+
 import javax.swing.*;
 import java.awt.*;
 
