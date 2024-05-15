@@ -15,6 +15,8 @@ public class PreEditingPane extends JTextPane {
         this.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         this.setCaretColor(Colors.editorCaretColor);
         this.setSelectionColor(Colors.editorSelectionColor);
+        
+        LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
     }
 
     private int getCaretLinePosition(int offset) {

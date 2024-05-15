@@ -11,5 +11,6 @@ public class Colors {
     public static final Color editorCaretColor = new Color(0x097EBF);
     public static final Color editorBorderColor = new Color(0x2b2d30);
     public static final Color editorSelectionColor = new Color(0xa6d2ff);
+    public static final Color editorCurrentLineHighlightColor = new Color(0x26FFFFFF, true);
     // public static final Color editorSelectionColorLight = new Color(0x214283);
 }
