@@ -1,5 +1,6 @@
 package templateUI;
 
+import nos.pre.editor.UI.GraphicsUtilities;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -214,14 +215,7 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
      */
     @Override
     public void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D)g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        Graphics2D g2d = GraphicsUtilities.getGraphics2DWithHints(g);
 
         // Paint the background.
         g2d.setColor(component.getBackground());
@@ -274,6 +268,7 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
 
     /*
      * Get the line number to be drawn. The empty string will be returned when a line of text has wrapped.
+     * TODO: Use method of PreEditingPane
      */
     protected String getTextLineNumber(int rowStartOffset) {
         Element root = component.getDocument().getDefaultRootElement();

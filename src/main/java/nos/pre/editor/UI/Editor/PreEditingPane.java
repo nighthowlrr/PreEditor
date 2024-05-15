@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
+import nos.pre.editor.UI.GraphicsUtilities;
 
 import javax.swing.*;
 import javax.swing.text.Document;
@@ -15,7 +16,7 @@ public class PreEditingPane extends JTextPane {
         this.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
         this.setCaretColor(Colors.editorCaretColor);
         this.setSelectionColor(Colors.editorSelectionColor);
-        
+
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
     }
 
@@ -37,5 +38,18 @@ public class PreEditingPane extends JTextPane {
 
             label.setText((line + 1) + ":" + (posInLine + 1));
         });
+    }
+
+    @Override public void paint(Graphics g) {
+        super.paint(GraphicsUtilities.getGraphics2DWithHints(g));
+    }
+    @Override protected void paintChildren(Graphics g) {
+        super.paintChildren(GraphicsUtilities.getGraphics2DWithHints(g));
+    }
+    @Override protected void paintBorder(Graphics g) {
+        super.paintBorder(GraphicsUtilities.getGraphics2DWithHints(g));
+    }
+    @Override protected void paintComponent(Graphics g) {
+        super.paintComponent(GraphicsUtilities.getGraphics2DWithHints(g));
     }
 }
