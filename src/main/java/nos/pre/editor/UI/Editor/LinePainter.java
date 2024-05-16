@@ -1,5 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -40,7 +42,8 @@ public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter
      * @param view View painting for
      * @return The region which drawing occurred in
      */
-    public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c, View view) {
+    @Override
+    public Shape paintLayer(@NotNull Graphics g, int offs0, int offs1, Shape bounds, @NotNull JTextComponent c, View view) {
         try {
             // Only use the first offset to get the line to highlight
             Rectangle r = c.modelToView(offs0);
@@ -60,7 +63,7 @@ public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter
      */
     private void resetHighlight() {
         SwingUtilities.invokeLater(() -> {
-            highlighter.removeHighlight( lastHighlight );
+            highlighter.removeHighlight(lastHighlight);
 
             Element root = editingPane.getDocument().getDefaultRootElement();
             int line = root.getElementIndex(editingPane.getCaretPosition());
@@ -88,9 +91,9 @@ public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter
         resetHighlight();
     }
     @Override public void mouseClicked(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
     @Override public void mouseEntered(MouseEvent e) {}
     @Override public void mouseExited(MouseEvent e) {}
-    @Override public void mouseReleased(MouseEvent e) {}
 
     //  Implement MouseMotionListener
     @Override

@@ -2,8 +2,10 @@ package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.GraphicsUtilities;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
 import java.awt.*;
@@ -30,14 +32,12 @@ public class PreEditingPane extends JTextPane {
         Element lineElem = map.getElement(line);
         return lineElem.getStartOffset();
     }
-    public void getCaretLocationOnJLabel(JLabel label) {
-        this.addCaretListener(e -> {
-            int dot = e.getDot();
-            int line = getCaretLinePosition(dot);
-            int posInLine = dot - getLineStartOffset(line);
+    public String getCaretLocationString(@NotNull CaretEvent e) {
+        int dot = e.getDot();
+        int line = getCaretLinePosition(dot);
+        int posInLine = dot - getLineStartOffset(line);
 
-            label.setText((line + 1) + ":" + (posInLine + 1));
-        });
+        return (line + 1) + ":" + (posInLine + 1);
     }
 
     @Override public void paint(Graphics g) {

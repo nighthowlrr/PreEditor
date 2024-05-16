@@ -5,6 +5,8 @@ import templateUI.JTextLineNumber;
 import templateUI.jScrollPane;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.util.Objects;
@@ -27,7 +29,7 @@ public class EditorView extends JPanel {
     }
 
     private void addTextContent() {
-        editingPane.getCaretLocationOnJLabel(caretLocationLabel);
+        editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
         textContentPanel.add(editingPane, BorderLayout.CENTER);
 
         editorLineNumber.setCurrentLineForeground(Color.WHITE);
