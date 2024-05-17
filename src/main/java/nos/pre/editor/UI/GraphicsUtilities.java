@@ -1,9 +1,11 @@
 package nos.pre.editor.UI;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
 
 public class GraphicsUtilities {
-    public static Graphics2D getGraphics2DWithHints(Graphics g) {
+    public static @NotNull Graphics2D getGraphics2DWithHints(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);

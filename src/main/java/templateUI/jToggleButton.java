@@ -28,7 +28,7 @@ public class jToggleButton extends JToggleButton {
         @Override
         protected void paintButtonPressed(Graphics g, AbstractButton b) {
             if (selectedColor != null) {
-                g.setColor(b.getBackground().darker());
+                g.setColor(selectedColor);
                 g.fillRect(0, 0, b.getWidth(), b.getHeight());
             } else {
                 super.paintButtonPressed(g, b);

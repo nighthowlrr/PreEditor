@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class Fonts {
     // Font Registering
-
     public static final Font LeagueSpartan;
     public static final Font URW_Gothic;
 
@@ -17,5 +16,11 @@ public class Fonts {
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException("Font Input error.", e);
         }
+    }
+
+    // Fonts methods
+    public static FontMetrics getMetricsOfFont(Font font) {
+        Canvas canvas = new Canvas();
+        return canvas.getFontMetrics(font);
     }
 }
