@@ -1,13 +1,11 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
-import nos.pre.editor.UI.GraphicsUtilities;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
-import javax.swing.text.Document;
-import javax.swing.text.Element;
+import javax.swing.text.*;
 import java.awt.*;
 
 public class PreEditingPane extends JTextPane {
@@ -20,6 +18,7 @@ public class PreEditingPane extends JTextPane {
         this.setSelectionColor(Colors.editorSelectionColor);
 
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
+        this.addFilter();
     }
 
     private int getCaretLinePosition(int offset) {
@@ -40,16 +39,35 @@ public class PreEditingPane extends JTextPane {
         return (line + 1) + ":" + (posInLine + 1);
     }
 
-    @Override public void paint(Graphics g) {
-        super.paint(GraphicsUtilities.getGraphics2DWithHints(g));
-    }
-    @Override protected void paintChildren(Graphics g) {
-        super.paintChildren(GraphicsUtilities.getGraphics2DWithHints(g));
-    }
-    @Override protected void paintBorder(Graphics g) {
-        super.paintBorder(GraphicsUtilities.getGraphics2DWithHints(g));
-    }
-    @Override protected void paintComponent(Graphics g) {
-        super.paintComponent(GraphicsUtilities.getGraphics2DWithHints(g));
+    private void addFilter() {
+        AbstractDocument abstractDocument;
+        StyledDocument styledDocument = this.getStyledDocument();
+        if (styledDocument instanceof AbstractDocument) {
+            abstractDocument = (AbstractDocument) styledDocument;
+            abstractDocument.setDocumentFilter(new DocumentFilter() {
+                @Override
+                public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                    if (text.endsWith("{")) {
+                        super.replace(fb, offset, length, text, attrs);
+                        fb.insertString(offset + 1, "}", attrs);
+                    } else if (text.endsWith("(")) {
+                        super.replace(fb, offset, length, text, attrs);
+                        fb.insertString(offset + 1, ")", attrs);
+                    } else if (text.endsWith("[")) {
+                        super.replace(fb, offset, length, text, attrs);
+                        fb.insertString(offset + 1, "]", attrs);
+                    } else if (text.equals("\"")) {
+                        super.replace(fb, offset, length, text, attrs);
+                        fb.insertString(offset + 1, "\"", attrs);
+                    } else if (text.endsWith("'")) {
+                        super.replace(fb, offset, length, text, attrs);
+                        fb.insertString(offset + 1, "'", attrs);
+                    } else {
+                        super.replace(fb, offset, length, text, attrs);
+                    }
+                }
+                // TODO: Don't auto-close when matching close symbol available
+            });
+        }
     }
 }

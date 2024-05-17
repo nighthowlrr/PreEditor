@@ -15,6 +15,8 @@ public class jScrollPane extends JScrollPane {
 
         this.getVerticalScrollBar().setUI(new CustomScrollBarUI());
         this.getHorizontalScrollBar().setUI(new CustomScrollBarUI());
+
+        this.setScrollUnitIncrement(10);
     }
 
     public jScrollPane(Component view) {
@@ -81,6 +83,11 @@ public class jScrollPane extends JScrollPane {
             super.setThumbBounds(x, y, width, height);
             scrollbar.repaint();
         }
+    }
+
+    public void setScrollUnitIncrement(int increment) {
+        this.getVerticalScrollBar().setUnitIncrement(increment);
+        this.getHorizontalScrollBar().setUnitIncrement(increment);
     }
 
 }

@@ -5,11 +5,8 @@ import templateUI.JTextLineNumber;
 import templateUI.jScrollPane;
 
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.text.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class EditorView extends JPanel {
     private final jScrollPane editorScrollPane = new jScrollPane();
@@ -25,7 +22,6 @@ public class EditorView extends JPanel {
 
         this.addTextContent();
         this.addBottomPanel();
-        this.addFilter();
     }
 
     private void addTextContent() {
@@ -54,40 +50,5 @@ public class EditorView extends JPanel {
 
         bottomPanel.add(caretLocationLabel, BorderLayout.EAST);
         this.add(bottomPanel, BorderLayout.SOUTH);
-    }
-
-    private void addFilter() {
-        AbstractDocument abstractDocument;
-        StyledDocument styledDocument = editingPane.getStyledDocument();
-        if (styledDocument instanceof AbstractDocument) {
-            abstractDocument = (AbstractDocument) styledDocument;
-            abstractDocument.setDocumentFilter(new DocumentFilter() {
-                @Override
-                public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-                    if (text.endsWith("{")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(fb.getDocument().getLength(), "}", attrs);
-                    } else if (text.endsWith("(")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(fb.getDocument().getLength(), ")", attrs);
-                    } else if (text.endsWith("[")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(fb.getDocument().getLength(), "]", attrs);
-                    } else if (text.endsWith("\"")) {
-                        if (Objects.equals(abstractDocument.getText(offset + 1, 1), "\"")) {
-                            editingPane.setCaretPosition(abstractDocument.createPosition(offset + 1).getOffset());
-                        } else {
-                            super.replace(fb, offset, length, text, attrs);
-                            fb.insertString(fb.getDocument().getLength(), "\"", attrs);
-                        }
-                    } else if (text.endsWith("'")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(fb.getDocument().getLength(), "'", attrs);
-                    } else {
-                        super.replace(fb, offset, length, text, attrs);
-                    }
-                }
-            });
-        }
     }
 }
