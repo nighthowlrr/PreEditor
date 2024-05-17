@@ -1,9 +1,10 @@
 package nos.pre.editor;
 
-import nos.pre.editor.UI.MainFrame;
+import nos.pre.editor.UI.Welcome.WelcomeFrame;
 
 public class Main {
     public static void main(String[] args) {
-        new MainFrame();
+        //new Fonts();
+        new WelcomeFrame();
     }
 }
