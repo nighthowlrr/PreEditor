@@ -7,6 +7,9 @@ import templateUI.jScrollPane;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class EditorView extends JPanel {
     private final jScrollPane editorScrollPane = new jScrollPane();
@@ -22,6 +25,21 @@ public class EditorView extends JPanel {
 
         this.addTextContent();
         this.addBottomPanel();
+    }
+
+    public void openFile(File file) {
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                editingPane.getStyledDocument().insertString(editingPane.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
+            }
+            editingPane.getStyledDocument().remove(editingPane.getStyledDocument().getLength() - 1, 1);
+            scanner.close();
+        } catch (FileNotFoundException | BadLocationException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred", "Error", JOptionPane.ERROR_MESSAGE, null);
+            // TODO: More detailed error messages
+        }
     }
 
     private void addTextContent() {
