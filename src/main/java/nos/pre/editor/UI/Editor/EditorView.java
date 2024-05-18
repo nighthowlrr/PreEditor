@@ -1,6 +1,9 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
+import nos.pre.editor.UI.toolWindows.ToolWindowBase;
+import nos.pre.editor.UI.toolWindows.ToolWindowLocation;
+import org.jetbrains.annotations.NotNull;
 import templateUI.JTextLineNumber;
 import templateUI.jScrollPane;
 
@@ -68,7 +71,21 @@ public class EditorView extends JPanel {
         statusBar.add(caretLocationLabel, BorderLayout.EAST);
         editorPanel.add(statusBar, BorderLayout.SOUTH);
 
-        // ADD TO EDITOR_VIEW
+        // ADD editorPanel TO EditorView
         this.add(editorPanel, BorderLayout.CENTER);
+    }
+
+    private void addToolWindow(@NotNull ToolWindowBase toolWindow) {
+        if (toolWindow.getToolWindowLocation() == ToolWindowLocation.LEFT_TOP ||
+                toolWindow.getToolWindowLocation() == ToolWindowLocation.LEFT_BOTTOM) {
+            this.add(toolWindow, BorderLayout.WEST);
+        } else if (toolWindow.getToolWindowLocation() == ToolWindowLocation.RIGHT_TOP ||
+                toolWindow.getToolWindowLocation() == ToolWindowLocation.RIGHT_BOTTOM) {
+            this.add(toolWindow, BorderLayout.EAST);
+        } else if (toolWindow.getToolWindowLocation() == ToolWindowLocation.BOTTOM_LEFT ||
+                toolWindow.getToolWindowLocation() == ToolWindowLocation.BOTTOM_RIGHT) {
+            this.add(toolWindow, BorderLayout.SOUTH);
+        }
+        // TODO: Proper locations
     }
 }
