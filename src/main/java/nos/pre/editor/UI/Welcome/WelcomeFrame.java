@@ -2,7 +2,7 @@ package nos.pre.editor.UI.Welcome;
 
 import nos.pre.editor.About;
 import nos.pre.editor.UI.Colors;
-import nos.pre.editor.UI.EditorWindow.MainFrame;
+import nos.pre.editor.UI.EditorWindow.EditorFrame;
 import nos.pre.editor.UI.Fonts;
 import templateUI.border.RoundedBorder;
 import templateUI.jScrollPane;
