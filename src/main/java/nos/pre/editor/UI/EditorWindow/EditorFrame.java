@@ -7,12 +7,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 
-public class MainFrame extends JFrame {
-    // TODO: Launch from and exit to welcome frame
-
+public class EditorFrame extends JFrame {
     private final JPanel mainContentPanel = new JPanel(new BorderLayout(), true);
-    public MainFrame() {
+
+    private final EditorView editorView = new EditorView();
+
+    public EditorFrame() {
         super("PreEditor");
         setSize(1000, 700);
         setLocationRelativeTo(null);
@@ -37,7 +39,7 @@ public class MainFrame extends JFrame {
     }
 
     private void addUIComponents() {
-        mainContentPanel.add(new EditorView(), BorderLayout.CENTER);
+        mainContentPanel.add(editorView, BorderLayout.CENTER);
     }
 
     private void showExitDialog() {
@@ -52,6 +54,6 @@ public class MainFrame extends JFrame {
         } else if (exitOption == JOptionPane.NO_OPTION) {
             this.dispose();
             new WelcomeFrame();
-        } else if (exitOption == JOptionPane.CANCEL_OPTION) {}
+        }
     }
 }
