@@ -42,6 +42,14 @@ public class EditorFrame extends JFrame {
         mainContentPanel.add(editorView, BorderLayout.CENTER);
     }
 
+    public void openFile(File file) {
+        editorView.openFile(file);
+        this.setTitle("PreEditor - " + file.getName());
+    }
+    public void openNewFile() {
+
+    }
+
     private void showExitDialog() {
         // TODO: Custom UI for dialog
         int exitOption = JOptionPane.showInternalOptionDialog(null,

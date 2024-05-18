@@ -4,12 +4,12 @@ import nos.pre.editor.About;
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.EditorWindow.EditorFrame;
 import nos.pre.editor.UI.Fonts;
-import templateUI.border.RoundedBorder;
 import templateUI.jScrollPane;
 import templateUI.jToggleButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.Collections;
 
 public class WelcomeFrame extends JFrame {
@@ -107,21 +107,35 @@ public class WelcomeFrame extends JFrame {
         newButton.setFocusable(false);
         newButton.setContentAreaFilled(false);
         newButton.setOpaque(true);
-        newButton.addActionListener(_ -> {
-            this.dispose();
-            new MainFrame();
-        }); // TODO: Proper new project functionality
+        newButton.addActionListener(_ -> this.openEditor(null));
+        // TODO: Proper new project functionality
         // TODO: SHow keyboard shortcuts on buttons for non-focusable buttons
         newButton.setPreferredSize(new Dimension(120, 30));
 
         openButton.setFocusable(false);
         openButton.setContentAreaFilled(false);
         openButton.setOpaque(true);
+        openButton.addActionListener(_ -> {
+            JFileChooser fileChooser = new JFileChooser(System.getProperty("user.home"));
+
+            if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                this.openEditor(fileChooser.getSelectedFile());
+            }
+        });
         openButton.setPreferredSize(new Dimension(120, 30));
 
         actionPanel.setOpaque(false);
         actionPanel.add(newButton);
         actionPanel.add(openButton);
         centerPanel.add(actionPanel, BorderLayout.SOUTH);
+    }
+
+    private void openEditor(File file) {
+        if (file != null)
+            new EditorFrame().openFile(file);
+        else
+            new EditorFrame().openNewFile();
+
+        this.dispose();
     }
 }
