@@ -4,8 +4,8 @@ import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.toolWindows.ToolWindowBase;
 import nos.pre.editor.UI.toolWindows.ToolWindowLocation;
 import org.jetbrains.annotations.NotNull;
-import templateUI.JTextLineNumber;
-import templateUI.jScrollPane;
+import templateUI.SwingComponents.jTextLineNumber;
+import templateUI.SwingComponents.jScrollPane;
 
 import javax.swing.*;
 import javax.swing.text.*;
@@ -19,7 +19,7 @@ public class EditorView extends JPanel {
     private final JPanel editorPanel = new JPanel(new BorderLayout(), true);
 
     private final PreEditingPane editingPane = new PreEditingPane();
-    private final JTextLineNumber editorLineNumber = new JTextLineNumber(editingPane);
+    private final jTextLineNumber editorLineNumber = new jTextLineNumber(editingPane);
     private final jScrollPane editorScrollPane = new jScrollPane(editingPane);
 
     private final JPanel statusBar = new JPanel(new BorderLayout(), true);

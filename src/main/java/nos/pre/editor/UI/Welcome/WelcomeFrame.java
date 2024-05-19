@@ -4,8 +4,8 @@ import nos.pre.editor.About;
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.EditorWindow.EditorFrame;
 import nos.pre.editor.UI.Fonts;
-import templateUI.jScrollPane;
-import templateUI.jToggleButton;
+import templateUI.SwingComponents.jScrollPane;
+import templateUI.SwingComponents.jToggleButton;
 
 import javax.swing.*;
 import java.awt.*;

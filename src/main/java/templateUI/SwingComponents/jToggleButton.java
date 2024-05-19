@@ -1,6 +1,4 @@
-package templateUI;
-
-import nos.pre.editor.UI.GraphicsUtilities;
+package templateUI.SwingComponents;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicToggleButtonUI;

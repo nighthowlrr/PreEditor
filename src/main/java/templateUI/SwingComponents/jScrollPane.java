@@ -1,4 +1,4 @@
-package templateUI;
+package templateUI.SwingComponents;
 
 import nos.pre.editor.UI.GraphicsUtilities;
 import org.jetbrains.annotations.NotNull;

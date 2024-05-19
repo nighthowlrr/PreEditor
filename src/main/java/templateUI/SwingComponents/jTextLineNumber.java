@@ -1,4 +1,4 @@
-package templateUI;
+package templateUI.SwingComponents;
 
 import nos.pre.editor.UI.GraphicsUtilities;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ import javax.swing.text.*;
  * TextLineNumber supports wrapped lines and will highlight the line number of the current line in the text component.
  * This class was designed to be used as a component added to the row header of a JScrollPane.
  */
-public class JTextLineNumber extends JPanel implements CaretListener, DocumentListener {
+public class jTextLineNumber extends JPanel implements CaretListener, DocumentListener {
     public final static float LEFT = 0.0f;
     public final static float CENTER = 0.5f;
     public final static float RIGHT = 1.0f;
@@ -44,7 +44,7 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
      *
      * @param component the related text component
      */
-    public JTextLineNumber(JTextPane component) {
+    public jTextLineNumber(JTextPane component) {
         this(component, 3);
     }
 
@@ -54,7 +54,7 @@ public class JTextLineNumber extends JPanel implements CaretListener, DocumentLi
      * @param component the related text component
      * @param minimumDisplayDigits the number of digits used to calculate the minimum width of the component
      */
-    public JTextLineNumber(@NotNull JTextPane component, int minimumDisplayDigits) {
+    public jTextLineNumber(@NotNull JTextPane component, int minimumDisplayDigits) {
         this.component = component;
         setBorder(null);
 
