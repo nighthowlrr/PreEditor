@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
+import nos.pre.editor.UI.toolWindows.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowBase;
 import nos.pre.editor.UI.toolWindows.ToolWindowLocation;
 import org.jetbrains.annotations.NotNull;
@@ -73,6 +74,9 @@ public class EditorView extends JPanel {
 
         // ADD editorPanel TO EditorView
         this.add(editorPanel, BorderLayout.CENTER);
+
+        // add tool windows
+        this.addToolWindow(new ProjectToolWindow(ToolWindowLocation.LEFT_TOP));
     }
 
     private void addToolWindow(@NotNull ToolWindowBase toolWindow) {

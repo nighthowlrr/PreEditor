@@ -20,4 +20,9 @@ public class Colors {
     public static final Color editorSelectionColor = new Color(0xA6D2FF);
     public static final Color editorCurrentLineHighlightColor = new Color(0x26FFFFFF, true);
     // public static final Color editorSelectionColorLight = new Color(0x214283);
+
+    // PROJECT_TOOL_WINDOW
+    public static final Color projectToolBackground = new Color(0x2B2D30);
+    public static final Color projectToolNodeForeground = Color.WHITE;
+    // TODO: selected and non-selected colors
 }

@@ -9,9 +9,7 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.io.File;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Vector;
+import java.util.*;
 
 public class jFileTree extends JTree {
     private final File startingPath;
@@ -21,14 +19,14 @@ public class jFileTree extends JTree {
 
         FileSystemModel fileSystemModel = new FileSystemModel(this.startingPath);
         this.setModel(fileSystemModel);
-        this.setEditable(true);
+        this.setEditable(false);
     }
 }
 
 class FileSystemModel implements TreeModel {
     private final File rootPath;
 
-    private final Vector<TreeModelListener> listeners = new Vector<>();
+    private final List<TreeModelListener> listeners = new ArrayList<>();
 
     public FileSystemModel(File startingPath) {
         this.rootPath = startingPath;
@@ -103,7 +101,6 @@ class FileSystemModel implements TreeModel {
         if (children != null) {
             for (int i = 0; i < children.length; i++) {
                 if (Objects.equals(childFile, new File(children[i]))) {
-                    //if (childFile.getName().equals(children[i])) {
                     return i;
                 }
             }
