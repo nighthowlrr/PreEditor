@@ -50,6 +50,10 @@ public class EditorFrame extends JFrame {
 
     }
 
+    public void openProject(File folder) {
+        editorView.openProject(folder);
+    }
+
     private void showExitDialog() {
         // TODO: Custom UI for dialog
         int exitOption = JOptionPane.showInternalOptionDialog(null,

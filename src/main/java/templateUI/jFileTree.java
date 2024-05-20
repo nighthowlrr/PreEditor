@@ -12,14 +12,20 @@ import java.io.File;
 import java.util.*;
 
 public class jFileTree extends JTree {
-    private final File startingPath;
+    private File startingPath;
 
-    public jFileTree(File startingPath) {
-        this.startingPath = startingPath;
-
-        FileSystemModel fileSystemModel = new FileSystemModel(this.startingPath);
-        this.setModel(fileSystemModel);
+    public jFileTree() {
+        //setStartingPath(startingPath);
         this.setEditable(false);
+    }
+
+    public void setStartingPath(File startingPath) {
+        this.startingPath = startingPath;
+        FileSystemModel fileSystemModel = new FileSystemModel(startingPath);
+        this.setModel(fileSystemModel);
+    }
+    public File getStartingPath() {
+        return this.startingPath;
     }
 }
 

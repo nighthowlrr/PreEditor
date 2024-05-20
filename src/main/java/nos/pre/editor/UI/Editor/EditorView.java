@@ -26,10 +26,14 @@ public class EditorView extends JPanel {
     private final JPanel statusBar = new JPanel(new BorderLayout(), true);
     private final JLabel caretLocationLabel = new JLabel("1:1");
 
+    // TOOL_WINDOWS
+    private ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindowLocation.LEFT_TOP);
+
     public EditorView() {
         super(new BorderLayout(), true);
 
         this.addUIComponents();
+        this.addToolWindows();
     }
 
     public void openFile(File file) {
@@ -45,6 +49,10 @@ public class EditorView extends JPanel {
             JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred", "Error", JOptionPane.ERROR_MESSAGE, null);
             // TODO: More detailed error messages
         }
+    }
+
+    public void openProject(File projectPath) {
+        projectToolWindow.setProjectPath(projectPath);
     }
 
     private void addUIComponents() {
@@ -74,9 +82,13 @@ public class EditorView extends JPanel {
 
         // ADD editorPanel TO EditorView
         this.add(editorPanel, BorderLayout.CENTER);
+    }
+
+    private void addToolWindows () {
+        // TODO: Proper tool windows toggling from sidebars
 
         // add tool windows
-        this.addToolWindow(new ProjectToolWindow(ToolWindowLocation.LEFT_TOP));
+        this.addToolWindow(this.projectToolWindow);
     }
 
     private void addToolWindow(@NotNull ToolWindowBase toolWindow) {

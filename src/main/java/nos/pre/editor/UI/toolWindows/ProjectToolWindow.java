@@ -9,6 +9,9 @@ import java.awt.*;
 import java.io.File;
 
 public class ProjectToolWindow extends ToolWindowBase {
+    private final jFileTree fileTree = new jFileTree();
+    private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
+
     public ProjectToolWindow(ToolWindowLocation toolWindowLocation) {
         super(toolWindowLocation);
         this.setLayout(new BorderLayout());
@@ -18,10 +21,6 @@ public class ProjectToolWindow extends ToolWindowBase {
         this.addUIComponents();
     }
 
-    private final jFileTree fileTree = new jFileTree(new File(System.getProperty("user.dir")));
-
-    private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
-
     private void addUIComponents() {
         fileTree.setBackground(this.getBackground());
 
@@ -29,5 +28,9 @@ public class ProjectToolWindow extends ToolWindowBase {
         fileTreeScroll.setBackground(this.getBackground());
 
         this.add(fileTreeScroll, BorderLayout.CENTER);
+    }
+
+    public void setProjectPath(File projectPath) {
+        fileTree.setStartingPath(projectPath);
     }
 }

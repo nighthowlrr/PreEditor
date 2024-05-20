@@ -117,6 +117,7 @@ public class WelcomeFrame extends JFrame {
         openButton.setOpaque(true);
         openButton.addActionListener(_ -> {
             JFileChooser fileChooser = new JFileChooser(System.getProperty("user.home"));
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
             if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 this.openEditor(fileChooser.getSelectedFile());
@@ -131,10 +132,9 @@ public class WelcomeFrame extends JFrame {
     }
 
     private void openEditor(File file) {
-        if (file != null)
-            new EditorFrame().openFile(file);
-        else
-            new EditorFrame().openNewFile();
+        if (file != null && file.isDirectory())
+            new EditorFrame().openProject(file);
+        //else new EditorFrame().openNewFile();
 
         this.dispose();
     }
