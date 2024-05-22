@@ -1,10 +1,6 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
-import nos.pre.editor.UI.toolWindows.ProjectToolWindow;
-import nos.pre.editor.UI.toolWindows.ToolWindowBase;
-import nos.pre.editor.UI.toolWindows.ToolWindowLocation;
-import org.jetbrains.annotations.NotNull;
 import templateUI.SwingComponents.jTextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
 
@@ -16,6 +12,11 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class EditorView extends JPanel {
+    public EditorView() {
+        super(new BorderLayout(), true);
+
+        this.addUIComponents();
+    }
 
     private final JPanel editorPanel = new JPanel(new BorderLayout(), true);
 
@@ -25,35 +26,6 @@ public class EditorView extends JPanel {
 
     private final JPanel statusBar = new JPanel(new BorderLayout(), true);
     private final JLabel caretLocationLabel = new JLabel("1:1");
-
-    // TOOL_WINDOWS
-    private ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindowLocation.LEFT_TOP);
-
-    public EditorView() {
-        super(new BorderLayout(), true);
-
-        this.addUIComponents();
-        this.addToolWindows();
-    }
-
-    public void openFile(File file) {
-        try {
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                editingPane.getStyledDocument().insertString(editingPane.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
-            }
-            editingPane.getStyledDocument().remove(editingPane.getStyledDocument().getLength() - 1, 1);
-            scanner.close();
-        } catch (FileNotFoundException | BadLocationException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred", "Error", JOptionPane.ERROR_MESSAGE, null);
-            // TODO: More detailed error messages
-        }
-    }
-
-    public void openProject(File projectPath) {
-        projectToolWindow.setProjectPath(projectPath);
-    }
 
     private void addUIComponents() {
         // EDITOR CONTENT ===
@@ -84,24 +56,22 @@ public class EditorView extends JPanel {
         this.add(editorPanel, BorderLayout.CENTER);
     }
 
-    private void addToolWindows () {
-        // TODO: Proper tool windows toggling from sidebars
-
-        // add tool windows
-        this.addToolWindow(this.projectToolWindow);
+    public void openFile(File file) {
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                editingPane.getStyledDocument().insertString(editingPane.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
+            }
+            editingPane.getStyledDocument().remove(editingPane.getStyledDocument().getLength() - 1, 1);
+            scanner.close();
+        } catch (FileNotFoundException | BadLocationException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred", "Error", JOptionPane.ERROR_MESSAGE, null);
+            // TODO: More detailed error messages
+        }
     }
 
-    private void addToolWindow(@NotNull ToolWindowBase toolWindow) {
-        if (toolWindow.getToolWindowLocation() == ToolWindowLocation.LEFT_TOP ||
-                toolWindow.getToolWindowLocation() == ToolWindowLocation.LEFT_BOTTOM) {
-            this.add(toolWindow, BorderLayout.WEST);
-        } else if (toolWindow.getToolWindowLocation() == ToolWindowLocation.RIGHT_TOP ||
-                toolWindow.getToolWindowLocation() == ToolWindowLocation.RIGHT_BOTTOM) {
-            this.add(toolWindow, BorderLayout.EAST);
-        } else if (toolWindow.getToolWindowLocation() == ToolWindowLocation.BOTTOM_LEFT ||
-                toolWindow.getToolWindowLocation() == ToolWindowLocation.BOTTOM_RIGHT) {
-            this.add(toolWindow, BorderLayout.SOUTH);
-        }
-        // TODO: Proper locations
+    public void openProject(File projectPath) {
+
     }
 }
