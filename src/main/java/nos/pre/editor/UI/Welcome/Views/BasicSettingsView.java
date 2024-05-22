@@ -1,4 +1,4 @@
-package nos.pre.editor.UI.Welcome;
+package nos.pre.editor.UI.Welcome.Views;
 
 import nos.pre.editor.UI.Colors;
 
