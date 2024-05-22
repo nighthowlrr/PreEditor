@@ -12,6 +12,9 @@ public class Colors {
     public static final Color welcomeForegroundLvl2 = new Color(0xC1C1C1);
     public static final Color welcomeForegroundLvl3 = new Color(0x818181);
 
+    // EDITOR_FRAME
+    public static final Color editorFrameDividingBorderColor = new Color(0x444444);
+
     // EDITOR_VIEW
     public static final Color editorBackground = new Color(0x1E1F22);
     public static final Color editorForeground = Color.WHITE;
@@ -21,8 +24,13 @@ public class Colors {
     public static final Color editorCurrentLineHighlightColor = new Color(0x26FFFFFF, true);
     // public static final Color editorSelectionColorLight = new Color(0x214283);
 
+    // EMPTY_TOOL_WINDOW_HOLDER
+    public static final Color toolWindowHolderBackground = new Color(0x2B2D30);
+
     // PROJECT_TOOL_WINDOW
     public static final Color projectToolBackground = new Color(0x2B2D30);
     public static final Color projectToolNodeForeground = Color.WHITE;
     // TODO: selected and non-selected colors
+
+    // nice purple color = 0x6647D3
 }

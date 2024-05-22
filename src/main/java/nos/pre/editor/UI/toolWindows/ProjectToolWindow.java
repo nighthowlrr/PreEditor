@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-public class ProjectToolWindow extends ToolWindowBase {
+public class ProjectToolWindow extends ToolWindow {
     private final jFileTree fileTree = new jFileTree();
     private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
 
