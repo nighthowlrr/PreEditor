@@ -137,6 +137,8 @@ public class WelcomeFrame extends JFrame {
         if (file != null && file.isDirectory())
             new EditorFrame().openProject(file);
         //else new EditorFrame().openNewFile();
+        if (file != null && file.isDirectory()) {
+        } // TODO: else new EditorFrame().openNewFile();
 
         this.dispose();
     }

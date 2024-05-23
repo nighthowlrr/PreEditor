@@ -22,11 +22,9 @@ public class jScrollPane extends JScrollPane {
     public jScrollPane(Component view) {
         this(view, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
-
     public jScrollPane(int vsbPolicy, int hsbPolicy) {
         this(null, vsbPolicy, hsbPolicy);
     }
-
     public jScrollPane() {
         this(null, VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
     }
@@ -61,14 +59,6 @@ public class jScrollPane extends JScrollPane {
             int alpha = isThumbRollover() ? rolloverTransparency : normalTransparency;
             Color baseColor = new Color(0, 0, 0);
             Color color = new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
-
-            //int thumbSize = 13;
-
-            //int width = (scrollbar.getOrientation() == JScrollBar.VERTICAL ? thumbSize : thumbBounds.width);
-            //width = Math.max(width, thumbSize);
-
-            //int height = (scrollbar.getOrientation() == JScrollBar.VERTICAL ? thumbBounds.height : thumbSize);
-            //height = Math.max(height, thumbSize);
 
             Graphics2D g2d = GraphicsUtilities.getGraphics2DWithHints(g);
 
