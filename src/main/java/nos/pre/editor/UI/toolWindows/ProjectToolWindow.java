@@ -15,7 +15,6 @@ public class ProjectToolWindow extends ToolWindow {
     public ProjectToolWindow(ToolWindowLocation toolWindowLocation) {
         super(toolWindowLocation);
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(250, 250));
         this.setBackground(Colors.projectToolBackground);
 
         this.addUIComponents();
@@ -32,5 +31,7 @@ public class ProjectToolWindow extends ToolWindow {
 
     public void setProjectPath(File projectPath) {
         fileTree.setStartingPath(projectPath);
+        fileTree.revalidate();
+        fileTree.repaint();
     }
 }
