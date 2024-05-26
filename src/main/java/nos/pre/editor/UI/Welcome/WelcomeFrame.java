@@ -77,7 +77,6 @@ public class WelcomeFrame extends JFrame {
 
             toggleButton.setOpaque(true);
             toggleButton.setFocusable(false);
-            //toggleButton.setBorder(new RoundedBorder(sidePanel.getBackground(), 3, 10));
             toggleButton.setBorder(BorderFactory.createEmptyBorder());
             toggleButton.setBackground(sidePanel.getBackground());
             toggleButton.setForeground(Colors.welcomeForegroundLvl2);
@@ -134,10 +133,8 @@ public class WelcomeFrame extends JFrame {
     }
 
     private void openEditor(File file) {
-        if (file != null && file.isDirectory())
-            new EditorFrame().openProject(file);
-        //else new EditorFrame().openNewFile();
         if (file != null && file.isDirectory()) {
+            new EditorFrame(file);
         } // TODO: else new EditorFrame().openNewFile();
 
         this.dispose();

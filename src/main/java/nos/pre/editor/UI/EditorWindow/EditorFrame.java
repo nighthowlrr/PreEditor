@@ -3,6 +3,7 @@ package nos.pre.editor.UI.EditorWindow;
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Editor.EditorView;
 import nos.pre.editor.UI.Welcome.WelcomeFrame;
+import nos.pre.editor.UI.toolWindows.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowHolder;
 import org.jetbrains.annotations.NotNull;
@@ -14,12 +15,17 @@ import java.awt.event.WindowListener;
 import java.io.File;
 
 public class EditorFrame extends JFrame {
+    private final File projectPath;
+
     private final boolean confirmBeforeExit = false; // TODO: Remove in final. For testing purposes only
 
     private final JPanel mainContentPanel = new JPanel(new BorderLayout(), true);
 
-    public EditorFrame() {
+    private final ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindow.ToolWindowLocation.LEFT_TOP);
+
+    public EditorFrame(File projectPath) {
         super("PreEditor - NewProjectFrame");
+
         setSize(1600, 900);
         setLocationRelativeTo(null);
 
@@ -44,9 +50,15 @@ public class EditorFrame extends JFrame {
         addEditorView();
         addToolWindowHolders();
 
+        this.projectPath = projectPath;
+        this.addToolWindow(this.projectToolWindow);
+        this.projectToolWindow.setProjectPath(this.projectPath);
+        //this.openProject(projectPath);
+
         setVisible(true);
     }
 
+    // UI ===
     private final EditorView editorView = new EditorView();
 
     private final ToolWindowHolder leftToolWindowHolder = new ToolWindowHolder(ToolWindowHolder.ToolHolderLocation.LEFT);
@@ -77,23 +89,17 @@ public class EditorFrame extends JFrame {
             case "left":
                 try {
                     leftToolWindowHolder.addToolWindow(toolWindow);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception e) { e.printStackTrace(); }
                 break;
             case "bottom":
                 try {
                     bottomToolWindowHolder.addToolWindow(toolWindow);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception e) { e.printStackTrace(); }
                 break;
             case "right":
                 try {
                     rightToolWindowHolder.addToolWindow(toolWindow);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception e) { e.printStackTrace(); }
                 break;
         }
     }
@@ -118,20 +124,7 @@ public class EditorFrame extends JFrame {
         }
     }
 
-    // FILE FUNCTIONS
-    public void openFile(File file) {
-        editorView.openFile(file);
-        this.setTitle("PreEditor - " + file.getName());
-    }
-    public void openNewFile() {
-
-    }
-
-    public void openProject(File folder) {
-        editorView.openProject(folder);
-    }
-
-    // WINDOW FUNCTIONS
+    // WINDOW FUNCTIONS ===
     private void showExitDialog() {
         // TODO: Custom UI for dialog
         int exitOption = JOptionPane.showInternalOptionDialog(null,
