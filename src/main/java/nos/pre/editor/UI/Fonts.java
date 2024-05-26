@@ -1,6 +1,11 @@
 package nos.pre.editor.UI;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -22,5 +27,11 @@ public class Fonts {
     public static FontMetrics getMetricsOfFont(Font font) {
         Canvas canvas = new Canvas();
         return canvas.getFontMetrics(font);
+    }
+
+    public static @NotNull Rectangle2D getStringBounds(String s, @NotNull Font f) {
+        FontRenderContext renderContext = new FontRenderContext(f.getTransform(), true, true);
+        TextLayout textLayout = new TextLayout(s, f, renderContext);
+        return textLayout.getBounds();
     }
 }
