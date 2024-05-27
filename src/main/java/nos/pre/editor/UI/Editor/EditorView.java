@@ -18,11 +18,10 @@ public class EditorView extends JPanel {
         this.addUIComponents();
     }
 
-    private final JPanel editorPanel = new JPanel(new BorderLayout(), true);
-
+    private final JPanel editingPaneHolder = new JPanel(new BorderLayout(), true);
     private final PreEditingPane editingPane = new PreEditingPane();
     private final jTextLineNumber editorLineNumber = new jTextLineNumber(editingPane);
-    private final jScrollPane editorScrollPane = new jScrollPane(editingPane);
+    private final jScrollPane editorScrollPane = new jScrollPane(editingPaneHolder);
 
     private final JPanel statusBar = new JPanel(new BorderLayout(), true);
     private final JLabel caretLocationLabel = new JLabel("1:1");
@@ -30,15 +29,15 @@ public class EditorView extends JPanel {
     private void addUIComponents() {
         // EDITOR CONTENT ===
         editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
+        editingPaneHolder.add(editingPane, BorderLayout.CENTER);
 
         editorLineNumber.setCurrentLineForeground(Color.WHITE);
         editorLineNumber.setLineForeground(Color.DARK_GRAY);
         editorLineNumber.setFont(editingPane.getFont());
-        //editorPanel.add(editorLineNumber, BorderLayout.WEST);
-        editorScrollPane.setRowHeaderView(editorLineNumber);
+        editingPaneHolder.add(editorLineNumber, BorderLayout.WEST);
 
         editorScrollPane.setBorder(BorderFactory.createLineBorder(Colors.editorBorderColor, 2));
-        editorPanel.add(editorScrollPane, BorderLayout.CENTER);
+        this.add(editorScrollPane, BorderLayout.CENTER);
 
         // STATUS BAR ===
         statusBar.setPreferredSize(new Dimension(0, 20));
@@ -52,10 +51,7 @@ public class EditorView extends JPanel {
         caretLocationLabel.setHorizontalAlignment(JLabel.CENTER);
 
         statusBar.add(caretLocationLabel, BorderLayout.EAST);
-        editorPanel.add(statusBar, BorderLayout.SOUTH);
-
-        // ADD editorPanel TO EditorView
-        this.add(editorPanel, BorderLayout.CENTER);
+        this.add(statusBar, BorderLayout.SOUTH);
     }
 
     public void openFile(File file) {
