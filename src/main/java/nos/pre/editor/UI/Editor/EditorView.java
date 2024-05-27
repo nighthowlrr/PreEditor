@@ -42,6 +42,7 @@ public class EditorView extends JPanel {
 
         // STATUS BAR ===
         statusBar.setPreferredSize(new Dimension(0, 20));
+        statusBar.setFocusable(false);
         statusBar.setBackground(new Color(0x2b2d30));
 
         caretLocationLabel.setPreferredSize(new Dimension(100, 0)); // TODO: Adaptive size
@@ -59,20 +60,29 @@ public class EditorView extends JPanel {
 
     public void openFile(File file) {
         try {
+            // TODO: Open file in new tab or switch to tab with the file already open.
+            editingPane.setText("");
+
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
-                editingPane.getStyledDocument().insertString(editingPane.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
+                editingPane.getStyledDocument().insertString(editingPane.getStyledDocument().getLength(),
+                        scanner.nextLine() + "\n", null);
             }
             editingPane.getStyledDocument().remove(editingPane.getStyledDocument().getLength() - 1, 1);
             scanner.close();
+
+            editingPane.setCaretPosition(0);
         } catch (FileNotFoundException | BadLocationException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred", "Error", JOptionPane.ERROR_MESSAGE, null);
+            JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred",
+                    "Error", JOptionPane.ERROR_MESSAGE, null);
             // TODO: More detailed error messages
         }
     }
 
-    public void openProject(File projectPath) {
-
+    @Override
+    public void requestFocus() {
+        //super.requestFocus();
+        editingPane.requestFocus();
     }
 }

@@ -53,7 +53,6 @@ public class EditorFrame extends JFrame {
         this.projectPath = projectPath;
         this.addToolWindow(this.projectToolWindow);
         this.projectToolWindow.setProjectPath(this.projectPath);
-        //this.openProject(projectPath);
 
         setVisible(true);
     }
@@ -67,6 +66,10 @@ public class EditorFrame extends JFrame {
 
     private void addEditorView() {
         editorView.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
+
+        // TODO: Proper
+        projectToolWindow.linkToEditorPane(editorView);
+
         this.add(editorView, BorderLayout.CENTER);
     }
 

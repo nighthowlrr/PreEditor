@@ -60,6 +60,8 @@ public class jTextLineNumber extends JPanel implements CaretListener, DocumentLi
 
         setBorderGap(5);
 
+        setFocusable(false);
+
         setCurrentLineForeground(Color.BLACK);
         setLineForeground(new Color(0, 0, 0, 100));
         setSeparatorColor(new Color(0, 0, 0, 64));
