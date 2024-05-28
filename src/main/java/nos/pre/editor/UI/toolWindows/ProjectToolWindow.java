@@ -7,8 +7,6 @@ import templateUI.SwingComponents.jScrollPane;
 import templateUI.jFileTree;
 
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.io.File;
@@ -17,7 +15,7 @@ public class ProjectToolWindow extends ToolWindow {
     private final jFileTree fileTree = new jFileTree();
     private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
 
-    public ProjectToolWindow(ToolWindowLocation toolWindowLocation) {
+    public ProjectToolWindow(ToolWindowLocation toolWindowLocation) { // TODO: Final ProjectPath
         super(toolWindowLocation);
         this.setLayout(new BorderLayout());
         this.setBackground(Colors.projectToolBackground);
@@ -50,7 +48,6 @@ public class ProjectToolWindow extends ToolWindow {
             }
         });
     }
-
 
     private @NotNull String getTreePathAsFilePathString(@NotNull TreePath path) {
         Object[] pathComponents = path.getPath(); // Get the path components as an array

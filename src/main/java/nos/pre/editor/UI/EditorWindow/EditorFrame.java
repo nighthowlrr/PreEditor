@@ -19,12 +19,12 @@ public class EditorFrame extends JFrame {
 
     private final boolean confirmBeforeExit = false; // TODO: Remove in final. For testing purposes only
 
-    private final JPanel mainContentPanel = new JPanel(new BorderLayout(), true);
+    private final JPanel contentPanel = new JPanel(new BorderLayout(), true);
 
     private final ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindow.ToolWindowLocation.LEFT_TOP);
 
     public EditorFrame(File projectPath) {
-        super("PreEditor - NewProjectFrame");
+        super("PreEditor");
 
         setSize(1600, 900);
         setLocationRelativeTo(null);
@@ -46,7 +46,7 @@ public class EditorFrame extends JFrame {
             setDefaultCloseOperation(EXIT_ON_CLOSE);
         }
 
-        setContentPane(this.mainContentPanel);
+        setContentPane(this.contentPanel);
         addEditorView();
         addToolWindowHolders();
 
@@ -70,7 +70,7 @@ public class EditorFrame extends JFrame {
         // TODO: Proper
         projectToolWindow.linkToEditorPane(editorView);
 
-        this.add(editorView, BorderLayout.CENTER);
+        contentPanel.add(editorView, BorderLayout.CENTER);
     }
 
     private void addToolWindowHolders() {
@@ -78,9 +78,9 @@ public class EditorFrame extends JFrame {
         bottomToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
         rightToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
 
-        this.add(leftToolWindowHolder, BorderLayout.WEST);
-        this.add(bottomToolWindowHolder, BorderLayout.SOUTH);
-        this.add(rightToolWindowHolder, BorderLayout.EAST);
+        contentPanel.add(leftToolWindowHolder, BorderLayout.WEST);
+        contentPanel.add(bottomToolWindowHolder, BorderLayout.SOUTH);
+        contentPanel.add(rightToolWindowHolder, BorderLayout.EAST);
     }
 
     public void addToolWindow(@NotNull ToolWindow toolWindow) {

@@ -36,13 +36,14 @@ public class EditorView extends JPanel {
         editorLineNumber.setFont(editingPane.getFont());
         editingPaneHolder.add(editorLineNumber, BorderLayout.WEST);
 
-        editorScrollPane.setBorder(BorderFactory.createLineBorder(Colors.editorBorderColor, 2));
+        //editorScrollPane.setBorder(BorderFactory.createLineBorder(Colors.editorBorderColor, 2));
+        editorScrollPane.setBorder(BorderFactory.createEmptyBorder());
         this.add(editorScrollPane, BorderLayout.CENTER);
 
         // STATUS BAR ===
         statusBar.setPreferredSize(new Dimension(0, 20));
         statusBar.setFocusable(false);
-        statusBar.setBackground(new Color(0x2b2d30));
+        statusBar.setBackground(Colors.editorStatusBarBackground);
 
         caretLocationLabel.setPreferredSize(new Dimension(100, 0)); // TODO: Adaptive size
         caretLocationLabel.setForeground(Color.LIGHT_GRAY);
