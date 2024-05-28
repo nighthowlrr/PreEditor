@@ -1,6 +1,6 @@
 package nos.pre.editor.processmanagers;
 
-import nos.pre.editor.UI.EditorWindow.NewEditorFrame;
+import nos.pre.editor.UI.EditorWindow.EditorFrame;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,13 +12,13 @@ public class EditorProcess { // TODO: Convert to record class if possible
         return projectPath;
     }
 
-    private NewEditorFrame editorFrame = null;
-    public @Nullable NewEditorFrame getEditorFrame() {
+    private EditorFrame editorFrame = null;
+    public @Nullable EditorFrame getEditorFrame() {
         return editorFrame;
     }
 
     public void createEditorFrame() {
-        this.editorFrame = new NewEditorFrame(this);
+        this.editorFrame = new EditorFrame(this);
     }
 
     public EditorProcess(@NotNull File projectPath) {

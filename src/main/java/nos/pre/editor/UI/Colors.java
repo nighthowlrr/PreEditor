@@ -25,6 +25,9 @@ public class Colors {
     //public static final Color editorStatusBarBackground = new Color(0x2B2D30); TODO: For testing...
     public static final Color editorStatusBarBackground = new Color(0x1E1F22);
 
+    // TOOL_WINDOW_BAR
+    public static final Color toolWindowBarBackground = new Color(0x2B2D30);
+
     // EMPTY_TOOL_WINDOW_HOLDER
     public static final Color toolWindowHolderBackground = new Color(0x2B2D30);
 

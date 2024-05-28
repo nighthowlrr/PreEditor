@@ -108,7 +108,6 @@ public class WelcomeFrame extends JFrame {
         newButton.setFocusable(false);
         newButton.setContentAreaFilled(false);
         newButton.setOpaque(true);
-        newButton.addActionListener(_ -> this.openEditor(null));
         // TODO: Proper new project functionality
         // TODO: SHow keyboard shortcuts on buttons for non-focusable buttons
         newButton.setPreferredSize(new Dimension(120, 30));
@@ -116,27 +115,11 @@ public class WelcomeFrame extends JFrame {
         openButton.setFocusable(false);
         openButton.setContentAreaFilled(false);
         openButton.setOpaque(true);
-        openButton.addActionListener(_ -> {
-            JFileChooser fileChooser = new JFileChooser(System.getProperty("user.home"));
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-            if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                this.openEditor(fileChooser.getSelectedFile());
-            }
-        });
         openButton.setPreferredSize(new Dimension(120, 30));
 
         actionPanel.setOpaque(false);
         actionPanel.add(newButton);
         actionPanel.add(openButton);
         centerPanel.add(actionPanel, BorderLayout.SOUTH);
-    }
-
-    private void openEditor(File file) {
-        if (file != null && file.isDirectory()) {
-            new EditorFrame(file);
-        } // TODO: else new EditorFrame().openNewFile();
-
-        this.dispose();
     }
 }
