@@ -36,9 +36,14 @@ public class ToolWindow extends JPanel {
     }
 
     // PROPERTIES ---
+    private final String toolWindowName;
     private ToolWindowLocation toolWindowLocation;
 
     // GETTERS & SETTERS
+    public String getToolWindowName() {
+        return toolWindowName;
+    }
+
     public ToolWindowLocation getToolWindowLocation() {
         return this.toolWindowLocation;
     }
@@ -50,8 +55,9 @@ public class ToolWindow extends JPanel {
      * Base class for PreEditor Tool windows
      * @param location The location of the tool window
      */
-    public ToolWindow(ToolWindowLocation location) {
+    public ToolWindow(String toolWindowName, ToolWindowLocation location) {
         super(true);
+        this.toolWindowName = toolWindowName;
 
         setToolWindowLocation(location);
     }

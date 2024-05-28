@@ -79,6 +79,29 @@ public class ToolWindowHolder extends JSplitPane {
         } else throw new Exception("ToolWindow location does not match ToolWindowHolder location");
     }
 
+    public void showHideToolWindow(@NotNull ToolWindow toolWindow) {
+        toolWindow.setVisible(! toolWindow.isVisible());
+        this.revalidate();
+        this.repaint();
+        SwingUtilities.invokeLater(() -> this.setDividerLocation(0.5d));
+    }
+    public void showHideToolWindow(@NotNull ToolWindow toolWindow, boolean show) {
+        toolWindow.setVisible(show);
+        this.revalidate();
+        this.repaint();
+        SwingUtilities.invokeLater(() -> this.setDividerLocation(0.5d));
+    }
+
+    public boolean anyToolWindowsVisible() {
+        if ((! this.getLeftComponent().isVisible()) && this.getRightComponent() == null) {
+            return false;
+        } else if (this.getLeftComponent() == null && (! this.getRightComponent().isVisible())) {
+            return false;
+        } else if (!this.getLeftComponent().isVisible() && !this.getRightComponent().isVisible()) {
+            return false;
+        } else return true;
+    }
+
     @Override
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag);

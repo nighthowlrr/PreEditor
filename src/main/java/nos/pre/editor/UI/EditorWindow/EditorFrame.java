@@ -79,20 +79,11 @@ public class EditorFrame extends JFrame {
         leftToolWindowBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0,
                 Colors.editorFrameDividingBorderColor));
 
-        leftShowHideButton.addActionListener(_ -> this.showHideToolWindowHolder(leftToolWindowHolder));
-        leftToolWindowBar.add(leftShowHideButton);
-
-        bottomShowHideButton.addActionListener(_ -> this.showHideToolWindowHolder(bottomToolWindowHolder));
-        leftToolWindowBar.add(bottomShowHideButton);
-
         rightToolWindowBar.setPreferredSize(new Dimension(40, 40));
         rightToolWindowBar.setFloatable(false);
         rightToolWindowBar.setBackground(Colors.toolWindowBarBackground);
         rightToolWindowBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0,
                 Colors.editorFrameDividingBorderColor));
-
-        rightShowHideButton.addActionListener(_ -> this.showHideToolWindowHolder(rightToolWindowHolder));
-        rightToolWindowBar.add(rightShowHideButton);
 
         parentPanel.add(leftToolWindowBar, BorderLayout.WEST);
         parentPanel.add(rightToolWindowBar, BorderLayout.EAST);
@@ -111,15 +102,16 @@ public class EditorFrame extends JFrame {
         parentPanel.add(viewsPanel, BorderLayout.CENTER);
     }
 
-    private void addToolWindows() {
-        ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindow.ToolWindowLocation.LEFT_TOP);
-        projectToolWindow.setProjectPath(this.editorProcess.getProjectPath());
-        this.addToolWindow(projectToolWindow);
+    // TOOL WINDOWS ===
+    private final ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindow.ToolWindowLocation.LEFT_TOP);
 
+    private void addToolWindows() {
+        projectToolWindow.setProjectPath(this.editorProcess.getProjectPath());
         projectToolWindow.linkToEditorPane(this.editorView);
+        this.addToolWindow(projectToolWindow);
     }
 
-    // TOOL WINDOWS UTILITY FUNCTIONS===
+    // TOOL WINDOWS UTILITY FUNCTIONS ===
     private void addToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder) {
         switch (toolWindowHolder.getToolholderLocation()) {
             case LEFT -> viewsPanel.add(toolWindowHolder, BorderLayout.WEST);
@@ -132,6 +124,11 @@ public class EditorFrame extends JFrame {
 
     private void showHideToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder) {
         toolWindowHolder.setVisible(! toolWindowHolder.isVisible());
+        viewsPanel.revalidate();
+        viewsPanel.repaint();
+    }
+    private void showHideToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder, boolean show) {
+        toolWindowHolder.setVisible(show);
         viewsPanel.revalidate();
         viewsPanel.repaint();
     }
@@ -157,6 +154,8 @@ public class EditorFrame extends JFrame {
                 } catch (Exception e) { e.printStackTrace(); }
                 break;
         }
+
+        this.addButtonForToolWindow(toolWindow);
     }
 
     public void removeToolWindow(@NotNull ToolWindow.ToolWindowLocation location) {
@@ -175,6 +174,56 @@ public class EditorFrame extends JFrame {
                 try {
                     rightToolWindowHolder.removeToolWindow(location);
                 } catch (Exception e) { e.printStackTrace(); }
+                break;
+        }
+    }
+
+    private ToolWindowHolder getHolderForToolWindow(@NotNull ToolWindow toolWindow) {
+        return switch (toolWindow.getToolWindowLocation()) {
+            case LEFT_TOP, LEFT_BOTTOM -> leftToolWindowHolder;
+            case BOTTOM_LEFT, BOTTOM_RIGHT -> bottomToolWindowHolder;
+            case RIGHT_BOTTOM, RIGHT_TOP -> rightToolWindowHolder;
+        };
+    }
+
+    private void showHideToolWindow(@NotNull ToolWindow toolWindow) {
+        ToolWindowHolder thisToolWindowHolder = getHolderForToolWindow(toolWindow);
+
+        if (toolWindow.isVisible()) {
+            toolWindow.setVisible(false);
+
+            if ((! thisToolWindowHolder.anyToolWindowsVisible()) && thisToolWindowHolder.isVisible()) {
+                this.showHideToolWindowHolder(thisToolWindowHolder, false);
+            } else {
+                thisToolWindowHolder.showHideToolWindow(toolWindow, false);
+            }
+        } else {
+            thisToolWindowHolder.showHideToolWindow(toolWindow, true);
+            if (! thisToolWindowHolder.isVisible()) {
+                showHideToolWindowHolder(thisToolWindowHolder, true);
+            }
+        }
+
+        // TODO: May stilllll need debugging (unforeseen conditions... :[ )
+    }
+
+    private void addButtonForToolWindow(@NotNull ToolWindow toolWindow) {
+        JButton toolWindowToggleButton = new JButton(toolWindow.getToolWindowName());
+        toolWindowToggleButton.setDoubleBuffered(true);
+        toolWindowToggleButton.setFocusable(false);
+        toolWindowToggleButton.setFont(toolWindowToggleButton.getFont().deriveFont(10F));
+        toolWindowToggleButton.addActionListener(_ -> showHideToolWindow(toolWindow));
+
+        switch (toolWindow.getToolWindowLocation()) {
+            case LEFT_TOP:
+            case LEFT_BOTTOM:
+            case BOTTOM_LEFT:
+                leftToolWindowBar.add(toolWindowToggleButton);
+                break;
+            case RIGHT_TOP:
+            case RIGHT_BOTTOM:
+            case BOTTOM_RIGHT:
+                rightToolWindowBar.add(toolWindowToggleButton);
                 break;
         }
     }

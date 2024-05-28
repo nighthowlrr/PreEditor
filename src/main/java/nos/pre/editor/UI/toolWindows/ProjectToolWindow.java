@@ -16,7 +16,7 @@ public class ProjectToolWindow extends ToolWindow {
     private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
 
     public ProjectToolWindow(ToolWindowLocation toolWindowLocation) { // TODO: Final ProjectPath
-        super(toolWindowLocation);
+        super("Project", toolWindowLocation);
         this.setLayout(new BorderLayout());
         this.setBackground(Colors.projectToolBackground);
 
@@ -44,6 +44,9 @@ public class ProjectToolWindow extends ToolWindow {
 
             if (selectedFile.isFile()) {
                 editorView.openFile(selectedFile);
+                // TODO: Do not try to open all types of files..
+                //  or add support for all types of files (see intellij register new file type association ).
+                //  Preferably, dont even try...
                 editorView.requestFocus();
             }
         });
