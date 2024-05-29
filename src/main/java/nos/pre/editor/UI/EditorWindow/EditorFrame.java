@@ -40,9 +40,7 @@ public class EditorFrame extends JFrame {
                 @Override public void windowActivated(WindowEvent e) {}
                 @Override public void windowDeactivated(WindowEvent e) {}
             });
-        } else {
-            setDefaultCloseOperation(EXIT_ON_CLOSE);
-        }
+        } else setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         setContentPane(this.parentPanel);
 
@@ -52,16 +50,11 @@ public class EditorFrame extends JFrame {
         setVisible(true);
     }
 
-
     // UI ===
     // ParentPanel ===
     private final JPanel parentPanel = new JPanel(new BorderLayout(), true);
-    private final JToolBar leftToolWindowBar = new JToolBar(JToolBar.VERTICAL);
-    private final JToolBar rightToolWindowBar = new JToolBar(JToolBar.VERTICAL);
-
-    private final JButton leftShowHideButton = new JButton("S/H L");
-    private final JButton bottomShowHideButton = new JButton("S/H B");
-    private final JButton rightShowHideButton = new JButton("S/H R");
+    private final JToolBar leftToolWindowBar = new JToolBar(JToolBar.VERTICAL); // Toolbar containing buttons to toggle tool windows
+    private final JToolBar rightToolWindowBar = new JToolBar(JToolBar.VERTICAL); // Toolbar containing buttons to toggle tool windows
 
     // ViewsPanel ===
     private final JPanel viewsPanel = new JPanel(new BorderLayout(), true);
@@ -105,6 +98,9 @@ public class EditorFrame extends JFrame {
     // TOOL WINDOWS ===
     private final ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindow.ToolWindowLocation.LEFT_TOP);
 
+    /**
+     * Adds all tool windows
+     */
     private void addToolWindows() {
         projectToolWindow.setProjectPath(this.editorProcess.getProjectPath());
         projectToolWindow.linkToEditorPane(this.editorView);
@@ -112,6 +108,11 @@ public class EditorFrame extends JFrame {
     }
 
     // TOOL WINDOWS UTILITY FUNCTIONS ===
+    /**
+     * Add the given <code>ToolWindowHolder</code> to the appropriate side of the <code>ViewsPanel</code>
+     * according to its <code>ToolHolderLocation</code>, and then repaints <code>ViewsPanel</code>.
+     * @param toolWindowHolder The <code>ToolWindowHolder</code> to add to the <code>ViewsPanel</code>.
+     */
     private void addToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder) {
         switch (toolWindowHolder.getToolholderLocation()) {
             case LEFT -> viewsPanel.add(toolWindowHolder, BorderLayout.WEST);
@@ -122,17 +123,32 @@ public class EditorFrame extends JFrame {
         viewsPanel.repaint();
     }
 
+    /**
+     * Toggles visibility of the specified <code>ToolWindowHolder</code> and repaints <code>ViewsPanel</code>.
+     * @param toolWindowHolder The <code>ToolWindowHolder</code> to toggle the visibility of.
+     */
     private void showHideToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder) {
         toolWindowHolder.setVisible(! toolWindowHolder.isVisible());
         viewsPanel.revalidate();
         viewsPanel.repaint();
     }
+    /**
+     * Shows or hides the specified <code>ToolWindowHolder</code> and repaints <code>ViewsPanel</code>.
+     * @param toolWindowHolder The <code>ToolWindowHolder</code> to toggle the visibility of.
+     * @param show <code>Boolean</code> specifying whether to show or hide the <code>ToolWindowHolder</code>
+     */
     private void showHideToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder, boolean show) {
         toolWindowHolder.setVisible(show);
         viewsPanel.revalidate();
         viewsPanel.repaint();
     }
 
+    /**
+     * Adds a <code>ToolWindow</code> to the appropriate <code>ToolWindowHolder</code> according to its <code>ToolWindowLocation</code>.
+     * Also calls <code>this.addButtonForToolWindow(</code>the specified <code>ToolWindow)</code>
+     * to add a toggle button for the <code>ToolWindow</code>
+     * @param toolWindow The <code>ToolWindow</code> to add.
+     */
     public void addToolWindow(@NotNull ToolWindow toolWindow) {
         ToolWindow.ToolWindowLocation location = toolWindow.getToolWindowLocation();
 
@@ -153,11 +169,16 @@ public class EditorFrame extends JFrame {
                     rightToolWindowHolder.addToolWindow(toolWindow);
                 } catch (Exception e) { e.printStackTrace(); }
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + location.getSide().toLowerCase());
         }
 
         this.addButtonForToolWindow(toolWindow);
     }
-
+    /**
+     * Removes the <code>ToolWindow</code> from the specified location.
+     * @param location The <code>ToolWindowLocation</code> to remove the <code>ToolWindow</code> from.
+     */
     public void removeToolWindow(@NotNull ToolWindow.ToolWindowLocation location) {
         switch (location.getSide().toLowerCase()) {
             case "left":
@@ -175,9 +196,18 @@ public class EditorFrame extends JFrame {
                     rightToolWindowHolder.removeToolWindow(location);
                 } catch (Exception e) { e.printStackTrace(); }
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + location.getSide().toLowerCase());
         }
+
+        // TODO: Remove the toggle button for the ToolWindow
     }
 
+    /**
+     * Gets the <code>ToolWindowHolder</code> the specified <code>ToolWindow</code> resides in.
+     * @param toolWindow The <code>ToolWindow</code> to get the <code>ToolWindowHolder</code> of.
+     * @return The <code>ToolWindowHolder</code> the specified <code>ToolWindow</code> resides in.
+     */
     private ToolWindowHolder getHolderForToolWindow(@NotNull ToolWindow toolWindow) {
         return switch (toolWindow.getToolWindowLocation()) {
             case LEFT_TOP, LEFT_BOTTOM -> leftToolWindowHolder;
@@ -186,27 +216,40 @@ public class EditorFrame extends JFrame {
         };
     }
 
+    /**
+     * Toggles the visibility of the specified <code>ToolWindow</code>.
+     * <p>
+     * If the <code>ToolWindow</code> is to be hidden, and there is no other <code>ToolWindow</code> visible or present
+     * in the <code>ToolWindowHolder</code> the specified <code>ToolWindow</code> resides in, that <code>ToolWindowHolder</code> is also hidden.
+     * </p>
+     * @param toolWindow The <code>ToolWindow</code> to toggle the visibility of.
+     */
     private void showHideToolWindow(@NotNull ToolWindow toolWindow) {
         ToolWindowHolder thisToolWindowHolder = getHolderForToolWindow(toolWindow);
 
-        if (toolWindow.isVisible()) {
-            toolWindow.setVisible(false);
+        if (toolWindow.isVisible()) { // If the toolWindow is visible...
+            thisToolWindowHolder.showHideToolWindow(toolWindow, false); // ... , hide the toolWindow...
 
             if ((! thisToolWindowHolder.anyToolWindowsVisible()) && thisToolWindowHolder.isVisible()) {
-                this.showHideToolWindowHolder(thisToolWindowHolder, false);
-            } else {
-                thisToolWindowHolder.showHideToolWindow(toolWindow, false);
+                // Now if the toolWindowHolder is visible and there are no toolWindows visible...
+                this.showHideToolWindowHolder(thisToolWindowHolder, false); // Hide the toolWindowHolder.
             }
-        } else {
-            thisToolWindowHolder.showHideToolWindow(toolWindow, true);
-            if (! thisToolWindowHolder.isVisible()) {
-                showHideToolWindowHolder(thisToolWindowHolder, true);
+        } else { // else if the toolWindow is hidden...
+            thisToolWindowHolder.showHideToolWindow(toolWindow, true); // show the toolWindow...
+            if (! thisToolWindowHolder.isVisible()) { // and if the toolWindowHolder is hidden...
+                showHideToolWindowHolder(thisToolWindowHolder, true); // show the toolWindowHolder
             }
         }
 
-        // TODO: May stilllll need debugging (unforeseen conditions... :[ )
+        // TODO: More than two toolWindows per toolWindowHolder, Remember? How you gonna add them all at once? u dumdum.
+        //  add and remove instead of hiding and showing
     }
 
+    /**
+     * Adds a toggle button for the specified <code>ToolWindow</code> in the appropriate <code>ToolWindowBar</code>.
+     * Text of the button is the name of the <code>ToolWindow</code>
+     * @param toolWindow The <code>ToolWindow</code> to add the toggle button for.
+     */
     private void addButtonForToolWindow(@NotNull ToolWindow toolWindow) {
         JButton toolWindowToggleButton = new JButton(toolWindow.getToolWindowName());
         toolWindowToggleButton.setDoubleBuffered(true);

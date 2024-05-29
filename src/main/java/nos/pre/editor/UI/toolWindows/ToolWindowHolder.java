@@ -35,6 +35,10 @@ public class ToolWindowHolder extends JSplitPane {
         return this.toolHolderLocation;
     }
 
+    /**
+     * Constructor for JSplitPane made for holding and managing <code>ToolWindow</code>.
+     * @param location The <code>ToolHolderLocation</code> object specifying the location of the <code>ToolWindowHolder</code>.
+     */
     public ToolWindowHolder(ToolHolderLocation location) {
         this.toolHolderLocation = location;
 
@@ -55,7 +59,7 @@ public class ToolWindowHolder extends JSplitPane {
         this.setRightComponent(null);
 
         this.setVisible(true);
-        //SwingUtilities.invokeLater(() -> this.setDividerLocation(0.5d));
+        //this.setDividerToMiddle();
     }
 
     public void addToolWindow(@NotNull ToolWindow toolWindow) throws Exception {
@@ -66,6 +70,7 @@ public class ToolWindowHolder extends JSplitPane {
             } else if (toolWindowLocation.getLayoutIndex() == 1) {
                 this.setRightComponent(toolWindow);
             }
+            this.setDividerToMiddle();
         } else throw new Exception("ToolWindow location does not match ToolWindowHolder location");
     }
 
@@ -83,13 +88,13 @@ public class ToolWindowHolder extends JSplitPane {
         toolWindow.setVisible(! toolWindow.isVisible());
         this.revalidate();
         this.repaint();
-        SwingUtilities.invokeLater(() -> this.setDividerLocation(0.5d));
+        this.setDividerToMiddle();
     }
     public void showHideToolWindow(@NotNull ToolWindow toolWindow, boolean show) {
         toolWindow.setVisible(show);
         this.revalidate();
         this.repaint();
-        SwingUtilities.invokeLater(() -> this.setDividerLocation(0.5d));
+        this.setDividerToMiddle();
     }
 
     public boolean anyToolWindowsVisible() {
@@ -102,9 +107,13 @@ public class ToolWindowHolder extends JSplitPane {
         } else return true;
     }
 
+    private void setDividerToMiddle() {
+        SwingUtilities.invokeLater(() -> this.setDividerLocation(0.5d));
+    }
+
     @Override
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag);
-        SwingUtilities.invokeLater(() -> this.setDividerLocation(0.5d));
+        this.setDividerToMiddle();
     }
 }

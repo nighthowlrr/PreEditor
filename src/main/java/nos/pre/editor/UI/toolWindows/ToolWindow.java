@@ -53,6 +53,7 @@ public class ToolWindow extends JPanel {
 
     /**
      * Base class for PreEditor Tool windows
+     * @param toolWindowName The name of the tool window
      * @param location The location of the tool window
      */
     public ToolWindow(String toolWindowName, ToolWindowLocation location) {

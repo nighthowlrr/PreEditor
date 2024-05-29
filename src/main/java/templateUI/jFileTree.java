@@ -15,7 +15,6 @@ public class jFileTree extends JTree {
     private File startingPath;
 
     public jFileTree() {
-        //setStartingPath(startingPath);
         this.setEditable(false);
     }
 
@@ -27,121 +26,141 @@ public class jFileTree extends JTree {
     public File getStartingPath() {
         return this.startingPath;
     }
-}
 
-class FileSystemModel implements TreeModel {
-    private final File rootPath;
-
-    private final List<TreeModelListener> listeners = new ArrayList<>();
-
-    public FileSystemModel(File startingPath) {
-        this.rootPath = startingPath;
-    }
 
     /**
-     * Returns the path for the root file
-     * @return The path for the root file.
+     * Takes <code>TreePath</code> from jFileTree
+     * and converts it into a String of the path of the file the <code>TreeNode</code> represented.
+     * @param path The <code>TreePath</code> to convert into a String.
+     * @return The String path of the file.
      */
-    @Override
-    public Object getRoot() {
-        return this.rootPath;
+    public static @NotNull String getTreePathAsFilePathString(@NotNull TreePath path) {
+        Object[] pathComponents = path.getPath(); // Get the path components as an array
+        StringBuilder sb = new StringBuilder();
+
+        // Iterate over the path components and append them to the string builder
+        for (Object component : pathComponents) {
+            sb.append(component.toString()).append("\\");
+        }
+
+        return sb.toString();
     }
 
-    @Override
-    public Object getChild(Object parent, int index) {
-        File parentFile = (File) parent;
 
-        String[] children = parentFile.list();
+    private static class FileSystemModel implements TreeModel {
+        private final File rootPath;
 
-        if (children != null) {
-            return new TreeFile(parentFile, children[index]);
-        } else return null;
-    }
+        private final List<TreeModelListener> listeners = new ArrayList<>();
 
-    @Override
-    public int getChildCount(Object parent) {
-        File parentFile = (File) parent;
+        public FileSystemModel(File startingPath) {
+            this.rootPath = startingPath;
+        }
 
-        if (parentFile.isDirectory()) {
+        /**
+         * Returns the path for the root file
+         * @return The path for the root file.
+         */
+        @Override
+        public Object getRoot() {
+            return this.rootPath;
+        }
+
+        @Override
+        public Object getChild(Object parent, int index) {
+            File parentFile = (File) parent;
+
             String[] children = parentFile.list();
+
             if (children != null) {
-                return children.length;
-            }
+                return new TreeFile(parentFile, children[index]);
+            } else return null;
         }
-        return 0;
-    }
 
-    @Override
-    public boolean isLeaf(Object node) {
-        File file = (File) node;
-        return file.isFile();
-    }
+        @Override
+        public int getChildCount(Object parent) {
+            File parentFile = (File) parent;
 
-    @Override
-    public void valueForPathChanged(@NotNull TreePath path, Object newValue) {
-        File oldFile = (File) path.getLastPathComponent();
-        String oldFileParentPath = oldFile.getParent();
-
-        String newFileName = (String) newValue;
-        File targetFile = new File(oldFileParentPath, newFileName);
-        boolean renamed = oldFile.renameTo(targetFile);
-
-        if (renamed) {
-            File parent = new File(oldFileParentPath);
-            int[] changedChildrenIndices = {
-                    getIndexOfChild(parent, targetFile)
-            };
-            Object[] changedChildren = {
-                    targetFile
-            };
-            fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
-        }
-    }
-
-    @Override
-    public int getIndexOfChild(Object parent, Object child) {
-        File parentFile = (File) parent;
-        File childFile = (File) child;
-
-        String[] children = parentFile.list();
-        if (children != null) {
-            for (int i = 0; i < children.length; i++) {
-                if (Objects.equals(childFile, new File(children[i]))) {
-                    return i;
+            if (parentFile.isDirectory()) {
+                String[] children = parentFile.list();
+                if (children != null) {
+                    return children.length;
                 }
             }
-        }
-        return -1;
-    }
-
-    @Override
-    public void addTreeModelListener(TreeModelListener l) {
-        listeners.add(l);
-    }
-    @Override
-    public void removeTreeModelListener(TreeModelListener l) {
-        listeners.remove(l);
-    }
-
-    private void fireTreeNodesChanged(TreePath parentPath, int[] indices, Object[] children) {
-        TreeModelEvent event = new TreeModelEvent(this, parentPath, indices, children);
-        Iterator<TreeModelListener> iterator = listeners.iterator();
-        TreeModelListener listener;
-        while (iterator.hasNext()) {
-            listener = iterator.next();
-            listener.treeNodesChanged(event);
-        }
-    }
-
-    private static class TreeFile extends File {
-        public TreeFile(File parent, String child) {
-            super(parent, child);
+            return 0;
         }
 
-        @Contract(pure = true)
-        public @NotNull String toString() {
-            return getName();
-            // Otherwise, each node would show the full path of the file.
+        @Override
+        public boolean isLeaf(Object node) {
+            File file = (File) node;
+            return file.isFile();
+        }
+
+        @Override
+        public void valueForPathChanged(@NotNull TreePath path, Object newValue) {
+            File oldFile = (File) path.getLastPathComponent();
+            String oldFileParentPath = oldFile.getParent();
+
+            String newFileName = (String) newValue;
+            File targetFile = new File(oldFileParentPath, newFileName);
+            boolean renamed = oldFile.renameTo(targetFile);
+
+            if (renamed) {
+                File parent = new File(oldFileParentPath);
+                int[] changedChildrenIndices = {
+                        getIndexOfChild(parent, targetFile)
+                };
+                Object[] changedChildren = {
+                        targetFile
+                };
+                fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
+            }
+        }
+
+        @Override
+        public int getIndexOfChild(Object parent, Object child) {
+            File parentFile = (File) parent;
+            File childFile = (File) child;
+
+            String[] children = parentFile.list();
+            if (children != null) {
+                for (int i = 0; i < children.length; i++) {
+                    if (Objects.equals(childFile, new File(children[i]))) {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        @Override
+        public void addTreeModelListener(TreeModelListener l) {
+            listeners.add(l);
+        }
+        @Override
+        public void removeTreeModelListener(TreeModelListener l) {
+            listeners.remove(l);
+        }
+
+        private void fireTreeNodesChanged(TreePath parentPath, int[] indices, Object[] children) {
+            TreeModelEvent event = new TreeModelEvent(this, parentPath, indices, children);
+            Iterator<TreeModelListener> iterator = listeners.iterator();
+            TreeModelListener listener;
+            while (iterator.hasNext()) {
+                listener = iterator.next();
+                listener.treeNodesChanged(event);
+            }
+        }
+
+        private static class TreeFile extends File {
+            public TreeFile(File parent, String child) {
+                super(parent, child);
+            }
+
+            @Contract(pure = true)
+            public @NotNull String toString() {
+                return getName();
+                // Otherwise, each node would show the full path of the file.
+            }
         }
     }
 }

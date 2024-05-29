@@ -11,8 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter
-        implements CaretListener, MouseListener, MouseMotionListener {
+public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter implements CaretListener, MouseListener, MouseMotionListener {
     private final JTextPane editingPane;
     private final DefaultHighlighter highlighter;
     private Object lastHighlight;
@@ -58,8 +57,8 @@ public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter
         }
     }
 
-    /*
-     *   Remove/add the highlight to make sure it gets repainted
+    /**
+     * Remove/add the highlight to make sure it gets repainted
      */
     private void resetHighlight() {
         SwingUtilities.invokeLater(() -> {
@@ -79,13 +78,13 @@ public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter
         } catch (BadLocationException _) {}
     }
 
-    //  Implement CaretListener
+    // Implement CaretListener
     @Override
     public void caretUpdate(CaretEvent e) {
         resetHighlight();
     }
 
-    //  Implement MouseListener
+    // Implement MouseListener
     @Override
     public void mousePressed(MouseEvent e) {
         resetHighlight();

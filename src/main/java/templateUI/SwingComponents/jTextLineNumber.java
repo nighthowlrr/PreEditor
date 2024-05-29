@@ -20,7 +20,7 @@ public class jTextLineNumber extends JPanel implements CaretListener, DocumentLi
     public final static float RIGHT = 1.0f;
 
     // Text component this TextLineNumber component is in sync with
-    private final JTextPane component;
+    private final JTextPane component; // TODO: Try TextComponent
 
     // Properties that can be changed
     private int borderGap;
@@ -268,7 +268,7 @@ public class jTextLineNumber extends JPanel implements CaretListener, DocumentLi
         return root.getElementIndex(rowStartOffset) == root.getElementIndex(caretPosition);
     }
 
-    /*
+    /**
      * Get the line number to be drawn. The empty string will be returned when a line of text has wrapped.
      * TODO: Use method of PreEditingPane
      */
@@ -281,7 +281,7 @@ public class jTextLineNumber extends JPanel implements CaretListener, DocumentLi
         else return "";
     }
 
-    /*
+    /**
      * Determine the Y offset for the current row
      */
     private int getOffsetY(int rowStartOffset, FontMetrics fontMetrics) throws BadLocationException {
@@ -356,8 +356,7 @@ public class jTextLineNumber extends JPanel implements CaretListener, DocumentLi
      * A document change may affect the number of displayed lines of text. Therefore, the line numbers will also change.
      */
     private void documentChanged() {
-        // View of the component has not been updated at the time
-        // the DocumentEvent is fired
+        // View of the component has not been updated at the time the DocumentEvent is fired
         SwingUtilities.invokeLater(() -> {
             try {
                 int endPos = component.getDocument().getLength();

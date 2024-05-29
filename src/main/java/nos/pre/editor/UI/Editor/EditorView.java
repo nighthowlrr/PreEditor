@@ -27,7 +27,7 @@ public class EditorView extends JPanel {
     private final JLabel caretLocationLabel = new JLabel("1:1");
 
     private void addUIComponents() {
-        // EDITOR CONTENT ===
+        // EDITOR PANE & LINE NUMBER ===
         editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
         editingPaneHolder.add(editingPane, BorderLayout.CENTER);
 
@@ -36,7 +36,6 @@ public class EditorView extends JPanel {
         editorLineNumber.setFont(editingPane.getFont());
         editingPaneHolder.add(editorLineNumber, BorderLayout.WEST);
 
-        //editorScrollPane.setBorder(BorderFactory.createLineBorder(Colors.editorBorderColor, 2));
         editorScrollPane.setBorder(BorderFactory.createEmptyBorder());
         this.add(editorScrollPane, BorderLayout.CENTER);
 
@@ -55,19 +54,28 @@ public class EditorView extends JPanel {
         this.add(statusBar, BorderLayout.SOUTH);
     }
 
+    /**
+     * Reads a <code>File</code> and appends its text to <code>EditingPane</code>
+     * @param file The file to read and append the text of.
+     */
     public void openFile(File file) {
         try {
             // TODO: Open file in new tab or switch to tab with the file already open.
+            // Reset EditingPane
             editingPane.setText("");
 
+            // Read the file
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
+                // Append the text line-by-line
                 editingPane.getStyledDocument().insertString(editingPane.getStyledDocument().getLength(),
                         scanner.nextLine() + "\n", null);
             }
+            // Remove the last "\n" character
             editingPane.getStyledDocument().remove(editingPane.getStyledDocument().getLength() - 1, 1);
             scanner.close();
 
+            // Set Caret to the beginning of the text
             editingPane.setCaretPosition(0);
         } catch (FileNotFoundException | BadLocationException e) {
             e.printStackTrace();

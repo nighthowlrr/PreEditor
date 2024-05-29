@@ -17,20 +17,40 @@ public class PreEditingPane extends JTextPane {
         this.setCaretColor(Colors.editorCaretColor);
         this.setSelectionColor(Colors.editorSelectionColor);
 
+        // To highlight the current line
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
+
         this.addFilter();
     }
 
+    /**
+     * Get the line the caret is currently on.
+     *
+     * @param offset
+     * @return The line on which caret is currently on.
+     */
     private int getCaretLinePosition(int offset) {
         Document document = this.getDocument();
         Element map = document.getDefaultRootElement();
         return map.getElementIndex(offset);
     }
+
+    /**
+     * Get char position of caret in the specified line.
+     * @param line The line in which caret is located.
+     * @return The char position of caret in the specified line.
+     */
     private int getLineStartOffset(int line) {
         Element map = this.getDocument().getDefaultRootElement();
         Element lineElem = map.getElement(line);
         return lineElem.getStartOffset();
     }
+
+    /**
+     * Returns a string in the format "line:position in line" for position of caret.
+     * @param e The caretEvent to listen to
+     * @return A string in the format "line:position in line" for position of caret.
+     */
     public String getCaretLocationString(@NotNull CaretEvent e) {
         int dot = e.getDot();
         int line = getCaretLinePosition(dot);
@@ -39,6 +59,9 @@ public class PreEditingPane extends JTextPane {
         return (line + 1) + ":" + (posInLine + 1);
     }
 
+    /**
+     * Add a <code>DocumentFilter</code> to automatically close parentheses and quotation marks when users type.
+     */
     private void addFilter() {
         AbstractDocument abstractDocument;
         StyledDocument styledDocument = this.getStyledDocument();

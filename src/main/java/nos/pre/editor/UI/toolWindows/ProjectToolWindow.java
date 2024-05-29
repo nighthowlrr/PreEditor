@@ -2,12 +2,10 @@ package nos.pre.editor.UI.toolWindows;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Editor.EditorView;
-import org.jetbrains.annotations.NotNull;
 import templateUI.SwingComponents.jScrollPane;
 import templateUI.jFileTree;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.io.File;
 
@@ -38,9 +36,13 @@ public class ProjectToolWindow extends ToolWindow {
         fileTree.repaint();
     }
 
+    /**
+     * Takes <code>EditorView</code> instance to open the files to when selected in the tree.
+     * @param editorView The <code>EditorView</code> to instance to link to.
+     */
     public void linkToEditorPane(EditorView editorView) {
         fileTree.addTreeSelectionListener(e -> {
-            File selectedFile = new File(getTreePathAsFilePathString(e.getPath()));
+            File selectedFile = new File(jFileTree.getTreePathAsFilePathString(e.getPath()));
 
             if (selectedFile.isFile()) {
                 editorView.openFile(selectedFile);
@@ -50,17 +52,5 @@ public class ProjectToolWindow extends ToolWindow {
                 editorView.requestFocus();
             }
         });
-    }
-
-    private @NotNull String getTreePathAsFilePathString(@NotNull TreePath path) {
-        Object[] pathComponents = path.getPath(); // Get the path components as an array
-        StringBuilder sb = new StringBuilder();
-
-        // Iterate over the path components and append them to the string builder
-        for (Object component : pathComponents) {
-            sb.append(component.toString()).append("\\");
-        }
-
-        return sb.toString();
     }
 }
