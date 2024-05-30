@@ -5,7 +5,7 @@ import nos.pre.editor.UI.Welcome.WelcomeFrame;
 import nos.pre.editor.UI.toolWindows.projectTool.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowHolder;
-import nos.pre.editor.processmanagers.EditorProcess;
+import nos.pre.editor.processManagers.EditorProcess;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

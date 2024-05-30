@@ -1,6 +1,6 @@
 package nos.pre.editor;
 
-import nos.pre.editor.processmanagers.EditorProcess;
+import nos.pre.editor.processManagers.EditorProcess;
 
 import javax.swing.SwingUtilities;
 import java.io.File;
