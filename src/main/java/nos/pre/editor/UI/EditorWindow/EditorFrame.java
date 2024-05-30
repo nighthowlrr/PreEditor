@@ -126,6 +126,7 @@ public class EditorFrame extends JFrame {
     /**
      * Toggles visibility of the specified <code>ToolWindowHolder</code> and repaints <code>ViewsPanel</code>.
      * @param toolWindowHolder The <code>ToolWindowHolder</code> to toggle the visibility of.
+     * @see #showHideToolWindowHolder(ToolWindowHolder, boolean)
      */
     private void showHideToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder) {
         toolWindowHolder.setVisible(! toolWindowHolder.isVisible());
@@ -136,6 +137,7 @@ public class EditorFrame extends JFrame {
      * Shows or hides the specified <code>ToolWindowHolder</code> and repaints <code>ViewsPanel</code>.
      * @param toolWindowHolder The <code>ToolWindowHolder</code> to toggle the visibility of.
      * @param show <code>Boolean</code> specifying whether to show or hide the <code>ToolWindowHolder</code>
+     * @see #showHideToolWindowHolder(ToolWindowHolder)
      */
     private void showHideToolWindowHolder(@NotNull ToolWindowHolder toolWindowHolder, boolean show) {
         toolWindowHolder.setVisible(show);
@@ -148,6 +150,7 @@ public class EditorFrame extends JFrame {
      * Also calls <code>this.addButtonForToolWindow(</code>the specified <code>ToolWindow)</code>
      * to add a toggle button for the <code>ToolWindow</code>
      * @param toolWindow The <code>ToolWindow</code> to add.
+     * @see #removeToolWindow(ToolWindow.ToolWindowLocation)
      */
     public void addToolWindow(@NotNull ToolWindow toolWindow) {
         ToolWindow.ToolWindowLocation location = toolWindow.getToolWindowLocation();
@@ -178,6 +181,7 @@ public class EditorFrame extends JFrame {
     /**
      * Removes the <code>ToolWindow</code> from the specified location.
      * @param location The <code>ToolWindowLocation</code> to remove the <code>ToolWindow</code> from.
+     * @see #addToolWindow(ToolWindow)
      */
     public void removeToolWindow(@NotNull ToolWindow.ToolWindowLocation location) {
         switch (location.getSide().toLowerCase()) {

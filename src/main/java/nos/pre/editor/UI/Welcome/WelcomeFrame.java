@@ -30,6 +30,8 @@ public class WelcomeFrame extends JFrame {
         setVisible(true);
     }
 
+
+    // UI ===
     private final JPanel sidePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0), true);
     private final JLabel titleLabel = new JLabel(About.appName);
     private final JLabel versionLabel = new JLabel(About.version);

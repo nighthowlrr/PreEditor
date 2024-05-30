@@ -5,6 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 public class GraphicsUtilities {
+    /**
+     * Get <code>Graphics2D</code> object with rendering hints.
+     * @param g
+     * @return <code>Graphics2D</code> object with rendering hints.
+     */
     public static @NotNull Graphics2D getGraphics2DWithHints(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

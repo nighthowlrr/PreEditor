@@ -62,6 +62,11 @@ public class ToolWindowHolder extends JSplitPane {
         //this.setDividerToMiddle();
     }
 
+    /**
+     *
+     * @param toolWindow
+     * @throws Exception
+     */
     public void addToolWindow(@NotNull ToolWindow toolWindow) throws Exception {
         ToolWindow.ToolWindowLocation toolWindowLocation = toolWindow.getToolWindowLocation();
         if (Objects.equals(toolWindowLocation.getSide(), this.toolHolderLocation.getSide())) {
@@ -84,12 +89,21 @@ public class ToolWindowHolder extends JSplitPane {
         } else throw new Exception("ToolWindow location does not match ToolWindowHolder location");
     }
 
+    /**
+     * Toggles visibility of the specified <code>ToolWindow</code> and repaints this <code>ToolWindowHolder</code>.
+     * @param toolWindow The <code>ToolWindow</code> to toggle the visibility of.
+     */
     public void showHideToolWindow(@NotNull ToolWindow toolWindow) {
         toolWindow.setVisible(! toolWindow.isVisible());
         this.revalidate();
         this.repaint();
         this.setDividerToMiddle();
     }
+    /**
+     * Shows or hides the specified <code>ToolWindow</code> and repaints this <code>ToolWindowHolder</code>.
+     * @param toolWindow The <code>ToolWindow</code> to toggle the visibility of.
+     * @param show <code>Boolean</code> specifying whether to show or hide the <code>ToolWindow</code>
+     */
     public void showHideToolWindow(@NotNull ToolWindow toolWindow, boolean show) {
         toolWindow.setVisible(show);
         this.revalidate();
@@ -97,6 +111,9 @@ public class ToolWindowHolder extends JSplitPane {
         this.setDividerToMiddle();
     }
 
+    /**
+     * @return <code>Boolean</code> specifying if there are any toolWindows visible.
+     */
     public boolean anyToolWindowsVisible() {
         if ((! this.getLeftComponent().isVisible()) && this.getRightComponent() == null) {
             return false;
