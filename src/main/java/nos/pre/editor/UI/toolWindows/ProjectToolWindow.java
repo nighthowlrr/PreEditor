@@ -2,6 +2,7 @@ package nos.pre.editor.UI.toolWindows;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Editor.EditorView;
+import nos.pre.editor.UI.Fonts;
 import templateUI.SwingComponents.jScrollPane;
 import templateUI.jFileTree;
 
@@ -10,9 +11,6 @@ import java.awt.*;
 import java.io.File;
 
 public class ProjectToolWindow extends ToolWindow {
-    private final jFileTree fileTree = new jFileTree();
-    private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
-
     public ProjectToolWindow(ToolWindowLocation toolWindowLocation) { // TODO: Final ProjectPath
         super("Project", toolWindowLocation);
         this.setLayout(new BorderLayout());
@@ -21,7 +19,14 @@ public class ProjectToolWindow extends ToolWindow {
         this.addUIComponents();
     }
 
+
+    // UI ===
+    private final jFileTree fileTree = new jFileTree();
+    private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
+
     private void addUIComponents() {
+        this.add(this.getToolWindowNameLabel(), BorderLayout.PAGE_START);
+
         fileTree.setBackground(this.getBackground());
 
         fileTreeScroll.setBorder(BorderFactory.createLineBorder(this.getBackground(), 5));

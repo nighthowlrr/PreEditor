@@ -1,8 +1,10 @@
 package nos.pre.editor.UI.toolWindows;
 
+import nos.pre.editor.UI.Fonts;
 import org.jetbrains.annotations.Contract;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.ConstructorProperties;
 
 public class ToolWindow extends JPanel {
@@ -61,5 +63,18 @@ public class ToolWindow extends JPanel {
         this.toolWindowName = toolWindowName;
 
         setToolWindowLocation(location);
+    }
+
+    public JLabel getToolWindowNameLabel() {
+        JLabel nameLabel = new JLabel(this.toolWindowName);
+        nameLabel.setOpaque(true);
+        nameLabel.setBackground(this.getBackground());
+        nameLabel.setPreferredSize(new Dimension(1, 30));
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setHorizontalAlignment(JLabel.LEFT);
+        nameLabel.setFont(Fonts.LeagueSpartan.deriveFont(Font.PLAIN, 15));
+        nameLabel.setBorder(BorderFactory.createLineBorder(nameLabel.getBackground(), 8));
+
+        return nameLabel;
     }
 }

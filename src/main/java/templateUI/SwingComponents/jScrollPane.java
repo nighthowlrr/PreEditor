@@ -95,15 +95,16 @@ public class jScrollPane extends JScrollPane {
 
         @Override
         protected void paintTrack(@NotNull Graphics g, JComponent c, @NotNull Rectangle trackBounds) {
-            //g.setColor(trackColor);
-            g.setColor(scrollTrackColor != null ? scrollTrackColor : this.trackColor);
+            Graphics2D g2d = GraphicsUtilities.getGraphics2DWithHints(g);
 
-            g.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+            g2d.setColor(scrollTrackColor != null ? scrollTrackColor : this.trackColor);
+
+            g2d.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
 
             if(trackHighlight == DECREASE_HIGHLIGHT) {
-                paintDecreaseHighlight(g);
+                paintDecreaseHighlight(g2d);
             } else if(trackHighlight == INCREASE_HIGHLIGHT) {
-                paintIncreaseHighlight(g);
+                paintIncreaseHighlight(g2d);
             }
         }
     }
