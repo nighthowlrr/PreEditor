@@ -1,6 +1,7 @@
 package templateUI.SwingComponents;
 
 import nos.pre.editor.UI.GraphicsUtilities;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -8,6 +9,22 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
 public class jScrollPane extends JScrollPane {
+    private Color scrollTrackColor = null;
+    public Color getScrollTrackColor() {
+        return scrollTrackColor;
+    }
+    public void setScrollTrackColor(Color scrollTrackColor) {
+        this.scrollTrackColor = scrollTrackColor;
+    }
+
+    private Color scrollThumbColor = null;
+    public Color getScrollThumbColor() {
+        return scrollThumbColor;
+    }
+    public void setScrollThumbColor(Color scrollThumbColor) {
+        this.scrollThumbColor = scrollThumbColor;
+    }
+
     public jScrollPane(Component view, int vsbPolicy, int hsbPolicy) {
         super(view, vsbPolicy, hsbPolicy);
         this.setFocusable(false);
@@ -30,12 +47,13 @@ public class jScrollPane extends JScrollPane {
     }
 
 
-    private static class CustomScrollBarUI extends BasicScrollBarUI {
-        private static final int normalTransparency = 50;
-        private static final int rolloverTransparency = 75;
+    private class CustomScrollBarUI extends BasicScrollBarUI {
+        private final int normalTransparency = 50;
+        private final int rolloverTransparency = 75;
 
+        @Contract("_ -> new")
         @Override
-        protected JButton createDecreaseButton (int orientation) {
+        protected @NotNull JButton createDecreaseButton (int orientation) {
             return new JButton() {
                 @Override
                 public Dimension getPreferredSize () {
@@ -44,8 +62,9 @@ public class jScrollPane extends JScrollPane {
             };
         }
 
+        @Contract("_ -> new")
         @Override
-        protected JButton createIncreaseButton (int orientation) {
+        protected @NotNull JButton createIncreaseButton (int orientation) {
             return new JButton() {
                 @Override
                 public Dimension getPreferredSize () {
@@ -57,7 +76,7 @@ public class jScrollPane extends JScrollPane {
         @Override
         protected void paintThumb (@NotNull Graphics g, JComponent c, @NotNull Rectangle thumbBounds) {
             int alpha = isThumbRollover() ? rolloverTransparency : normalTransparency;
-            Color baseColor = new Color(0, 0, 0);
+            Color baseColor = scrollThumbColor != null ? scrollThumbColor : new Color(0x000000);
             Color color = new Color(baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), alpha);
 
             Graphics2D g2d = GraphicsUtilities.getGraphics2DWithHints(g);
@@ -73,11 +92,24 @@ public class jScrollPane extends JScrollPane {
             super.setThumbBounds(x, y, width, height);
             scrollbar.repaint();
         }
+
+        @Override
+        protected void paintTrack(@NotNull Graphics g, JComponent c, @NotNull Rectangle trackBounds) {
+            //g.setColor(trackColor);
+            g.setColor(scrollTrackColor != null ? scrollTrackColor : this.trackColor);
+
+            g.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+
+            if(trackHighlight == DECREASE_HIGHLIGHT) {
+                paintDecreaseHighlight(g);
+            } else if(trackHighlight == INCREASE_HIGHLIGHT) {
+                paintIncreaseHighlight(g);
+            }
+        }
     }
 
     public void setScrollUnitIncrement(int increment) {
         this.getVerticalScrollBar().setUnitIncrement(increment);
         this.getHorizontalScrollBar().setUnitIncrement(increment);
     }
-
 }

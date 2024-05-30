@@ -36,6 +36,9 @@ public class EditorView extends JPanel {
         editorLineNumber.setFont(editingPane.getFont());
         editingPaneHolder.add(editorLineNumber, BorderLayout.WEST);
 
+        editorScrollPane.setBackground(editingPane.getBackground());
+        editorScrollPane.setScrollThumbColor(new Color(0xFFFFFF));
+        editorScrollPane.setScrollTrackColor(editingPane.getBackground());
         editorScrollPane.setBorder(BorderFactory.createEmptyBorder());
         this.add(editorScrollPane, BorderLayout.CENTER);
 
