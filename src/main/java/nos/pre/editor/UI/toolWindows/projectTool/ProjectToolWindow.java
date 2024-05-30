@@ -1,10 +1,9 @@
-package nos.pre.editor.UI.toolWindows;
+package nos.pre.editor.UI.toolWindows.projectTool;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Editor.EditorView;
-import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.UI.toolWindows.ToolWindow;
 import templateUI.SwingComponents.jScrollPane;
-import templateUI.jFileTree;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +20,7 @@ public class ProjectToolWindow extends ToolWindow {
 
 
     // UI ===
-    private final jFileTree fileTree = new jFileTree();
+    private final JFileTree fileTree = new JFileTree();
     private final jScrollPane fileTreeScroll = new jScrollPane(fileTree);
 
     private void addUIComponents() {
@@ -47,7 +46,7 @@ public class ProjectToolWindow extends ToolWindow {
      */
     public void linkToEditorPane(EditorView editorView) {
         fileTree.addTreeSelectionListener(e -> {
-            File selectedFile = new File(jFileTree.getTreePathAsFilePathString(e.getPath()));
+            File selectedFile = new File(JFileTree.getTreePathAsFilePathString(e.getPath()));
 
             if (selectedFile.isFile()) {
                 editorView.openFile(selectedFile);

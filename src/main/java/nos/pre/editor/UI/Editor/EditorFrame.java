@@ -1,9 +1,8 @@
-package nos.pre.editor.UI.EditorWindow;
+package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
-import nos.pre.editor.UI.Editor.EditorView;
 import nos.pre.editor.UI.Welcome.WelcomeFrame;
-import nos.pre.editor.UI.toolWindows.ProjectToolWindow;
+import nos.pre.editor.UI.toolWindows.projectTool.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowHolder;
 import nos.pre.editor.processmanagers.EditorProcess;

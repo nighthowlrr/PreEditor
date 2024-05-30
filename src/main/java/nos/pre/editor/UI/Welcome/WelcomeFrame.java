@@ -2,7 +2,6 @@ package nos.pre.editor.UI.Welcome;
 
 import nos.pre.editor.About;
 import nos.pre.editor.UI.Colors;
-import nos.pre.editor.UI.EditorWindow.EditorFrame;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.Welcome.Views.BasicSettingsView;
 import nos.pre.editor.UI.Welcome.Views.ProjectsListView;
@@ -11,7 +10,6 @@ import templateUI.SwingComponents.jToggleButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.Collections;
 
 public class WelcomeFrame extends JFrame {

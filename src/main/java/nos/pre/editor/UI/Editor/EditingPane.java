@@ -8,8 +8,8 @@ import javax.swing.event.CaretEvent;
 import javax.swing.text.*;
 import java.awt.*;
 
-public class PreEditingPane extends JTextPane {
-    public PreEditingPane() {
+public class EditingPane extends JTextPane {
+    public EditingPane() {
         this.setDoubleBuffered(true);
         this.setBackground(Colors.editorBackground);
         this.setForeground(Colors.editorForeground);

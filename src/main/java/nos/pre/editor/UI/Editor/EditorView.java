@@ -19,7 +19,7 @@ public class EditorView extends JPanel {
     }
 
     private final JPanel editingPaneHolder = new JPanel(new BorderLayout(), true);
-    private final PreEditingPane editingPane = new PreEditingPane();
+    private final EditingPane editingPane = new EditingPane();
     private final jTextLineNumber editorLineNumber = new jTextLineNumber(editingPane);
     private final jScrollPane editorScrollPane = new jScrollPane(editingPaneHolder);
 

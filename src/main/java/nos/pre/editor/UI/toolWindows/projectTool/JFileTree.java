@@ -1,4 +1,4 @@
-package templateUI;
+package nos.pre.editor.UI.toolWindows.projectTool;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -11,10 +11,10 @@ import javax.swing.tree.TreePath;
 import java.io.File;
 import java.util.*;
 
-public class jFileTree extends JTree {
+public class JFileTree extends JTree {
     private File startingPath;
 
-    public jFileTree() {
+    public JFileTree() {
         this.setEditable(false);
     }
 

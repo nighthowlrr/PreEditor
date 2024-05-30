@@ -1,6 +1,6 @@
 package nos.pre.editor.processmanagers;
 
-import nos.pre.editor.UI.EditorWindow.EditorFrame;
+import nos.pre.editor.UI.Editor.EditorFrame;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
