@@ -3,4 +3,4 @@
 IDE for Java, made with Java.
 
 ---
-> Latest full upload & run commit: [commit e14b89b](https://github.com/nighthowlrr/PreEditor/commit/e14b89be54f6d34a7a7d549b5f6e710653a8f489)
+> Latest full upload & run commit: [commit 8f5e7f2](https://github.com/nighthowlrr/PreEditor/commit/8f5e7f28aba70d4a0ceec18ae76cb701cc334056)
