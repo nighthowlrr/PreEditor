@@ -21,9 +21,9 @@ public class Colors {
     public static final Color editorForeground = Color.WHITE;
     public static final Color editorCaretColor = new Color(0x097EBF);
     public static final Color editorSelectionColor = new Color(0xA6D2FF);
-    public static final Color editorCurrentLineHighlightColor = new Color(0x26FFFFFF, true);
-    //public static final Color editorStatusBarBackground = new Color(0x2B2D30); TODO: For testing...
+    public static final Color editorCurrentLineHighlightColor = new Color(0x14FFFFFF, true);
     public static final Color editorStatusBarBackground = new Color(0x1E1F22);
+    public static final Color editorInternalBorderColor = new Color(0x2E3032);
 
     // TOOL_WINDOW_BAR
     public static final Color toolWindowBarBackground = new Color(0x2B2D30);
