@@ -12,10 +12,15 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class EditorView extends JPanel {
-    public EditorView() {
+    private final File openedFile;
+
+    public EditorView(File openFile) {
         super(new BorderLayout(), true);
 
+        this.openedFile = openFile;
+
         this.addUIComponents();
+        this.openFile();
     }
 
     private final JPanel editingPaneHolder = new JPanel(new BorderLayout(), true);
@@ -60,17 +65,15 @@ public class EditorView extends JPanel {
     }
 
     /**
-     * Reads a <code>File</code> and appends its text to <code>EditingPane</code>
-     * @param file The file to read and append the text of.
+     * Reads <code>this.openedFile</code> and appends its text to <code>EditingPane</code>
      */
-    public void openFile(File file) {
+    private void openFile() {
         try {
-            // TODO: Open file in new tab or switch to tab with the file already open.
             // Reset EditingPane
             editingPane.setText("");
 
             // Read the file
-            Scanner scanner = new Scanner(file);
+            Scanner scanner = new Scanner(this.openedFile);
             while (scanner.hasNextLine()) {
                 // Append the text line-by-line
                 editingPane.getStyledDocument().insertString(editingPane.getStyledDocument().getLength(),
