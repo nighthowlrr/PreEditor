@@ -13,6 +13,9 @@ import java.util.Scanner;
 
 public class EditorView extends JPanel {
     private final File openedFile;
+    public File getOpenedFile() {
+        return this.openedFile;
+    }
 
     public EditorView(File openFile) {
         super(new BorderLayout(), true);

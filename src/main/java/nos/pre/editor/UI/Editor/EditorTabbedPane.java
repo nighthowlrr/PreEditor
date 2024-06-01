@@ -36,20 +36,36 @@ public class EditorTabbedPane extends JTabbedPane {
 
             for (int i = 0; i < this.getTabCount(); i++) {
                 if (Objects.equals(this.getTitleAt(i), fileNameTabTitle)) {
-                    isTabOpen = true;
-                    this.setSelectedIndex(i); // Select already opened tab with the same title.
-                    // TODO: Request focus to editor textPane
-                    break;
+                    if (this.getComponentAt(i) instanceof EditorView sameNameEditorView) {
+                        if (sameNameEditorView.getOpenedFile() != file) {
+                            String sameFileNameTabTitle = file.getParentFile().getName() + "/" + fileNameTabTitle;
+
+                            addEditorTab(file, sameFileNameTabTitle);
+                            isTabOpen = true;
+                        } else {
+                            isTabOpen = true;
+                            this.setSelectedIndex(i); // Select already opened tab with the same title.
+                            // TODO: Request focus to editor textPane
+                        }
+                        break;
+                    }
                 }
             }
 
             if (!isTabOpen) {
-                this.addTab(fileNameTabTitle, new EditorView(file));
-                this.setTabComponentAt(this.getTabCount() - 1, new TabTitleComponent(this, fileNameTabTitle));
-                this.setSelectedIndex(this.getTabCount() - 1); // Select last tab. (Assuming that new tab is always created at last index)
-                // TODO: Request focus to editor textPane
+                addEditorTab(file, fileNameTabTitle);
             }
         } else throw new IllegalArgumentException("EditorTabbedPane.openFile(): File must be a normal file.");
+    }
+
+    private void addEditorTab(File file, String tabTitle) {
+        this.addTab(tabTitle, new EditorView(file));
+        this.setTabComponentAt(this.getTabCount() - 1, new TabTitleComponent(this, tabTitle));
+
+        // Select last tab (Assuming that new tab is always created at last index)
+        this.setSelectedIndex(this.getTabCount() - 1);
+
+        // TODO: Request focus to editor textPane
     }
 
     // TODO: Method to Request focus to editor textPane of current tab
