@@ -20,6 +20,8 @@ public class EditingPane extends JTextPane {
         // To highlight the current line
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
 
+        // TODO: Make Caret bigger for visibility
+
         this.addFilter();
     }
 

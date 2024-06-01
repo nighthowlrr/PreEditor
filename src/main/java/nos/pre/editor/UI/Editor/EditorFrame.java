@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
+import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.Welcome.WelcomeFrame;
 import nos.pre.editor.UI.toolWindows.projectTool.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
@@ -14,15 +15,18 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 public class EditorFrame extends JFrame {
+    // Fixed UI Properties ===
+    public final Dimension toolWindowBarSize = new Dimension(40, 0);
+    // ---
+
     private final EditorProcess editorProcess;
 
     private final boolean confirmBeforeExit = false; // TODO: Remove in final. For testing purposes only
 
     public EditorFrame(EditorProcess editorProcess) {
-        super();
+        super("PreEditor");
         this.editorProcess = editorProcess;
 
-        setTitle("PreEditor");
         setSize(1600, 900);
         setLocationRelativeTo(null);
 
@@ -65,13 +69,13 @@ public class EditorFrame extends JFrame {
 
     private void addUIComponents() {
         // ParentPanel ===
-        leftToolWindowBar.setPreferredSize(new Dimension(40, 40));
+        leftToolWindowBar.setPreferredSize(this.toolWindowBarSize);
         leftToolWindowBar.setFloatable(false);
         leftToolWindowBar.setBackground(Colors.toolWindowBarBackground);
         leftToolWindowBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0,
                 Colors.editorFrameDividingBorderColor));
 
-        rightToolWindowBar.setPreferredSize(new Dimension(40, 40));
+        rightToolWindowBar.setPreferredSize(this.toolWindowBarSize);
         rightToolWindowBar.setFloatable(false);
         rightToolWindowBar.setBackground(Colors.toolWindowBarBackground);
         rightToolWindowBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0,
@@ -255,9 +259,22 @@ public class EditorFrame extends JFrame {
      */
     private void addButtonForToolWindow(@NotNull ToolWindow toolWindow) {
         JButton toolWindowToggleButton = new JButton(toolWindow.getToolWindowName());
+
+        Dimension buttonSize = new Dimension(this.toolWindowBarSize.width, 30);
+        toolWindowToggleButton.setMinimumSize(buttonSize);
+        toolWindowToggleButton.setPreferredSize(buttonSize);
+        toolWindowToggleButton.setMaximumSize(buttonSize);
+
         toolWindowToggleButton.setDoubleBuffered(true);
         toolWindowToggleButton.setFocusable(false);
-        toolWindowToggleButton.setFont(toolWindowToggleButton.getFont().deriveFont(10F));
+
+        toolWindowToggleButton.setBackground(Colors.toolWindowHolderBackground.brighter());
+        toolWindowToggleButton.setForeground(Color.WHITE);
+        toolWindowToggleButton.setFont(Fonts.LeagueSpartan.deriveFont(12F));
+        toolWindowToggleButton.setHorizontalTextPosition(JButton.CENTER);
+        toolWindowToggleButton.setVerticalTextPosition(JButton.CENTER);
+        toolWindowToggleButton.setBorder(BorderFactory.createEmptyBorder());
+
         toolWindowToggleButton.addActionListener(_ -> showHideToolWindow(toolWindow));
 
         switch (toolWindow.getToolWindowLocation()) {
