@@ -1,7 +1,7 @@
 package nos.pre.editor.UI.toolWindows.projectTool;
 
 import nos.pre.editor.UI.Colors;
-import nos.pre.editor.UI.Editor.EditorView;
+import nos.pre.editor.UI.Editor.EditorTabbedPane;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import templateUI.SwingComponents.jScrollPane;
 
@@ -40,20 +40,13 @@ public class ProjectToolWindow extends ToolWindow {
         fileTree.repaint();
     }
 
-    /**
-     * Takes <code>EditorView</code> instance to open the files to when selected in the tree.
-     * @param editorView The <code>EditorView</code> to instance to link to.
-     */
-    public void linkToEditorPane(EditorView editorView) {
+    public void linkToEditorTabbedPane(EditorTabbedPane editorTabbedPane) {
         fileTree.addTreeSelectionListener(e -> {
             File selectedFile = new File(JFileTree.getTreePathAsFilePathString(e.getPath()));
 
             if (selectedFile.isFile()) {
-                editorView.openFile(selectedFile);
-                // TODO: Do not try to open all types of files..
-                //  or add support for all types of files (see intellij register new file type association ).
-                //  Preferably, dont even try...
-                editorView.requestFocus();
+                editorTabbedPane.openEditorTab(selectedFile);
+                // TODO: Request focus to editor textPane
             }
         });
     }

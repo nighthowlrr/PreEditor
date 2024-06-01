@@ -5,6 +5,9 @@ import java.awt.*;
 public class Colors {
     // TODO: Make a theme reader and add theme support
 
+    // GLOBAL_COLORS
+    public static final Color accentColor = new Color(0x2767BA);
+
     // WELCOME_SCREEN
     public static final Color welcomeMainBackground = new Color(0x1E1F22);
     public static final Color welcomeSideBackground = new Color(0x2B2D30);
@@ -14,7 +17,11 @@ public class Colors {
 
     // EDITOR_FRAME
     public static final Color editorFrameDividingBorderColor = new Color(0x1E1F22);
-    //public static final Color editorFrameToolWindowBarBackground = Color.BLACK;
+
+    // EDITOR_TABBED_PANE
+    public static final Color editorTabbedPaneBackground = new Color(0x2E2F30);
+    public static final Color editorTabbedPaneSelectedTabIndicator = Colors.accentColor;
+    public static final int editorTabbedPaneSelectedTabBGAlpha = 50;
 
     // EDITOR_VIEW
     public static final Color editorBackground = new Color(0x1E1F22);

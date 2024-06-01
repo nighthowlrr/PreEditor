@@ -61,7 +61,7 @@ public class EditorFrame extends JFrame {
 
     // ViewsPanel ===
     private final JPanel viewsPanel = new JPanel(new BorderLayout(), true);
-    private final EditorView editorView = new EditorView();
+    private final EditorTabbedPane editorTabbedPane = new EditorTabbedPane();
 
     private final ToolWindowHolder leftToolWindowHolder = new ToolWindowHolder(ToolWindowHolder.ToolHolderLocation.LEFT);
     private final ToolWindowHolder bottomToolWindowHolder = new ToolWindowHolder(ToolWindowHolder.ToolHolderLocation.BOTTOM);
@@ -85,15 +85,15 @@ public class EditorFrame extends JFrame {
         parentPanel.add(rightToolWindowBar, BorderLayout.EAST);
 
         // ViewsPanel ===
-        viewsPanel.add(editorView);
+        viewsPanel.add(editorTabbedPane);
 
         leftToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
         bottomToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
         rightToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
 
         this.addToolWindowHolder(leftToolWindowHolder);
-        this.addToolWindowHolder(bottomToolWindowHolder);
-        this.addToolWindowHolder(rightToolWindowHolder);
+        //this.addToolWindowHolder(bottomToolWindowHolder);
+        //this.addToolWindowHolder(rightToolWindowHolder);
 
         parentPanel.add(viewsPanel, BorderLayout.CENTER);
     }
@@ -106,7 +106,7 @@ public class EditorFrame extends JFrame {
      */
     private void addToolWindows() {
         projectToolWindow.setProjectPath(this.editorProcess.getProjectPath());
-        projectToolWindow.linkToEditorPane(this.editorView);
+        projectToolWindow.linkToEditorTabbedPane(this.editorTabbedPane);
         this.addToolWindow(projectToolWindow);
     }
 
