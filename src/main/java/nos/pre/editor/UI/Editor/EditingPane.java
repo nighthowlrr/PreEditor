@@ -1,19 +1,19 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
+import nos.pre.editor.UI.Fonts;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.text.*;
-import java.awt.*;
 
 public class EditingPane extends JTextPane {
     public EditingPane() {
         this.setDoubleBuffered(true);
         this.setBackground(Colors.editorBackground);
         this.setForeground(Colors.editorForeground);
-        this.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 16));
+        this.setFont(Fonts.SourceCodePro_Regular.deriveFont(16F));
         this.setCaretColor(Colors.editorCaretColor);
         this.setSelectionColor(Colors.editorSelectionColor);
 

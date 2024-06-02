@@ -10,14 +10,21 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Fonts {
+    private static final String fontDirectory = "/fonts";
+
     // Font Registering
     public static final Font LeagueSpartan;
     public static final Font URW_Gothic;
+    public static final Font SourceCodePro_Regular;
 
     static {
         try {
-            LeagueSpartan = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Fonts.class.getResourceAsStream("/fonts/LeagueSpartan_regular.ttf")));
-            URW_Gothic = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(Fonts.class.getResourceAsStream("/fonts/urw_gothic_l_demi.ttf")));
+            LeagueSpartan = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
+                    Fonts.class.getResourceAsStream(fontDirectory + "/LeagueSpartan_regular.ttf")));
+            URW_Gothic = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
+                    Fonts.class.getResourceAsStream(fontDirectory + "/urw_gothic_l_demi.ttf")));
+            SourceCodePro_Regular = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(
+                    Fonts.class.getResourceAsStream(fontDirectory + "/SourceCodePro-Regular.ttf")));
         } catch (FontFormatException | IOException e) {
             throw new RuntimeException("Font Input error.", e);
         }
