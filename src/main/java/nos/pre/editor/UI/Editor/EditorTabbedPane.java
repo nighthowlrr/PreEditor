@@ -37,7 +37,7 @@ public class EditorTabbedPane extends JTabbedPane {
             for (int i = 0; i < this.getTabCount(); i++) {
                 if (Objects.equals(this.getTitleAt(i), fileNameTabTitle)) {
                     if (this.getComponentAt(i) instanceof EditorView sameNameEditorView) {
-                        if (sameNameEditorView.getOpenedFile() != file) {
+                        if (! sameNameEditorView.getOpenedFile().getAbsolutePath().equals(file.getAbsolutePath())) {
                             String sameFileNameTabTitle = file.getParentFile().getName() + "/" + fileNameTabTitle;
 
                             addEditorTab(file, sameFileNameTabTitle);
