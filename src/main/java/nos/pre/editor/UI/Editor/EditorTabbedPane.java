@@ -35,7 +35,13 @@ public class EditorTabbedPane extends JTabbedPane {
             for (int i = 0; i < this.getTabCount(); i++) {
                 if (Objects.equals(this.getTitleAt(i), fileNameTabTitle)) {
                     if (this.getComponentAt(i) instanceof EditorView sameNameEditorView) {
-                        if (! sameNameEditorView.getOpenedFile().getAbsolutePath().equals(file.getAbsolutePath())) {
+                        // If the path of file passed is the same
+                        // as the path of file opened in the editor with the same tab name
+                        if (sameNameEditorView.getOpenedFile().getAbsolutePath().equals(file.getAbsolutePath())) {
+                            isTabOpen = true;
+                            this.setSelectedIndex(i); // Select already opened tab with the same title.
+                            // TODO: Request focus to editor textPane
+                        } else { // Open new tab with the name of the parent directory of file with the same name but different path included.
                             String sameFileNameTabTitle = file.getParentFile().getName() + "/" + fileNameTabTitle;
 
                             addEditorTab(file, sameFileNameTabTitle);
