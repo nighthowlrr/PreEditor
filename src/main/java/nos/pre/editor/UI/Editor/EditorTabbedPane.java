@@ -30,8 +30,6 @@ public class EditorTabbedPane extends JTabbedPane {
             String fileNameTabTitle = file.getName();
 
             // Check if tab with same title is already open
-            // TODO: Handle multiple files with same names but different paths.
-            //  (Hash for different files. Check if a tab with the same hash as the file provided exists)
             boolean isTabOpen = false;
 
             for (int i = 0; i < this.getTabCount(); i++) {
@@ -42,10 +40,6 @@ public class EditorTabbedPane extends JTabbedPane {
 
                             addEditorTab(file, sameFileNameTabTitle);
                             isTabOpen = true;
-                        } else {
-                            isTabOpen = true;
-                            this.setSelectedIndex(i); // Select already opened tab with the same title.
-                            // TODO: Request focus to editor textPane
                         }
                         break;
                     }
