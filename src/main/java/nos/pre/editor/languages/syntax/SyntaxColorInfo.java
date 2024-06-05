@@ -91,4 +91,16 @@ public class SyntaxColorInfo {
         StyleConstants.setItalic(this.style_quote, setItalic);
         StyleConstants.setBold(this.style_quote, setBold);
     }
+
+    public void setForAllSyntax(Color color, boolean setItalic, boolean setBold) {
+        setSyntaxNormalAttributes(color, setItalic, setBold);
+        setSyntaxPreprocessorCommandAttributes(color, setItalic, setBold);
+        setSyntaxDataTypeAttributes(color, setItalic, setBold);
+        setSyntaxObjectLiteralAttributes(color, setItalic, setBold);
+        setSyntaxGeneralConstructsAttributes(color, setItalic, setBold);
+        setSyntaxNumberAttributes(color, setItalic, setBold);
+        setSyntaxSingleLineAttributes(color, setItalic, setBold);
+        setSyntaxMultiLineCommentAttributes(color, setItalic, setBold);
+        setSyntaxQuoteAttributes(color, setItalic, setBold);
+    }
 }
