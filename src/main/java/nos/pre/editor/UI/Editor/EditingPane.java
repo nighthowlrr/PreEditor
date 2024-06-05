@@ -2,6 +2,7 @@ package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.languages.java.JavaSyntaxDocument;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -19,6 +20,8 @@ public class EditingPane extends JTextPane {
 
         // To highlight the current line
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
+
+        this.setStyledDocument(new JavaSyntaxDocument()); // TODO: Select LanguageDocument based on file opened.
 
         // TODO: Make Caret bigger for visibility
     }
@@ -58,9 +61,9 @@ public class EditingPane extends JTextPane {
         return (line + 1) + ":" + (posInLine + 1);
     }
 
-    /**
+    /* TODO: Use code in SyntaxDocument
      * Add a <code>DocumentFilter</code> to automatically close parentheses and quotation marks when users type.
-     */
+
     private void addFilter() {
         AbstractDocument abstractDocument;
         StyledDocument styledDocument = this.getStyledDocument();
@@ -92,4 +95,5 @@ public class EditingPane extends JTextPane {
             });
         }
     }
+    */
 }
