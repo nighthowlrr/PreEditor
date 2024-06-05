@@ -26,9 +26,10 @@ public class EditorView extends JPanel {
         this.openFile();
     }
 
+    private final JPanel editingPaneHolder = new JPanel(new BorderLayout(), true);
     private final EditingPane editingPane = new EditingPane();
     private final TextLineNumber editorLineNumber = new TextLineNumber(editingPane);
-    private final jScrollPane editorScrollPane = new jScrollPane(editingPane);
+    private final jScrollPane editorScrollPane = new jScrollPane(editingPaneHolder);
 
     private final JPanel statusBar = new JPanel(new BorderLayout(), true);
     private final JLabel caretLocationLabel = new JLabel("1:1");
@@ -36,6 +37,7 @@ public class EditorView extends JPanel {
     private void addUIComponents() {
         // EDITOR PANE & LINE NUMBER ===
         editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
+        editingPaneHolder.add(editingPane, BorderLayout.CENTER);
 
         editorLineNumber.setCurrentLineForeground(Color.WHITE); // TODO: colors
         editorLineNumber.setLineForeground(Color.GRAY.darker()); // TODO: colors
