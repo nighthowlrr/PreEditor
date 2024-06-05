@@ -1,8 +1,8 @@
 package nos.pre.editor.languages.java;
 
-import nos.pre.editor.languages.LanguageDelimiterInfo;
-import nos.pre.editor.languages.SyntaxColorInfo;
-import nos.pre.editor.languages.SyntaxDocument;
+import nos.pre.editor.languages.syntax.LanguageDelimiterInfo;
+import nos.pre.editor.languages.syntax.SyntaxColorInfo;
+import nos.pre.editor.languages.syntax.SyntaxDocument;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

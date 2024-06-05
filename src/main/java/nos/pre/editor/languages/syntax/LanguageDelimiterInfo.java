@@ -1,4 +1,4 @@
-package nos.pre.editor.languages;
+package nos.pre.editor.languages.syntax;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

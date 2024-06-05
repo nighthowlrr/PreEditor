@@ -1,4 +1,4 @@
-package nos.pre.editor.languages;
+package nos.pre.editor.languages.syntax;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;

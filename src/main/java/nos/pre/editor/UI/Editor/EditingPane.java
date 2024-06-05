@@ -21,7 +21,8 @@ public class EditingPane extends JTextPane {
         // To highlight the current line
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
 
-        this.setStyledDocument(new JavaSyntaxDocument()); // TODO: Select LanguageDocument based on file opened.
+        this.setStyledDocument(new JavaSyntaxDocument());
+        // TODO: Select LanguageDocument based on file opened. Only use JavaSyntaxDocument for Java files
 
         // TODO: Make Caret bigger for visibility
     }
