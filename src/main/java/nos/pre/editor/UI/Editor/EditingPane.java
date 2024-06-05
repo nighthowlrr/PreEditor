@@ -13,7 +13,7 @@ public class EditingPane extends JTextPane {
         this.setDoubleBuffered(true);
         this.setBackground(Colors.editorBackground);
         this.setForeground(Colors.editorForeground);
-        this.setFont(Fonts.SourceCodePro_Regular.deriveFont(16F));
+        this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F));
         this.setCaretColor(Colors.editorCaretColor);
         this.setSelectionColor(Colors.editorSelectionColor);
 
@@ -21,13 +21,10 @@ public class EditingPane extends JTextPane {
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
 
         // TODO: Make Caret bigger for visibility
-
-        this.addFilter();
     }
 
     /**
      * Get the line the caret is currently on.
-     *
      * @param offset
      * @return The line on which caret is currently on.
      */

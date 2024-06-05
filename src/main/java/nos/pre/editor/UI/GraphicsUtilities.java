@@ -22,4 +22,12 @@ public class GraphicsUtilities {
 
         return g2d;
     }
+
+    public static @NotNull Graphics2D getGraphics2DWithBasicHints(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+        return g2d;
+    }
 }
