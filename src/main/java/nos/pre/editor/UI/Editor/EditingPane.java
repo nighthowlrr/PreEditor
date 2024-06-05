@@ -8,9 +8,15 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.text.*;
+import java.io.File;
+import java.util.Scanner;
 
 public class EditingPane extends JTextPane {
-    public EditingPane() {
+    private final File openedFile;
+
+    public EditingPane(File openedFile) {
+        this.openedFile = openedFile;
+
         this.setDoubleBuffered(true);
         this.setBackground(Colors.editorBackground);
         this.setForeground(Colors.editorForeground);
@@ -21,10 +27,42 @@ public class EditingPane extends JTextPane {
         // To highlight the current line
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
 
-        this.setStyledDocument(new JavaSyntaxDocument());
-        // TODO: Select LanguageDocument based on file opened. Only use JavaSyntaxDocument for Java files
+        setLanguageDocument();
 
         // TODO: Make Caret bigger for visibility
+    }
+
+    private void setLanguageDocument() {
+        String fileName = this.openedFile.getName();
+        String fileExtension = this.openedFile.getName().substring(fileName.lastIndexOf(".") + 1);
+
+        switch (fileExtension) {
+            // TODO: Make a global class and check from that class
+            case "java":
+            // TODO: case "class": decompile class files
+                this.setStyledDocument(new JavaSyntaxDocument());
+                break;
+            default:
+                this.setStyledDocument(new DefaultStyledDocument());
+                break;
+        }
+    }
+
+    public void openFile() throws Exception {
+        this.setText("");
+
+        // Read the file
+        Scanner scanner = new Scanner(this.openedFile);
+        while (scanner.hasNextLine()) {
+            // Append the text line-by-line
+            this.getStyledDocument().insertString(this.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
+        }
+        // Remove the last "\n" character
+        this.getStyledDocument().remove(this.getStyledDocument().getLength() - 1, 1);
+        scanner.close();
+
+        // Set Caret to the beginning of the text
+        this.setCaretPosition(0);
     }
 
     /**
