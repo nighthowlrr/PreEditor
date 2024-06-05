@@ -71,6 +71,8 @@ public class EditorView extends JPanel {
      * Reads <code>this.openedFile</code> and appends its text to <code>EditingPane</code>
      */
     private void openFile() {
+        // TODO: If file type is not supported (file cannot be read and opened), then do not open a new tab
+
         try {
             // Reset EditingPane
             editingPane.setText("");
@@ -88,7 +90,7 @@ public class EditorView extends JPanel {
 
             // Set Caret to the beginning of the text
             editingPane.setCaretPosition(0);
-        } catch (FileNotFoundException | BadLocationException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred",
                     "Error", JOptionPane.ERROR_MESSAGE, null);

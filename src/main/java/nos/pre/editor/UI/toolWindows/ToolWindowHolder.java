@@ -28,7 +28,7 @@ public class ToolWindowHolder extends JSplitPane {
         }
     }
 
-    private final Dimension defaultHolderSize = new Dimension(200, 200);
+    private final Dimension defaultHolderSize = new Dimension(300, 300);
 
     private final ToolHolderLocation toolHolderLocation;
     @NotNull public ToolWindowHolder.ToolHolderLocation getToolholderLocation() {

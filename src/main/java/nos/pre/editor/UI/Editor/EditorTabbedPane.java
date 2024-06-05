@@ -26,6 +26,8 @@ public class EditorTabbedPane extends JTabbedPane {
     }
 
     public void openEditorTab(@NotNull File file) {
+        // TODO: If file type is not supported (file cannot be read and opened), then do not open a new tab
+
         if (file.isFile()) {
             String fileNameTabTitle = file.getName();
 
