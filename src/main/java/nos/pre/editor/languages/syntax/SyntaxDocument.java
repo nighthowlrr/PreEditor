@@ -31,7 +31,7 @@ public class SyntaxDocument extends DefaultStyledDocument {
     }
 
     /**
-     * Override to apply syntax highlighting after the document has been updated
+     * Overridden to apply syntax highlighting after the document has been updated
      */
     @Override
     public void insertString(int offset, @NotNull String str, AttributeSet a) throws BadLocationException {
@@ -41,7 +41,7 @@ public class SyntaxDocument extends DefaultStyledDocument {
     }
 
     /**
-     * Override to apply syntax highlighting after the document has been updated
+     * Overridden to apply syntax highlighting after the document has been updated
      */
     @Override
     public void remove(int offset, int length) throws BadLocationException {
@@ -50,8 +50,7 @@ public class SyntaxDocument extends DefaultStyledDocument {
     }
 
     /**
-     * Determine how many lines have been changed,
-     * then apply highlighting to each line
+     * Determine how many lines have been changed, then apply highlighting to each line.
      */
     private void processChangedLines(int offset, int length) throws BadLocationException {
         String content = this.getText(0, this.getLength());
