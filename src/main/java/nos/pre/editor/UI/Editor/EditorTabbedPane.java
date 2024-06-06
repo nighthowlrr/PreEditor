@@ -127,7 +127,7 @@ public class EditorTabbedPane extends JTabbedPane {
             closeButton.setFocusable(false);
             closeButton.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             closeButton.setBorderPainted(false);
-            closeButton.addActionListener(_ -> this.tabbedPane.removeTabAt(this.tabbedPane.indexOfTab(this.tabTitle)));
+            closeButton.addActionListener(e -> this.tabbedPane.removeTabAt(this.tabbedPane.indexOfTab(this.tabTitle)));
             this.add(closeButton);
         }
     }

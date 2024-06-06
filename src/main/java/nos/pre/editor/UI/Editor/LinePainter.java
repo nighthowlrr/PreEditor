@@ -75,7 +75,7 @@ public class LinePainter extends DefaultHighlighter.DefaultHighlightPainter impl
     private void addHighlight(int offset) {
         try {
             lastHighlight = highlighter.addHighlight( offset, offset + 1, this );
-        } catch (BadLocationException _) {}
+        } catch (BadLocationException e) {}
     }
 
     // Implement CaretListener

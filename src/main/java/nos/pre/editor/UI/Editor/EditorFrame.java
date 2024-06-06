@@ -275,7 +275,7 @@ public class EditorFrame extends JFrame {
         toolWindowToggleButton.setVerticalTextPosition(JButton.CENTER);
         toolWindowToggleButton.setBorder(BorderFactory.createEmptyBorder());
 
-        toolWindowToggleButton.addActionListener(_ -> showHideToolWindow(toolWindow));
+        toolWindowToggleButton.addActionListener(e -> showHideToolWindow(toolWindow));
 
         switch (toolWindow.getToolWindowLocation()) {
             case LEFT_TOP:

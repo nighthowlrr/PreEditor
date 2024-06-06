@@ -88,12 +88,12 @@ public class WelcomeFrame extends JFrame {
             sidePanel.add(toggleButton);
         }
 
-        projectsButton.addActionListener(_ -> {
+        projectsButton.addActionListener(e -> {
             if (scrollPane.getViewport().getView() != projectsListView) {
                 scrollPane.getViewport().setView(projectsListView);
             }
         });
-        settingsButton.addActionListener(_ -> {
+        settingsButton.addActionListener(e -> {
             if (scrollPane.getViewport().getView() != basicSettingsView) {
                 scrollPane.getViewport().setView(basicSettingsView);
             }

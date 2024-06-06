@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group = 'nos.pre.editor'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation('org.jetbrains:annotations:24.0.0')
+
+    implementation('com.formdev:flatlaf:3.4.1')
+    implementation('com.fifesoft:rsyntaxtextarea:3.4.0')
+}
+
+test {
+    useJUnitPlatform()
+}
