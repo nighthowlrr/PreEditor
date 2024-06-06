@@ -288,8 +288,6 @@ public class SyntaxDocument extends DefaultStyledDocument {
                 case GENERAL_CONSTRUCT -> this.setCharacterAttributes(startOffset, endOfToken - startOffset,
                         this.syntaxColorInfo.getStyle_generalConstructs(), false);
             }
-
-            //this.setCharacterAttributes(startOffset, endOfToken - startOffset, keyword, false);
         } else if (isNumber(token)) {
             this.setCharacterAttributes(startOffset, endOfToken - startOffset, this.syntaxColorInfo.getStyle_number(), false);
         }
