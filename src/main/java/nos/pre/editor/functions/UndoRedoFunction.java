@@ -1,6 +1,7 @@
 package nos.pre.editor.functions;
 
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.defaultValues.KeyboardShortcuts;
 
 import javax.swing.*;
 import javax.swing.text.Document;
@@ -48,9 +49,8 @@ public class UndoRedoFunction {
         });
 
         // Add keyboard shortcuts for undo and redo
-        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke("control Z"), undoKey);
-        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke("control shift Z"), redoKey);
-        // TODO: Changeable keyboard shortcuts
+        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_UNDO), undoKey);
+        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_REDO), redoKey);
     }
 
     /**

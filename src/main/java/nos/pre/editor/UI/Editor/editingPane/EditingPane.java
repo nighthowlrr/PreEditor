@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
@@ -155,8 +156,7 @@ public class EditingPane extends JTextPane {
                 }
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("control S"), saveKey);
-        // TODO: Changeable keyboard shortcuts
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_SAVE), saveKey);
     }
 
     /**
