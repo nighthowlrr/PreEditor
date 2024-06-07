@@ -8,6 +8,9 @@ import javax.swing.undo.UndoManager;
 import java.awt.event.ActionEvent;
 
 public class UndoRedoFunction {
+    private static final String undoKey = "Undo";
+    private static final String redoKey = "Redo";
+
     private final EditingPane editingPane;
 
     private final UndoManager undoManager = new UndoManager();
@@ -25,7 +28,7 @@ public class UndoRedoFunction {
         document.addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
 
         // Undo action
-        this.editingPane.getActionMap().put("Undo", new AbstractAction("Undo") {
+        this.editingPane.getActionMap().put(undoKey, new AbstractAction(undoKey) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (undoManager.canUndo()) {
@@ -35,7 +38,7 @@ public class UndoRedoFunction {
         });
 
         // Redo action
-        this.editingPane.getActionMap().put("Redo", new AbstractAction("Redo") {
+        this.editingPane.getActionMap().put(redoKey, new AbstractAction(redoKey) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (undoManager.canRedo()) {
@@ -45,8 +48,8 @@ public class UndoRedoFunction {
         });
 
         // Add keyboard shortcuts for undo and redo
-        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "Undo");
-        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke("control shift Z"), "Redo");
+        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke("control Z"), undoKey);
+        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke("control shift Z"), redoKey);
         // TODO: Changeable keyboard shortcuts
     }
 
