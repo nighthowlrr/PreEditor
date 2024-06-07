@@ -7,4 +7,5 @@ IDE for Java, made with Java.
 
 - Basic Syntax Highlighting for:
   - Java
-  - More Languages can be added 
+  - More Languages can be added
+- Undo / Redo

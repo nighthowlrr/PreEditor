@@ -35,10 +35,12 @@ public class EditingPaneMenu extends JPopupMenu {
     private final JMenuItem openInTerminalItem = new JMenuItem("Terminal (Not yet implemented)");
 
     private void addMenuItems() {
-        undoItem.setEnabled(false);
+        undoItem.setEnabled(true);
+        undoItem.addActionListener(e -> this.editingPane.undo());
         this.add(undoItem);
 
-        redoItem.setEnabled(false);
+        redoItem.setEnabled(true);
+        redoItem.addActionListener(e -> this.editingPane.redo());
         this.add(redoItem);
 
         this.addSeparator();

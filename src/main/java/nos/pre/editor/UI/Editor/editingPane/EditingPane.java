@@ -2,6 +2,7 @@ package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,8 @@ public class EditingPane extends JTextPane {
         return openedFile;
     }
 
+    private final UndoRedoFunction undoRedoFunction;
+
     public EditingPane(File openedFile) {
         this.openedFile = openedFile;
 
@@ -26,13 +29,12 @@ public class EditingPane extends JTextPane {
         this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F));
         this.setCaretColor(Colors.editorCaretColor);
         this.setSelectionColor(Colors.editorSelectionColor);
+        // TODO: Make Caret bigger for visibility
 
-        // To highlight the current line
-        LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor);
+        LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor); // To highlight the current line
 
         setLanguageDocument();
-
-        // TODO: Make Caret bigger for visibility
+        undoRedoFunction = new UndoRedoFunction(this);
 
         this.setComponentPopupMenu(new EditingPaneMenu(this));
     }
@@ -140,4 +142,18 @@ public class EditingPane extends JTextPane {
         }
     }
     */
+
+    /**
+     * If there are any edits that can be undone, then undoes the appropriate edits.
+     */
+    public void undo() {
+        this.undoRedoFunction.undo();
+    }
+
+    /**
+     * If there are any edits that can be redone, then redoes the appropriate edits.
+     */
+    public void redo() {
+        this.undoRedoFunction.redo();
+    }
 }
