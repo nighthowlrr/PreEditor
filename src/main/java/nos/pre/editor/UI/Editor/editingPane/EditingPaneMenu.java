@@ -3,6 +3,8 @@ package nos.pre.editor.UI.Editor.editingPane;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class EditingPaneMenu extends JPopupMenu {
     private final EditingPane editingPane;
@@ -33,6 +35,8 @@ public class EditingPaneMenu extends JPopupMenu {
     private final JMenuItem openInExplorerItem = new JMenuItem("File Explorer");
     private final JMenuItem openInAppItem = new JMenuItem("Associated Application");
     private final JMenuItem openInTerminalItem = new JMenuItem("Terminal (Not yet implemented)");
+
+    private final JMenuItem googleSearchItem = new JMenuItem("Search with google");
 
     private void addMenuItems() {
         undoItem.setEnabled(true);
@@ -84,6 +88,20 @@ public class EditingPaneMenu extends JPopupMenu {
         openInMenu.add(openInTerminalItem);
 
         this.add(openInMenu);
+
+        this.addSeparator();
+
+        if (isDesktopSupported) {
+            googleSearchItem.setEnabled(false);
+            googleSearchItem.addActionListener(e -> {
+                try {
+                    thisDesktop.browse(new URI("https://www.google.com/search?q=" + this.editingPane.getSelectedText()));
+                } catch (IOException | URISyntaxException ex) {
+                    ex.printStackTrace();
+                }
+            });
+            this.add(googleSearchItem);
+        }
     }
 
     private void addListeners() {
@@ -92,6 +110,8 @@ public class EditingPaneMenu extends JPopupMenu {
 
             cutItem.setEnabled(! dotEqualsMark);
             copyItem.setEnabled(! dotEqualsMark);
+
+            googleSearchItem.setEnabled(! dotEqualsMark);
         });
     }
 }
