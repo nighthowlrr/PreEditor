@@ -1,7 +1,10 @@
 package nos.pre.editor.UI.Editor.editingPane;
 
+import nos.pre.editor.files.FileSaveListener;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -24,6 +27,8 @@ public class EditingPaneMenu extends JPopupMenu {
         this.addListeners();
     }
 
+    private final JMenuItem saveItem = new JMenuItem("Save");
+
     private final JMenuItem undoItem = new JMenuItem("Undo");
     private final JMenuItem redoItem = new JMenuItem("Redo");
 
@@ -39,13 +44,15 @@ public class EditingPaneMenu extends JPopupMenu {
     private final JMenuItem googleSearchItem = new JMenuItem("Search with google");
 
     private void addMenuItems() {
-        undoItem.setEnabled(true);
-        undoItem.addActionListener(e -> this.editingPane.undo());
-        this.add(undoItem);
-
-        redoItem.setEnabled(true);
-        redoItem.addActionListener(e -> this.editingPane.redo());
-        this.add(redoItem);
+        saveItem.setEnabled(false);
+        saveItem.addActionListener(e -> {
+            try {
+                this.editingPane.saveFile();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+        this.add(saveItem);
 
         this.addSeparator();
 
@@ -59,6 +66,16 @@ public class EditingPaneMenu extends JPopupMenu {
 
         pasteItem.addActionListener(e -> this.editingPane.paste());
         this.add(pasteItem);
+
+        this.addSeparator();
+
+        undoItem.setEnabled(true);
+        undoItem.addActionListener(e -> this.editingPane.undo());
+        this.add(undoItem);
+
+        redoItem.setEnabled(true);
+        redoItem.addActionListener(e -> this.editingPane.redo());
+        this.add(redoItem);
 
         this.addSeparator();
 
@@ -112,6 +129,17 @@ public class EditingPaneMenu extends JPopupMenu {
             copyItem.setEnabled(! dotEqualsMark);
 
             googleSearchItem.setEnabled(! dotEqualsMark);
+        });
+
+        this.editingPane.addFileSaveListener(new FileSaveListener() {
+            @Override
+            public void fileSaved() {
+                saveItem.setEnabled(false);
+            }
+            @Override
+            public void fileUnsaved() {
+                saveItem.setEnabled(true);
+            }
         });
     }
 }

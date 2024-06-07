@@ -2,20 +2,42 @@ package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class EditingPane extends JTextPane {
+    // LISTENERS
+    private final List<FileSaveListener> fileSaveListenersList = new ArrayList<>();
+    public void addFileSaveListener(FileSaveListener fileSaveListener) {
+        fileSaveListenersList.add(fileSaveListener);
+    }
+    public void removeFileSaveListener(FileSaveListener fileSaveListener) {
+        fileSaveListenersList.remove(fileSaveListener);
+    }
+
     private final File openedFile;
     public File getOpenedFile() {
         return openedFile;
+    }
+
+    private boolean isFileSaved;
+    public boolean isFileSaved() {
+        return isFileSaved;
     }
 
     private final UndoRedoFunction undoRedoFunction;
@@ -34,9 +56,14 @@ public class EditingPane extends JTextPane {
         LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor); // To highlight the current line
 
         setLanguageDocument();
+        addUnsavedChangeListener();
+
         undoRedoFunction = new UndoRedoFunction(this);
+        addSaveKeyboardShortcut();
 
         this.setComponentPopupMenu(new EditingPaneMenu(this));
+
+        // TODO: Autosave
     }
 
     private void setLanguageDocument() {
@@ -55,6 +82,28 @@ public class EditingPane extends JTextPane {
         }
     }
 
+    private void addUnsavedChangeListener() {
+        this.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                changeProcedure();
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                changeProcedure();
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                changeProcedure();
+            }
+
+            void changeProcedure() {
+                isFileSaved = false;
+                runFileUnSavedListeners();
+            }
+        });
+    }
+
     public void openFile() throws Exception {
         this.setText("");
 
@@ -70,6 +119,44 @@ public class EditingPane extends JTextPane {
 
         // Set Caret to the beginning of the text
         this.setCaretPosition(0);
+
+        // OpenedFile has not been changed yet, so isFileSaved = true,
+        // and FileSaveListener.fileSaved() is triggered for all fileSaveListeners
+        isFileSaved = true;
+        runFileSavedListeners();
+    }
+
+    /**
+     * If <code>openedFile</code> is not saved, then saves the file, and runs <code>FileSaveListener.fileSaved()</code>
+     * method for all FileSaveListeners
+     * @throws FileNotFoundException
+     */
+    public void saveFile() throws FileNotFoundException {
+        if (! isFileSaved) {
+            PrintWriter writer = new PrintWriter(this.openedFile);
+            writer.write(this.getText());
+            writer.close();
+
+            isFileSaved = true;
+            runFileSavedListeners();
+        }
+    }
+
+    private void addSaveKeyboardShortcut() {
+        String saveKey = "Save";
+
+        this.getActionMap().put(saveKey, new AbstractAction(saveKey) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    saveFile();
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        this.getInputMap().put(KeyStroke.getKeyStroke("control S"), saveKey);
+        // TODO: Changeable keyboard shortcuts
     }
 
     /**
@@ -107,42 +194,6 @@ public class EditingPane extends JTextPane {
         return (line + 1) + ":" + (posInLine + 1);
     }
 
-    /* TODO: Use code in SyntaxDocument
-     * Add a <code>DocumentFilter</code> to automatically close parentheses and quotation marks when users type.
-
-    private void addFilter() {
-        AbstractDocument abstractDocument;
-        StyledDocument styledDocument = this.getStyledDocument();
-        if (styledDocument instanceof AbstractDocument) {
-            abstractDocument = (AbstractDocument) styledDocument;
-            abstractDocument.setDocumentFilter(new DocumentFilter() {
-                @Override
-                public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-                    if (text.endsWith("{")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(offset + 1, "}", attrs);
-                    } else if (text.endsWith("(")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(offset + 1, ")", attrs);
-                    } else if (text.endsWith("[")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(offset + 1, "]", attrs);
-                    } else if (text.equals("\"")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(offset + 1, "\"", attrs);
-                    } else if (text.endsWith("'")) {
-                        super.replace(fb, offset, length, text, attrs);
-                        fb.insertString(offset + 1, "'", attrs);
-                    } else {
-                        super.replace(fb, offset, length, text, attrs);
-                    }
-                }
-                // TODO: Don't auto-close when matching close symbol available
-            });
-        }
-    }
-    */
-
     /**
      * If there are any edits that can be undone, then undoes the appropriate edits.
      */
@@ -155,5 +206,31 @@ public class EditingPane extends JTextPane {
      */
     public void redo() {
         this.undoRedoFunction.redo();
+    }
+
+    /**
+     * If <code>fileSaveListenersList</code> is not empty, then run <code>FileSaveListener.fileSaved()</code> method of
+     * all FileSaveListeners in the list.
+     * @see #runFileUnSavedListeners()
+     */
+    private void runFileSavedListeners() {
+        if (! fileSaveListenersList.isEmpty()) {
+            for (FileSaveListener fileSaveListener : fileSaveListenersList) {
+                fileSaveListener.fileSaved();
+            }
+        }
+    }
+
+    /**
+     * If <code>fileSaveListenersList</code> is not empty, then run <code>FileSaveListener.fileUnsaved()</code> method of
+     * all FileSaveListeners in the list.
+     * @see #runFileSavedListeners()
+     */
+    private void runFileUnSavedListeners() {
+        if (! fileSaveListenersList.isEmpty()) {
+            for (FileSaveListener fileSaveListener : fileSaveListenersList) {
+                fileSaveListener.fileUnsaved();
+            }
+        }
     }
 }

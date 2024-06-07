@@ -2,6 +2,7 @@ package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.files.FileSaveListener;
 import templateUI.SwingComponents.TextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
 
@@ -31,6 +32,7 @@ public class EditorView extends JPanel {
 
     private JPanel statusBar;
     private JLabel caretLocationLabel;
+    private JLabel saveStatusLabel;
 
     private void initUI() {
         editingPaneHolder  = new JPanel(new BorderLayout(), true);
@@ -38,15 +40,15 @@ public class EditorView extends JPanel {
         editorLineNumber = new TextLineNumber(editingPane);
         editorScrollPane = new jScrollPane(editingPaneHolder);
 
-        statusBar = new JPanel(new BorderLayout(), true);
-        caretLocationLabel = new JLabel("1:1");
+        statusBar = new JPanel(true);
+        caretLocationLabel = new JLabel();
+        saveStatusLabel = new JLabel();
     }
 
     private void addUIComponents() {
         this.initUI();
 
         // EDITOR PANE & LINE NUMBER ===
-        editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
         editingPaneHolder.add(editingPane, BorderLayout.CENTER);
 
         editorLineNumber.setCurrentLineForeground(Color.WHITE); // TODO: colors
@@ -62,18 +64,41 @@ public class EditorView extends JPanel {
         this.add(editorScrollPane, BorderLayout.CENTER);
 
         // STATUS BAR ===
+        statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
         statusBar.setPreferredSize(new Dimension(0, 20));
         statusBar.setFocusable(false);
         statusBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Colors.editorInternalBorderColor));
         statusBar.setBackground(Colors.editorStatusBarBackground);
 
-        caretLocationLabel.setPreferredSize(new Dimension(100, 0)); // TODO: Adaptive size
-        caretLocationLabel.setForeground(Color.LIGHT_GRAY);
-        caretLocationLabel.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
-        caretLocationLabel.setBorder(BorderFactory.createLineBorder(statusBar.getBackground(), 2));
-        caretLocationLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        statusBar.add(caretLocationLabel, BorderLayout.EAST);
+        editingPane.addFileSaveListener(new FileSaveListener() {
+            @Override
+            public void fileSaved() {
+                saveStatusLabel.setText("Saved");
+                saveStatusLabel.setForeground(Color.LIGHT_GRAY); // TODO: Colors
+            }
+            @Override
+            public void fileUnsaved() {
+                saveStatusLabel.setText("Unsaved");
+                saveStatusLabel.setForeground(new Color(0xED5757)); // TODO: Colors
+            }
+        });
+        saveStatusLabel.setForeground(Color.LIGHT_GRAY); // TODO: Colors
+        saveStatusLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+
+        editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
+        caretLocationLabel.setForeground(Color.LIGHT_GRAY); // TODO: Colors
+        caretLocationLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+
+        statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
+        statusBar.add(saveStatusLabel);
+        statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
+
+        statusBar.add(Box.createHorizontalGlue());
+
+        statusBar.add(caretLocationLabel);
+        statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
+
         this.add(statusBar, BorderLayout.SOUTH);
     }
 
@@ -82,9 +107,11 @@ public class EditorView extends JPanel {
      */
     private void openFile() {
         // TODO: If file type is not supported (file cannot be read and opened), then do not open a new tab
-
         try {
             editingPane.openFile();
+
+            saveStatusLabel.setText("Saved");
+            caretLocationLabel.setText("1:1");
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred",
