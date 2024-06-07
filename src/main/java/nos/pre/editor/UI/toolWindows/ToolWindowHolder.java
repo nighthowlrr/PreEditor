@@ -3,6 +3,7 @@ package nos.pre.editor.UI.toolWindows;
 import nos.pre.editor.UI.Colors;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import templateUI.ComponentResizer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +29,9 @@ public class ToolWindowHolder extends JSplitPane {
         }
     }
 
+    private final Dimension minimumHolderSize = new Dimension(200, 200);
     private final Dimension defaultHolderSize = new Dimension(300, 300);
+    private final Dimension maximumHolderSize = new Dimension(500, 500);
 
     private final ToolHolderLocation toolHolderLocation;
     @NotNull public ToolWindowHolder.ToolHolderLocation getToolholderLocation() {
@@ -59,7 +62,25 @@ public class ToolWindowHolder extends JSplitPane {
         this.setRightComponent(null);
 
         this.setVisible(true);
-        //this.setDividerToMiddle();
+        
+        ComponentResizer resizer = new ComponentResizer();
+
+        switch (this.toolHolderLocation) {
+            case LEFT:
+                resizer.setDragInsets(new Insets(0, 0, 0, 10));
+                break;
+            case BOTTOM:
+                resizer.setDragInsets(new Insets(10, 0, 0, 0));
+                break;
+            case RIGHT:
+                resizer.setDragInsets(new Insets(0, 10, 0, 0));
+                break;
+        }
+
+        resizer.setSnapSize(new Dimension(1, 1));
+        resizer.registerComponent(this);
+        resizer.setMinimumSize(this.minimumHolderSize);
+        resizer.setMaximumSize(this.maximumHolderSize);
     }
 
     /**
