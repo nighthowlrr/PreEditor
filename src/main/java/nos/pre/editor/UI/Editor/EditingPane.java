@@ -13,6 +13,9 @@ import java.util.Scanner;
 
 public class EditingPane extends JTextPane {
     private final File openedFile;
+    public File getOpenedFile() {
+        return openedFile;
+    }
 
     public EditingPane(File openedFile) {
         this.openedFile = openedFile;
@@ -30,6 +33,8 @@ public class EditingPane extends JTextPane {
         setLanguageDocument();
 
         // TODO: Make Caret bigger for visibility
+
+        this.setComponentPopupMenu(new EditingPaneMenu(this));
     }
 
     private void setLanguageDocument() {
