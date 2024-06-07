@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Colors;
+import nos.pre.editor.UI.Editor.editingPane.EditingPane;
 import templateUI.SwingComponents.TextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
 

@@ -1,4 +1,4 @@
-package nos.pre.editor.UI.Editor;
+package nos.pre.editor.UI.Editor.editingPane;
 
 import org.jetbrains.annotations.NotNull;
 
