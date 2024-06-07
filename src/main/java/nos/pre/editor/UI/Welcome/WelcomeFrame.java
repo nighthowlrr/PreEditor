@@ -1,10 +1,10 @@
 package nos.pre.editor.UI.Welcome;
 
 import nos.pre.editor.About;
-import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.Welcome.Views.BasicSettingsView;
 import nos.pre.editor.UI.Welcome.Views.ProjectsListView;
+import nos.pre.editor.defaultValues.UIColors;
 import templateUI.SwingComponents.jScrollPane;
 import templateUI.SwingComponents.jToggleButton;
 
@@ -43,7 +43,7 @@ public class WelcomeFrame extends JFrame {
     private final ProjectsListView projectsListView = new ProjectsListView();
     private final BasicSettingsView basicSettingsView = new BasicSettingsView();
 
-    private final jScrollPane scrollPane = new jScrollPane(projectsListView);
+    private final jScrollPane mainViewScrollPane = new jScrollPane(projectsListView);
 
     private final JPanel actionPanel = new JPanel(new FlowLayout(), true);
     private final JButton newButton = new JButton("New Project");
@@ -51,18 +51,18 @@ public class WelcomeFrame extends JFrame {
 
     private void addUIComponents() {
         sidePanel.setPreferredSize(new Dimension(200, 0));
-        sidePanel.setBackground(Colors.welcomeSideBackground);
+        sidePanel.setBackground(UIColors.WELCOME_FRAME_SIDE_PANEL_BG);
         this.mainContentPanel.add(sidePanel, BorderLayout.WEST);
 
         titleLabel.setFont(Fonts.URW_Gothic.deriveFont(Font.BOLD, 24));
-        titleLabel.setForeground(Colors.welcomeForegroundLvl1);
+        titleLabel.setForeground(UIColors.GLOBAL_FG_LVL1);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setVerticalAlignment(JLabel.BOTTOM);
         titleLabel.setPreferredSize(new Dimension(sidePanel.getPreferredSize().width, ( Fonts.getMetricsOfFont(titleLabel.getFont()).getHeight() ) + 10));
         sidePanel.add(titleLabel);
 
         versionLabel.setFont(Fonts.URW_Gothic.deriveFont(Font.PLAIN, 18));
-        versionLabel.setForeground(Colors.welcomeForegroundLvl3);
+        versionLabel.setForeground(UIColors.GLOBAL_FG_LVL3);
         versionLabel.setHorizontalAlignment(JLabel.CENTER);
         versionLabel.setVerticalAlignment(JLabel.TOP);
         versionLabel.setPreferredSize(new Dimension(sidePanel.getPreferredSize().width, Fonts.getMetricsOfFont(versionLabel.getFont()).getHeight()));
@@ -79,7 +79,7 @@ public class WelcomeFrame extends JFrame {
             toggleButton.setFocusable(false);
             toggleButton.setBorder(BorderFactory.createEmptyBorder());
             toggleButton.setBackground(sidePanel.getBackground());
-            toggleButton.setForeground(Colors.welcomeForegroundLvl2);
+            toggleButton.setForeground(UIColors.GLOBAL_FG_LVL2);
             toggleButton.setSelectedColor(new Color(0x2E3955));
             toggleButton.setFont(Fonts.URW_Gothic.deriveFont(Font.PLAIN, 16));
             toggleButton.setHorizontalAlignment(JButton.LEFT);
@@ -89,27 +89,25 @@ public class WelcomeFrame extends JFrame {
         }
 
         projectsButton.addActionListener(e -> {
-            if (scrollPane.getViewport().getView() != projectsListView) {
-                scrollPane.getViewport().setView(projectsListView);
+            if (mainViewScrollPane.getViewport().getView() != projectsListView) {
+                mainViewScrollPane.getViewport().setView(projectsListView);
             }
         });
         settingsButton.addActionListener(e -> {
-            if (scrollPane.getViewport().getView() != basicSettingsView) {
-                scrollPane.getViewport().setView(basicSettingsView);
+            if (mainViewScrollPane.getViewport().getView() != basicSettingsView) {
+                mainViewScrollPane.getViewport().setView(basicSettingsView);
             }
         });
 
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
 
-        centerPanel.setBackground(Colors.welcomeMainBackground);
-        this.mainContentPanel.add(centerPanel, BorderLayout.CENTER);
+        mainViewScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        centerPanel.add(mainViewScrollPane, BorderLayout.CENTER);
 
         newButton.setFocusable(false);
         newButton.setContentAreaFilled(false);
         newButton.setOpaque(true);
         // TODO: Proper new project functionality
-        // TODO: SHow keyboard shortcuts on buttons for non-focusable buttons
+        // TODO: Show keyboard shortcuts on buttons for non-focusable buttons
         newButton.setPreferredSize(new Dimension(120, 30));
 
         openButton.setFocusable(false);
@@ -121,5 +119,8 @@ public class WelcomeFrame extends JFrame {
         actionPanel.add(newButton);
         actionPanel.add(openButton);
         centerPanel.add(actionPanel, BorderLayout.SOUTH);
+
+        centerPanel.setBackground(UIColors.WELCOME_FRAME_MAIN_BG);
+        this.mainContentPanel.add(centerPanel, BorderLayout.CENTER);
     }
 }

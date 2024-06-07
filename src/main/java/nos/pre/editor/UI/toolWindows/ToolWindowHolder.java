@@ -1,6 +1,6 @@
 package nos.pre.editor.UI.toolWindows;
 
-import nos.pre.editor.UI.Colors;
+import nos.pre.editor.defaultValues.UIColors;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import templateUI.ComponentResizer;
@@ -46,7 +46,7 @@ public class ToolWindowHolder extends JSplitPane {
         this.toolHolderLocation = location;
 
         this.setPreferredSize(this.defaultHolderSize);
-        this.setBackground(Colors.toolWindowHolderBackground);
+        this.setBackground(UIColors.TOOL_WINDOW_HOLDER_BG);
 
         if (this.toolHolderLocation == ToolHolderLocation.LEFT || this.toolHolderLocation == ToolHolderLocation.RIGHT) {
             this.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -62,7 +62,7 @@ public class ToolWindowHolder extends JSplitPane {
         this.setRightComponent(null);
 
         this.setVisible(true);
-        
+
         ComponentResizer resizer = new ComponentResizer();
 
         switch (this.toolHolderLocation) {

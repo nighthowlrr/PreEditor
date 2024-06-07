@@ -1,7 +1,7 @@
 package nos.pre.editor.UI.Editor.editingPane;
 
-import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
@@ -46,14 +46,14 @@ public class EditingPane extends JTextPane {
         this.openedFile = openedFile;
 
         this.setDoubleBuffered(true);
-        this.setBackground(Colors.editorBackground);
-        this.setForeground(Colors.editorForeground);
         this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F));
-        this.setCaretColor(Colors.editorCaretColor);
-        this.setSelectionColor(Colors.editorSelectionColor);
+        this.setBackground(UIColors.EDITINGPANE_BG);
+        this.setForeground(UIColors.EDITINGPANE_FG);
+        this.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
+        this.setSelectionColor(UIColors.EDITINGPANE_SELECTION_COLOR);
         // TODO: Make Caret bigger for visibility
 
-        LinePainter linePainter = new LinePainter(this, Colors.editorCurrentLineHighlightColor); // To highlight the current line
+        LinePainter linePainter = new LinePainter(this, UIColors.EDITINGPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
 
         setLanguageDocument();
         addUnsavedChangeListener();

@@ -1,8 +1,8 @@
 package nos.pre.editor.UI.toolWindows.projectTool;
 
-import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Editor.EditorTabbedPane;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
+import nos.pre.editor.defaultValues.UIColors;
 import templateUI.SwingComponents.jScrollPane;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class ProjectToolWindow extends ToolWindow {
     public ProjectToolWindow(ToolWindowLocation toolWindowLocation) { // TODO: Final ProjectPath
         super("Project", toolWindowLocation);
         this.setLayout(new BorderLayout());
-        this.setBackground(Colors.projectToolBackground);
+        this.setBackground(UIColors.PROJECT_TOOL_WINDOW_BG);
 
         this.addUIComponents();
     }
@@ -27,6 +27,7 @@ public class ProjectToolWindow extends ToolWindow {
         this.add(this.getToolWindowNameLabel(), BorderLayout.PAGE_START);
 
         fileTree.setBackground(this.getBackground());
+        //  TODO: Set color for selected node (focused and unfocused)
 
         fileTreeScroll.setBorder(BorderFactory.createLineBorder(this.getBackground(), 5));
         fileTreeScroll.setBackground(this.getBackground());

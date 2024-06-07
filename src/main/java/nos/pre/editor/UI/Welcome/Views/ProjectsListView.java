@@ -1,6 +1,6 @@
 package nos.pre.editor.UI.Welcome.Views;
 
-import nos.pre.editor.UI.Colors;
+import nos.pre.editor.defaultValues.UIColors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.*;
 public class ProjectsListView extends JPanel {
     public ProjectsListView() {
         super(new FlowLayout(), true);
-        setBackground(Colors.welcomeMainBackground);
+        setBackground(UIColors.WELCOME_FRAME_MAIN_BG);
 
         this.addUIComponents();
     }

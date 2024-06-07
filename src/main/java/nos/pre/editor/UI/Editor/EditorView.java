@@ -1,7 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
-import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.files.FileSaveListener;
 import templateUI.SwingComponents.TextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
@@ -51,9 +51,9 @@ public class EditorView extends JPanel {
         // EDITOR PANE & LINE NUMBER ===
         editingPaneHolder.add(editingPane, BorderLayout.CENTER);
 
-        editorLineNumber.setCurrentLineForeground(Color.WHITE); // TODO: colors
-        editorLineNumber.setLineForeground(Color.GRAY.darker()); // TODO: colors
-        editorLineNumber.setSeparatorColor(Colors.editorInternalBorderColor);
+        editorLineNumber.setCurrentLineForeground(UIColors.EDITOR_LINE_NUMBERS_CURRENTLINE_FG);
+        editorLineNumber.setLineForeground(UIColors.EDITOR_LINE_NUMBERS_FG);
+        editorLineNumber.setSeparatorColor(UIColors.EDITOR_LINE_NUMBERS_SEPARATOR);
         editorScrollPane.setRowHeaderView(editorLineNumber);
 
         editorScrollPane.setWheelScrollingEnabled(true);
@@ -67,27 +67,26 @@ public class EditorView extends JPanel {
         statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
         statusBar.setPreferredSize(new Dimension(0, 20));
         statusBar.setFocusable(false);
-        statusBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Colors.editorInternalBorderColor));
-        statusBar.setBackground(Colors.editorStatusBarBackground);
+        statusBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIColors.EDITOR_STATUS_BAR_BORDER));
+        statusBar.setBackground(UIColors.EDITOR_STATUS_BAR_BG);
 
 
         editingPane.addFileSaveListener(new FileSaveListener() {
             @Override
             public void fileSaved() {
                 saveStatusLabel.setText("Saved");
-                saveStatusLabel.setForeground(Color.LIGHT_GRAY); // TODO: Colors
+                saveStatusLabel.setForeground(UIColors.EDITOR_STATUS_BAR_SAVESTATUS_SAVED_TEXT);
             }
             @Override
             public void fileUnsaved() {
                 saveStatusLabel.setText("Unsaved");
-                saveStatusLabel.setForeground(new Color(0xED5757)); // TODO: Colors
+                saveStatusLabel.setForeground(UIColors.EDITOR_STATUS_BAR_SAVESTATUS_UNSAVED_TEXT);
             }
         });
-        saveStatusLabel.setForeground(Color.LIGHT_GRAY); // TODO: Colors
         saveStatusLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
         editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
-        caretLocationLabel.setForeground(Color.LIGHT_GRAY); // TODO: Colors
+        caretLocationLabel.setForeground(UIColors.EDITOR_STATUS_BAR_CARET_LOCATION_TEXT);
         caretLocationLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
         statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
@@ -122,7 +121,6 @@ public class EditorView extends JPanel {
 
     @Override
     public void requestFocus() {
-        //super.requestFocus();
         editingPane.requestFocus();
     }
 }

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
-public class EditorProcess { // TODO: Convert to record class if possible
+public class EditorProcess {
     private final File projectPath;
 
     /**

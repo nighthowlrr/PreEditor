@@ -1,8 +1,8 @@
 package nos.pre.editor.UI.Editor;
 
-import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.GraphicsUtilities;
+import nos.pre.editor.defaultValues.UIColors;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,10 +19,9 @@ public class EditorTabbedPane extends JTabbedPane {
 
         this.setDoubleBuffered(true);
         this.setOpaque(true);
-        this.setBackground(Colors.editorTabbedPaneBackground);
-        this.setForeground(Color.WHITE);
+        this.setBackground(UIColors.EDITOR_TABBED_PANE_BG);
+        this.setForeground(UIColors.EDITOR_TABBED_PANE_FG);
         this.setFont(Fonts.LeagueSpartan.deriveFont(Font.BOLD, 14));
-        this.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
     }
 
     public void openEditorTab(@NotNull File file) {
@@ -134,7 +133,7 @@ public class EditorTabbedPane extends JTabbedPane {
 
     private static class CustomTabbedPaneUI extends BasicTabbedPaneUI {
         private Color tabIndicatorColor;
-        private int tabIndicatorBGAlpha;
+        private Color tabIndicatorBG;
 
         @Contract(pure = true)
         public Color getTabIndicatorColor() {
@@ -146,12 +145,12 @@ public class EditorTabbedPane extends JTabbedPane {
         }
 
         @Contract(pure = true)
-        public int getTabIndicatorBGTransparency() {
-            return tabIndicatorBGAlpha;
+        public Color getTabIndicatorBackground() {
+            return tabIndicatorBG;
         }
         @Contract(mutates = "this")
-        public void setTabIndicatorBGTransparency(int tabIndicatorBGTransparency) {
-            this.tabIndicatorBGAlpha = tabIndicatorBGTransparency;
+        public void setTabIndicatorBackground(Color tabIndicatorBackground) {
+            this.tabIndicatorBG = tabIndicatorBackground;
         }
 
         public CustomTabbedPaneUI() {
@@ -160,8 +159,8 @@ public class EditorTabbedPane extends JTabbedPane {
 
         @Contract(mutates = "this")
         private void setDefaults() {
-            this.tabIndicatorColor = Colors.editorTabbedPaneSelectedTabIndicator;
-            this.tabIndicatorBGAlpha = Colors.editorTabbedPaneSelectedTabBGAlpha;
+            this.tabIndicatorColor = UIColors.EDITOR_TABBED_PANE_OPENTAB_INDICATOR;
+            this.tabIndicatorBG = UIColors.EDITOR_TABBED_PANE_OPENTAB_BG;
             // TODO: Interface "Default-able..." for UI classes for library and L&F later
         }
 
@@ -175,8 +174,7 @@ public class EditorTabbedPane extends JTabbedPane {
         protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h,
                                           boolean isSelected) {
             if (isSelected) {
-                g.setColor(new Color(this.tabIndicatorColor.getRed(), this.tabIndicatorColor.getGreen(),
-                                this.tabIndicatorColor.getBlue(), this.tabIndicatorBGAlpha));
+                g.setColor(this.tabIndicatorBG);
                 g.fillRect(x, y, w, h);
             }
         }

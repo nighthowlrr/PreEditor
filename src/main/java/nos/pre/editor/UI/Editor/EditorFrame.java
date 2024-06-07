@@ -1,11 +1,11 @@
 package nos.pre.editor.UI.Editor;
 
-import nos.pre.editor.UI.Colors;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.Welcome.WelcomeFrame;
 import nos.pre.editor.UI.toolWindows.projectTool.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowHolder;
+import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.processManagers.EditorProcess;
 import org.jetbrains.annotations.NotNull;
 
@@ -71,15 +71,11 @@ public class EditorFrame extends JFrame {
         // ParentPanel ===
         leftToolWindowBar.setPreferredSize(this.toolWindowBarSize);
         leftToolWindowBar.setFloatable(false);
-        leftToolWindowBar.setBackground(Colors.toolWindowBarBackground);
-        leftToolWindowBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0,
-                Colors.editorFrameDividingBorderColor));
+        leftToolWindowBar.setBackground(UIColors.TOOL_WINDOW_BAR_BG);
 
         rightToolWindowBar.setPreferredSize(this.toolWindowBarSize);
         rightToolWindowBar.setFloatable(false);
-        rightToolWindowBar.setBackground(Colors.toolWindowBarBackground);
-        rightToolWindowBar.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0,
-                Colors.editorFrameDividingBorderColor));
+        rightToolWindowBar.setBackground(UIColors.TOOL_WINDOW_BAR_BG);
 
         parentPanel.add(leftToolWindowBar, BorderLayout.WEST);
         parentPanel.add(rightToolWindowBar, BorderLayout.EAST);
@@ -87,9 +83,9 @@ public class EditorFrame extends JFrame {
         // ViewsPanel ===
         viewsPanel.add(editorTabbedPane);
 
-        leftToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
-        bottomToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
-        rightToolWindowHolder.setBorder(BorderFactory.createLineBorder(Colors.editorFrameDividingBorderColor, 1));
+        leftToolWindowHolder.setBorder(BorderFactory.createLineBorder(UIColors.EDITOR_FRAME_DIVIDER_COLOR, 1));
+        bottomToolWindowHolder.setBorder(BorderFactory.createLineBorder(UIColors.EDITOR_FRAME_DIVIDER_COLOR, 1));
+        rightToolWindowHolder.setBorder(BorderFactory.createLineBorder(UIColors.EDITOR_FRAME_DIVIDER_COLOR, 1));
 
         this.addToolWindowHolder(leftToolWindowHolder);
         //this.addToolWindowHolder(bottomToolWindowHolder);
@@ -268,8 +264,8 @@ public class EditorFrame extends JFrame {
         toolWindowToggleButton.setDoubleBuffered(true);
         toolWindowToggleButton.setFocusable(false);
 
-        toolWindowToggleButton.setBackground(Colors.toolWindowHolderBackground.brighter());
-        toolWindowToggleButton.setForeground(Color.WHITE);
+        toolWindowToggleButton.setBackground(UIColors.TOOL_WINDOW_BAR_TOOLBUTTON_BG);
+        toolWindowToggleButton.setForeground(UIColors.TOOL_WINDOW_BAR_TOOLBUTTON_FG);
         toolWindowToggleButton.setFont(Fonts.LeagueSpartan.deriveFont(12F));
         toolWindowToggleButton.setHorizontalTextPosition(JButton.CENTER);
         toolWindowToggleButton.setVerticalTextPosition(JButton.CENTER);
