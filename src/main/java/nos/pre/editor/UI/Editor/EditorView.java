@@ -31,8 +31,8 @@ public class EditorView extends JPanel {
     private jScrollPane editorScrollPane;
 
     private JPanel statusBar;
-    private JLabel caretLocationLabel;
     private JLabel saveStatusLabel;
+    private JLabel caretLocationLabel;
 
     private void initUI() {
         editingPaneHolder  = new JPanel(new BorderLayout(), true);
@@ -41,8 +41,8 @@ public class EditorView extends JPanel {
         editorScrollPane = new jScrollPane(editingPaneHolder);
 
         statusBar = new JPanel(true);
-        caretLocationLabel = new JLabel();
         saveStatusLabel = new JLabel();
+        caretLocationLabel = new JLabel();
     }
 
     private void addUIComponents() {
