@@ -8,13 +8,6 @@ import javax.swing.text.*;
 import java.util.Map;
 
 public class SyntaxDocument extends DefaultStyledDocument {
-    public enum KeywordType {
-        PREPROCESSOR_COMMAND,
-        DATA_TYPE,
-        OBJECT_LITERAL,
-        GENERAL_CONSTRUCT,
-    }
-
     private final Map<String, KeywordType> languageKeywords;
     private final SyntaxColorInfo syntaxColorInfo;
     private final LanguageDelimiterInfo delimiterInfo;
