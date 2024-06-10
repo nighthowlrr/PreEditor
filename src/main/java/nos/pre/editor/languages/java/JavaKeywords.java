@@ -1,5 +1,7 @@
 package nos.pre.editor.languages.java;
 
+import nos.pre.editor.autocomplete.completions.BaseCompletion;
+import nos.pre.editor.autocomplete.completions.KeywordCompletion;
 import nos.pre.editor.languages.syntax.KeywordType;
 
 import java.util.*;
@@ -79,16 +81,14 @@ public enum JavaKeywords {
     }
 
     public static HashMap<String, KeywordType> getKeywordMap() {
-        HashMap<String, KeywordType> keywordMap = EnumSet.allOf(JavaKeywords.class).stream()
+        return EnumSet.allOf(JavaKeywords.class).stream()
                 .collect(Collectors.toMap(JavaKeywords::getKeyword, JavaKeywords::getKeywordType,
                         (o1, o2) -> o1, HashMap::new));
-
-        return keywordMap;
     }
 
     public static List<String> getListOfKeywords() {
-        List<String> keywordsList = Stream.of(JavaKeywords.values()).map(JavaKeywords::getKeyword).toList();
+        return Stream.of(JavaKeywords.values()).map(JavaKeywords::getKeyword).toList();
+    }
 
-        return keywordsList;
     }
 }

@@ -46,11 +46,7 @@ public class EditingPaneMenu extends JPopupMenu {
     private void addMenuItems() {
         saveItem.setEnabled(false);
         saveItem.addActionListener(e -> {
-            try {
-                this.editingPane.saveFile();
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
-            }
+            this.editingPane.saveFile();
         });
         this.add(saveItem);
 
@@ -64,20 +60,22 @@ public class EditingPaneMenu extends JPopupMenu {
         copyItem.addActionListener(e -> this.editingPane.copy());
         this.add(copyItem);
 
-        pasteItem.addActionListener(e -> this.editingPane.paste());
+        pasteItem.addActionListener(e -> this.editingPane.paste()); // TODO: Using paste item from menu pastes text two times...
         this.add(pasteItem);
 
         this.addSeparator();
 
-        undoItem.setEnabled(true);
-        undoItem.addActionListener(e -> this.editingPane.undo());
-        this.add(undoItem);
+        if (this.editingPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
+            undoItem.setEnabled(true);
+            undoItem.addActionListener(e -> this.editingPane.undo());
+            this.add(undoItem);
 
-        redoItem.setEnabled(true);
-        redoItem.addActionListener(e -> this.editingPane.redo());
-        this.add(redoItem);
+            redoItem.setEnabled(true);
+            redoItem.addActionListener(e -> this.editingPane.redo());
+            this.add(redoItem);
 
-        this.addSeparator();
+            this.addSeparator();
+        }
 
         openInExplorerItem.setEnabled(isDesktopSupported);
         openInExplorerItem.addActionListener(e -> {
@@ -141,5 +139,10 @@ public class EditingPaneMenu extends JPopupMenu {
                 saveItem.setEnabled(true);
             }
         });
+    }
+
+    public void updateMenuItems() {
+        this.removeAll();
+        this.addMenuItems();
     }
 }

@@ -22,6 +22,24 @@ import java.util.List;
 import java.util.Scanner;
 
 public class EditingPane extends JTextPane {
+    // Functionality enabled booleans ===
+    private boolean undoRedoEnabled; // True by default (set in constructor)
+    // TODO: ViewingModes: ReadOnly, EditingMode (May need to change saving code (e.g. boolean in EditingPaneMenu))
+
+    public boolean isUndoRedoEnabled() {
+        return undoRedoEnabled;
+    }
+    public void setUndoRedoEnabled(boolean undoRedoEnabled) {
+        this.undoRedoEnabled = undoRedoEnabled;
+        this.ensureAddUndoRedoFunction();
+        this.editingPaneMenu.updateMenuItems();
+    }
+
+    // Functionality objects ===
+    private UndoRedoFunction undoRedoFunction;
+
+    private final EditingPaneMenu editingPaneMenu;
+
     // LISTENERS
     private final List<FileSaveListener> fileSaveListenersList = new ArrayList<>();
     public void addFileSaveListener(FileSaveListener fileSaveListener) {
@@ -47,6 +65,7 @@ public class EditingPane extends JTextPane {
         this.openedFile = openedFile;
 
         this.setDoubleBuffered(true);
+        this.setFocusable(true);
         this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F));
         this.setBackground(UIColors.EDITINGPANE_BG);
         this.setForeground(UIColors.EDITINGPANE_FG);
@@ -54,17 +73,16 @@ public class EditingPane extends JTextPane {
         this.setSelectionColor(UIColors.EDITINGPANE_SELECTION_COLOR);
         // TODO: Make Caret bigger for visibility
 
+        editingPaneMenu = new EditingPaneMenu(this);
+        this.setComponentPopupMenu(this.editingPaneMenu);
+
         LinePainter linePainter = new LinePainter(this, UIColors.EDITINGPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
 
         setLanguageDocument();
         addUnsavedChangeListener();
 
-        undoRedoFunction = new UndoRedoFunction(this);
+        setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed) (see ensureAddUndoRedoFunction();)
         addSaveKeyboardShortcut();
-
-        this.setComponentPopupMenu(new EditingPaneMenu(this));
-
-        // TODO: Autosave
     }
 
     private void setLanguageDocument() {
@@ -130,16 +148,19 @@ public class EditingPane extends JTextPane {
     /**
      * If <code>openedFile</code> is not saved, then saves the file, and runs <code>FileSaveListener.fileSaved()</code>
      * method for all FileSaveListeners
-     * @throws FileNotFoundException
      */
-    public void saveFile() throws FileNotFoundException {
+    public void saveFile() {
         if (! isFileSaved) {
-            PrintWriter writer = new PrintWriter(this.openedFile);
-            writer.write(this.getText());
-            writer.close();
+            try {
+                PrintWriter writer = new PrintWriter(this.openedFile);
+                writer.write(this.getText());
+                writer.close();
 
-            isFileSaved = true;
-            runFileSavedListeners();
+                isFileSaved = true;
+                runFileSavedListeners();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -149,19 +170,20 @@ public class EditingPane extends JTextPane {
         this.getActionMap().put(saveKey, new AbstractAction(saveKey) {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    saveFile();
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+                saveFile();
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_SAVE), saveKey);
     }
 
+    private void ensureAddUndoRedoFunction() {
+        if (undoRedoEnabled) {
+            undoRedoFunction = new UndoRedoFunction(this); // TODO: Undo/Redo Functionality suddenly not working.
+        }
+    }
+
     /**
      * Get the line the caret is currently on.
-     * @param offset
      * @return The line on which caret is currently on.
      */
     private int getCaretLinePosition(int offset) {
