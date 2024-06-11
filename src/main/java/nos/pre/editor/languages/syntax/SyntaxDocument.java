@@ -1,13 +1,13 @@
 package nos.pre.editor.languages.syntax;
 
+import nos.pre.editor.editor.PreEditorDocument;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.event.DocumentEvent;
 import javax.swing.text.*;
 import java.util.Map;
 
-public class SyntaxDocument extends DefaultStyledDocument {
+public class SyntaxDocument extends PreEditorDocument {
     private final Map<String, KeywordType> languageKeywords;
     private final SyntaxColorInfo syntaxColorInfo;
     private final LanguageDelimiterInfo delimiterInfo;
@@ -16,37 +16,19 @@ public class SyntaxDocument extends DefaultStyledDocument {
     private boolean multiLineComment;
 
     public SyntaxDocument(Map<String, KeywordType> keywords, SyntaxColorInfo syntaxColorInfo, LanguageDelimiterInfo delimiterInfo) {
+        super();
+
         this.languageKeywords = keywords;
         this.syntaxColorInfo = syntaxColorInfo;
         this.delimiterInfo = delimiterInfo;
-
-        this.putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
-    }
-
-    /**
-     * Overridden to apply syntax highlighting after the document has been updated
-     */
-    @Override
-    public void insertString(int offset, @NotNull String str, AttributeSet a) throws BadLocationException {
-        // if (str.equals("{")) str = addMatchingBrace(offset);
-        super.insertString(offset, str, a);
-        processChangedLines(offset, str.length());
-    }
-
-    /**
-     * Overridden to apply syntax highlighting after the document has been updated
-     */
-    @Override
-    public void remove(int offset, int length) throws BadLocationException {
-        super.remove(offset, length);
-        processChangedLines(offset, 0);
     }
 
     /**
      * Determine how many lines have been changed, then apply highlighting to each line.
      */
-    private void processChangedLines(int offset, int length) throws BadLocationException {
-        String content = this.getText(0, this.getLength());
+    @Override
+    protected void processChangedLines(int offset, int length) {
+        String content = getAllContent();
 
         // The lines affected by the latest document update
         int startLine = rootElement.getElementIndex(offset);
@@ -287,32 +269,6 @@ public class SyntaxDocument extends DefaultStyledDocument {
     }
 
     /**
-     * This updates the colored text and prepares for undo event
-     */
-    protected void fireInsertUpdate(DocumentEvent evt) {
-        super.fireInsertUpdate(evt);
-
-        try {
-            processChangedLines(evt.getOffset(), evt.getLength());
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * This updates the colored text and does the undo operation
-     */
-    protected void fireRemoveUpdate(DocumentEvent evt) {
-        super.fireRemoveUpdate(evt);
-
-        try {
-            processChangedLines(evt.getOffset(), evt.getLength());
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
      * Assume the needle will the found at the start/end of the line
      */
     private int indexOf(@NotNull String content, String needle, int offset) {
@@ -389,22 +345,4 @@ public class SyntaxDocument extends DefaultStyledDocument {
     protected String getEscapeString(String quoteDelimiter) {
         return "\\" + quoteDelimiter;
     }
-
-    /*
-    protected String addMatchingBrace(int offset) throws BadLocationException {
-        StringBuilder whiteSpace = new StringBuilder();
-
-        int line = rootElement.getElementIndex(offset);
-        int i = rootElement.getElement(line).getStartOffset();
-        while (true) {
-            String temp = this.getText(i, 1);
-            if (temp.equals(" ") || temp.equals("\t")) {
-                whiteSpace.append(temp);
-                i++;
-            } else
-                break;
-        }
-        return "{\n" + whiteSpace + whiteSpace + "\n" + whiteSpace + "}";
-    }
-    */
 }
