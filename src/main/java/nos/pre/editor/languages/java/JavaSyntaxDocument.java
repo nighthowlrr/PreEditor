@@ -17,16 +17,16 @@ public class JavaSyntaxDocument extends SyntaxDocument {
         SyntaxColorInfo syntaxColorInfo = new SyntaxColorInfo();
 
         syntaxColorInfo.setSyntaxNormalAttributes(Color.WHITE, false, false);
-        syntaxColorInfo.setSyntaxPreprocessorCommandAttributes(new Color(0xAA623D), false, false);
-        syntaxColorInfo.setSyntaxDataTypeAttributes(new Color(0xAA623D), false, true);
-        syntaxColorInfo.setSyntaxObjectLiteralAttributes(new Color(0xAA623D), false, false);
-        syntaxColorInfo.setSyntaxGeneralConstructsAttributes(new Color(0xAA623D), false, false);
+        syntaxColorInfo.setSyntaxPreprocessorCommandAttributes(new Color(0xC88461), false, false);
+        syntaxColorInfo.setSyntaxDataTypeAttributes(new Color(0xC88461), false, true);
+        syntaxColorInfo.setSyntaxObjectLiteralAttributes(new Color(0xC88461), false, false);
+        syntaxColorInfo.setSyntaxGeneralConstructsAttributes(new Color(0xC88461), false, false);
 
-        syntaxColorInfo.setSyntaxNumberAttributes(new Color(0x59BF9C), false, false);
+        syntaxColorInfo.setSyntaxNumberAttributes(new Color(0x59B7BF), false, true);
 
-        syntaxColorInfo.setSyntaxSingleLineAttributes(new Color(0x6E6E6E), true, false);
-        syntaxColorInfo.setSyntaxMultiLineCommentAttributes(new Color(0x6E6E6E), true, false);
-        syntaxColorInfo.setSyntaxQuoteAttributes(new Color(0x44946F), false, false);
+        syntaxColorInfo.setSyntaxSingleLineAttributes(new Color(0x989898), true, false);
+        syntaxColorInfo.setSyntaxMultiLineCommentAttributes(new Color(0x989898), true, false);
+        syntaxColorInfo.setSyntaxQuoteAttributes(new Color(0x53B584), false, false);
 
         return syntaxColorInfo;
     }
