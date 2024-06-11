@@ -1,7 +1,5 @@
 package nos.pre.editor.languages.java;
 
-import nos.pre.editor.autocomplete.completions.BaseCompletion;
-import nos.pre.editor.autocomplete.completions.KeywordCompletion;
 import nos.pre.editor.languages.syntax.KeywordType;
 
 import java.util.*;
@@ -88,7 +86,5 @@ public enum JavaKeywords {
 
     public static List<String> getListOfKeywords() {
         return Stream.of(JavaKeywords.values()).map(JavaKeywords::getKeyword).toList();
-    }
-
     }
 }
