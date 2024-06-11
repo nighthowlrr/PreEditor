@@ -2,6 +2,7 @@ package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
 import templateUI.SwingComponents.TextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
@@ -9,6 +10,7 @@ import templateUI.SwingComponents.jScrollPane;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.Objects;
 
 public class EditorView extends JPanel {
     private final File openedFile;
@@ -32,6 +34,7 @@ public class EditorView extends JPanel {
 
     private JPanel statusBar;
     private JLabel saveStatusLabel;
+    private JLabel tabPolicyLabel;
     private JLabel caretLocationLabel;
 
     private void initUI() {
@@ -42,6 +45,7 @@ public class EditorView extends JPanel {
 
         statusBar = new JPanel(true);
         saveStatusLabel = new JLabel();
+        tabPolicyLabel = new JLabel();
         caretLocationLabel = new JLabel();
     }
 
@@ -59,6 +63,7 @@ public class EditorView extends JPanel {
         editorScrollPane.setWheelScrollingEnabled(true);
         editorScrollPane.setBackground(editingPane.getBackground());
         editorScrollPane.setScrollThumbColor(new Color(0xFFFFFF));
+        // TODO: Colors or light & dark setting in jScrollPane
         editorScrollPane.setScrollTrackColor(editingPane.getBackground());
         editorScrollPane.setBorder(BorderFactory.createEmptyBorder());
         this.add(editorScrollPane, BorderLayout.CENTER);
@@ -69,7 +74,6 @@ public class EditorView extends JPanel {
         statusBar.setFocusable(false);
         statusBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIColors.EDITOR_STATUS_BAR_BORDER));
         statusBar.setBackground(UIColors.EDITOR_STATUS_BAR_BG);
-
 
         editingPane.addFileSaveListener(new FileSaveListener() {
             @Override
@@ -85,16 +89,29 @@ public class EditorView extends JPanel {
         });
         saveStatusLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
+        int tabSize = editingPane.getTabSize();
+        String tabPolicy = "";
+        if (Objects.equals(editingPane.getTabPolicy(), PreEditorDocument.TABS_POLICY_USE_SPACES)) {
+            tabPolicy = "spaces";
+        } else if (Objects.equals(editingPane.getTabPolicy(), PreEditorDocument.TABS_POLICY_USE_TABS)) {
+            tabPolicy = "tab"; // TODO: refinement: proper text (reference intellij)
+        }
+        tabPolicyLabel.setText(tabSize + " " + tabPolicy);
+        tabPolicyLabel.setForeground(UIColors.EDITOR_STATUS_BAR_TAB_POLICY_TEXT);
+        tabPolicyLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+
         editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
         caretLocationLabel.setForeground(UIColors.EDITOR_STATUS_BAR_CARET_LOCATION_TEXT);
         caretLocationLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
         statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
         statusBar.add(saveStatusLabel);
-        statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
+        statusBar.add(Box.createRigidArea(new Dimension(20, 0)));
 
         statusBar.add(Box.createHorizontalGlue());
 
+        statusBar.add(tabPolicyLabel);
+        statusBar.add(Box.createRigidArea(new Dimension(20, 0)));
         statusBar.add(caretLocationLabel);
         statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
 

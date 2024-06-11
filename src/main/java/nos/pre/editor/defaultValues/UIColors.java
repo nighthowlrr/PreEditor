@@ -43,6 +43,7 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color EDITOR_STATUS_BAR_BG = UIColors.EDITINGPANE_BG;
     public static final Color EDITOR_STATUS_BAR_BORDER = new Color(0x2E3032);
     public static final Color EDITOR_STATUS_BAR_CARET_LOCATION_TEXT = new Color(0xC0C0C0);
+    public static final Color EDITOR_STATUS_BAR_TAB_POLICY_TEXT = new Color(0XC0C0C0);
     public static final Color EDITOR_STATUS_BAR_SAVESTATUS_SAVED_TEXT = new Color(0xC0C0C0);
     public static final Color EDITOR_STATUS_BAR_SAVESTATUS_UNSAVED_TEXT = new Color(0xED5757);
 

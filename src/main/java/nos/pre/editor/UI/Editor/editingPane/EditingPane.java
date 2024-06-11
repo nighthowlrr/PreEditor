@@ -3,6 +3,8 @@ package nos.pre.editor.UI.Editor.editingPane;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.editor.DefaultPreEditorDocument;
+import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
@@ -94,7 +96,7 @@ public class EditingPane extends JTextPane {
                 this.setStyledDocument(new JavaSyntaxDocument());
                 break;
             default:
-                this.setStyledDocument(new DefaultStyledDocument());
+                this.setStyledDocument(new DefaultPreEditorDocument());
                 break;
         }
     }
@@ -251,6 +253,22 @@ public class EditingPane extends JTextPane {
             for (FileSaveListener fileSaveListener : fileSaveListenersList) {
                 fileSaveListener.fileUnsaved();
             }
+        }
+    }
+    // GETTERS & SETTERS
+    public String getTabPolicy() {
+        if (this.getStyledDocument() instanceof PreEditorDocument) {
+            return ((PreEditorDocument) this.getStyledDocument()).getTabPolicy();
+        } else {
+            throw new IllegalStateException("EditingPane.getTabPolicy(): this.StyledDocument not instanceof PreEditorDocument");
+        }
+    }
+
+    public int getTabSize() {
+        if (this.getStyledDocument() instanceof PreEditorDocument) {
+            return ((PreEditorDocument) this.getStyledDocument()).getTabSize();
+        } else {
+            throw new IllegalStateException("EditingPane.getTabSize(): this.StyledDocument not instanceof PreEditorDocument");
         }
     }
 }
