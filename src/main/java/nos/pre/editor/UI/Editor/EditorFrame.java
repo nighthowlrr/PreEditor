@@ -27,7 +27,8 @@ public class EditorFrame extends JFrame {
         super("PreEditor");
         this.editorProcess = editorProcess;
 
-        setSize(1600, 900);
+        setSize(1600, 900); // 16:9
+        setMinimumSize(new Dimension(960, 540)); // 16:9
         setLocationRelativeTo(null);
 
         if (this.confirmBeforeExit) {

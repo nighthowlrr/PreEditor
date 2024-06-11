@@ -7,6 +7,7 @@ import nos.pre.editor.editor.DefaultPreEditorDocument;
 import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
+import nos.pre.editor.languages.java.JavaKeywords;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,14 +52,8 @@ public class EditingPane extends JTextPane {
     }
 
     private final File openedFile;
-    public File getOpenedFile() {
-        return openedFile;
-    }
 
     private boolean isFileSaved;
-    public boolean isFileSaved() {
-        return isFileSaved;
-    }
 
 
     public EditingPane(File openedFile) {
@@ -255,7 +250,16 @@ public class EditingPane extends JTextPane {
             }
         }
     }
+
     // GETTERS & SETTERS
+    public File getOpenedFile() {
+        return openedFile;
+    }
+
+    public boolean isFileSaved() {
+        return isFileSaved;
+    }
+
     public String getTabPolicy() {
         if (this.getStyledDocument() instanceof PreEditorDocument) {
             return ((PreEditorDocument) this.getStyledDocument()).getTabPolicy();
