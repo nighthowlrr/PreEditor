@@ -7,7 +7,6 @@ import nos.pre.editor.editor.DefaultPreEditorDocument;
 import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
-import nos.pre.editor.languages.java.JavaKeywords;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
 import org.jetbrains.annotations.NotNull;
 
@@ -260,19 +259,19 @@ public class EditingPane extends JTextPane {
         return isFileSaved;
     }
 
-    public String getTabPolicy() {
+    public String getIndentStyle() {
         if (this.getStyledDocument() instanceof PreEditorDocument) {
-            return ((PreEditorDocument) this.getStyledDocument()).getTabPolicy();
+            return ((PreEditorDocument) this.getStyledDocument()).getIndentStyle();
         } else {
-            throw new IllegalStateException("EditingPane.getTabPolicy(): this.StyledDocument not instanceof PreEditorDocument");
+            throw new IllegalStateException("EditingPane.getIndentStyle(): this.StyledDocument not instanceof PreEditorDocument");
         }
     }
 
-    public int getTabSize() {
+    public int getIndentSize() {
         if (this.getStyledDocument() instanceof PreEditorDocument) {
-            return ((PreEditorDocument) this.getStyledDocument()).getTabSize();
+            return ((PreEditorDocument) this.getStyledDocument()).getIndentSize();
         } else {
-            throw new IllegalStateException("EditingPane.getTabSize(): this.StyledDocument not instanceof PreEditorDocument");
+            throw new IllegalStateException("EditingPane.getIndentSize(): this.StyledDocument not instanceof PreEditorDocument");
         }
     }
 }

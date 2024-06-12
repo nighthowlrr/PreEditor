@@ -89,11 +89,11 @@ public class EditorView extends JPanel {
         });
         saveStatusLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
-        int tabSize = editingPane.getTabSize();
+        int tabSize = editingPane.getIndentSize();
         String tabPolicy = "";
-        if (Objects.equals(editingPane.getTabPolicy(), PreEditorDocument.TABS_POLICY_USE_SPACES)) {
+        if (Objects.equals(editingPane.getIndentStyle(), PreEditorDocument.INDENT_STYLE_USE_SPACES)) {
             tabPolicy = "spaces";
-        } else if (Objects.equals(editingPane.getTabPolicy(), PreEditorDocument.TABS_POLICY_USE_TABS)) {
+        } else if (Objects.equals(editingPane.getIndentStyle(), PreEditorDocument.INDENT_STYLE_USE_TABS)) {
             tabPolicy = "tab"; // TODO: refinement: proper text (reference intellij)
         }
         tabPolicyLabel.setText(tabSize + " " + tabPolicy);

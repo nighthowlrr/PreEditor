@@ -8,11 +8,11 @@ import javax.swing.text.DefaultStyledDocument;
 import java.util.Objects;
 
 public abstract class PreEditorDocument extends DefaultStyledDocument {
-    public static final String TABS_POLICY_USE_TABS = "tabsPolicy_useTabs";
-    public static final String TABS_POLICY_USE_SPACES = "tabsPolicy_useSpaces";
+    public static final String INDENT_STYLE_USE_TABS = "tabsPolicy_useTabs";
+    public static final String INDENT_STYLE_USE_SPACES = "tabsPolicy_useSpaces";
 
-    private int tabSize;
-    private String tabPolicy;
+    private int indentSize;
+    private String indentStyle;
 
     public PreEditorDocument() {
         setDefaultValues();
@@ -21,8 +21,8 @@ public abstract class PreEditorDocument extends DefaultStyledDocument {
     }
 
     private void setDefaultValues() {
-        setTabSize(4);
-        setTabPolicy(TABS_POLICY_USE_SPACES);
+        setIndentSize(4);
+        setIndentStyle(INDENT_STYLE_USE_SPACES);
         // TODO: get defaults from settings
     }
 
@@ -31,9 +31,9 @@ public abstract class PreEditorDocument extends DefaultStyledDocument {
         // if (str.equals("{")) str = addMatchingBrace(offset);
 
         // Managing tabs
-        if (Objects.equals(tabPolicy, TABS_POLICY_USE_SPACES)) {
-            str = str.replaceAll("\t", " ".repeat(tabSize));
-        } // TODO: else if (Objects.equals(tabPolicy, TABS_POLICY_USE_TABS))
+        if (Objects.equals(indentStyle, INDENT_STYLE_USE_SPACES)) {
+            str = str.replaceAll("\t", " ".repeat(indentSize));
+        } // TODO: else if (Objects.equals(indentStyle, INDENT_STYLE_USE_TABS))
 
         super.insertString(offs, str, a);
 
@@ -103,23 +103,23 @@ public abstract class PreEditorDocument extends DefaultStyledDocument {
 
 
     // GETTERS & SETTERS ===
-    public String getTabPolicy() {
-        return tabPolicy;
+    public String getIndentStyle() {
+        return indentStyle;
     }
 
-    public void setTabPolicy(String tabPolicy) {
-        if (Objects.equals(tabPolicy, TABS_POLICY_USE_TABS) || Objects.equals(tabPolicy, TABS_POLICY_USE_SPACES)) {
-            this.tabPolicy = tabPolicy;
-        } else throw new IllegalArgumentException("PreEditorDocument.setTabPolicy: tabPolicy must be either " +
-                "\"TABS_POLICY_USE_TABS\" or \"TABS_POLICY_USE_SPACES\".");
+    public void setIndentStyle(String indentStyle) {
+        if (Objects.equals(indentStyle, INDENT_STYLE_USE_TABS) || Objects.equals(indentStyle, INDENT_STYLE_USE_SPACES)) {
+            this.indentStyle = indentStyle;
+        } else throw new IllegalArgumentException("PreEditorDocument.setIndentStyle: indentStyle must be either " +
+                "\"INDENT_STYLE_USE_TABS\" or \"INDENT_STYLE_USE_SPACES\".");
     }
 
-    public int getTabSize() {
-        return tabSize;
+    public int getIndentSize() {
+        return indentSize;
     }
 
-    public void setTabSize(int tabSize) {
-        this.tabSize = tabSize;
+    public void setIndentSize(int indentSize) {
+        this.indentSize = indentSize;
     }
 
     // CONVENIENCE METHODS ===
