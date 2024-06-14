@@ -6,10 +6,15 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.filechooser.FileSystemView;
+
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 public class JFileTree extends JTree {
     private File startingPath;
@@ -22,6 +27,7 @@ public class JFileTree extends JTree {
         this.startingPath = startingPath;
         FileSystemModel fileSystemModel = new FileSystemModel(startingPath);
         this.setModel(fileSystemModel);
+        this.setCellRenderer(new FileSystemModel.FileTreeCellRenderer());
     }
     public File getStartingPath() {
         return this.startingPath;
@@ -160,6 +166,18 @@ public class JFileTree extends JTree {
             public @NotNull String toString() {
                 return getName();
                 // Otherwise, each node would show the full path of the file.
+            }
+        }
+
+        private static class FileTreeCellRenderer extends DefaultTreeCellRenderer {
+            public FileTreeCellRenderer() {
+                this.setBackgroundSelectionColor(new Color(0x40FFFFFF, true));
+                this.setBackgroundNonSelectionColor(new Color(0x0FFFFFF, true));
+
+                this.setTextSelectionColor(Color.WHITE);
+                this.setTextNonSelectionColor(Color.WHITE);
+
+                this.setBorderSelectionColor(new Color(0x0FFFFFF, true));
             }
         }
     }
