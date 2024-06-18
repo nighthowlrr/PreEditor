@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.autoComplete.AutoComplete;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.editor.DefaultPreEditorDocument;
@@ -74,6 +75,8 @@ public class EditingPane extends JTextPane {
 
         setLanguageDocument();
         addUnsavedChangeListener();
+
+        AutoComplete autoComplete = new AutoComplete(this, null);
 
         setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed) (see ensureAddUndoRedoFunction();)
         addSaveKeyboardShortcut();
