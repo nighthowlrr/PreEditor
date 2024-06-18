@@ -302,5 +302,6 @@ public class EditorFrame extends JFrame {
             this.dispose();
             new WelcomeFrame();
         }
+        // TODO: Save all files automatically before closing. Do this at the very end.
     }
 }

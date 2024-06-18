@@ -127,6 +127,7 @@ public class EditorTabbedPane extends JTabbedPane {
             closeButton.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             closeButton.setBorderPainted(false);
             closeButton.addActionListener(e -> this.tabbedPane.removeTabAt(this.tabbedPane.indexOfTab(this.tabTitle)));
+            // TODO: Save file automatically before closing. Do this at the very end.
             this.add(closeButton);
         }
     }
