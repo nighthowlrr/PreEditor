@@ -2,8 +2,6 @@ package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.AutoComplete;
-import nos.pre.editor.autoComplete.completions.BaseCompletion;
-import nos.pre.editor.autoComplete.completions.KeywordCompletion;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.editor.DefaultPreEditorDocument;
@@ -11,7 +9,6 @@ import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaCompletions;
-import nos.pre.editor.languages.java.JavaKeywords;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
 import org.jetbrains.annotations.NotNull;
 
@@ -78,14 +75,13 @@ public class EditingPane extends JTextPane {
 
         LinePainter linePainter = new LinePainter(this, UIColors.EDITINGPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
 
-        setLanguageDocument();
-        addUnsavedChangeListener();
+        addLanguageFeatures();
 
+        addSaveFunctionality();
         setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed) (see ensureAddUndoRedoFunction();)
-        addSaveKeyboardShortcut();
     }
 
-    private void setLanguageDocument() {
+    private void addLanguageFeatures() {
         String fileName = this.openedFile.getName();
         String fileExtension = this.openedFile.getName().substring(fileName.lastIndexOf(".") + 1);
 
@@ -102,7 +98,8 @@ public class EditingPane extends JTextPane {
         }
     }
 
-    private void addUnsavedChangeListener() {
+    private void addSaveFunctionality() {
+        // Unsaved Changes Listener
         this.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -122,6 +119,17 @@ public class EditingPane extends JTextPane {
                 runFileUnSavedListeners();
             }
         });
+
+        // Save Keyboard shortcut
+        String saveKey = "Save";
+
+        this.getActionMap().put(saveKey, new AbstractAction(saveKey) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                saveFile();
+            }
+        });
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_SAVE), saveKey);
     }
 
     public void openFile() throws Exception {
@@ -163,18 +171,6 @@ public class EditingPane extends JTextPane {
                 e.printStackTrace();
             }
         }
-    }
-
-    private void addSaveKeyboardShortcut() {
-        String saveKey = "Save";
-
-        this.getActionMap().put(saveKey, new AbstractAction(saveKey) {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveFile();
-            }
-        });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_SAVE), saveKey);
     }
 
     private void ensureAddUndoRedoFunction() {
@@ -231,6 +227,8 @@ public class EditingPane extends JTextPane {
         this.undoRedoFunction.redo();
     }
 
+    // CUSTOM LISTENER METHODS ===
+
     /**
      * If <code>fileSaveListenersList</code> is not empty, then run <code>FileSaveListener.fileSaved()</code> method of
      * all FileSaveListeners in the list.
@@ -257,7 +255,8 @@ public class EditingPane extends JTextPane {
         }
     }
 
-    // GETTERS & SETTERS
+    // GETTERS & SETTERS ===
+
     public File getOpenedFile() {
         return openedFile;
     }
