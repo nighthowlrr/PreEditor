@@ -2,18 +2,21 @@ package nos.pre.editor.autoComplete;
 
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AutoComplete {
     private final int visibleRowCount = 5; // TODO: Implement scrolling
 
     private final EditingPane editingPane;
     private final ArrayList<BaseCompletion> completions;
+    private final String[] completionsString;
 
     private final JPopupMenu popupMenu = new JPopupMenu();
     private final JList autoCompleteList = new JList();
@@ -24,6 +27,7 @@ public class AutoComplete {
     public AutoComplete(EditingPane editingPane, ArrayList<BaseCompletion> completions) {
         this.editingPane = editingPane;
         this.completions = completions;
+        this.completionsString = this.completions.stream().map(BaseCompletion::getCompletionText).toArray(String[]::new);
 
         initUI();
         this.editingPane.addKeyListener(new KeyListener() {
@@ -127,7 +131,7 @@ public class AutoComplete {
         }
 
         String subWord = editingPaneText.substring(start, cursorPosition);
-        if (subWord.length() < 2) {
+        if (subWord.length() < 1) { // How long subWord should be before autoComplete is shown.
             return;
         }
 
@@ -143,12 +147,7 @@ public class AutoComplete {
         popupMenu.setVisible(false);
         popupMenu.removeAll();
 
-        String[] data = new String[10];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = subWord + i;
-        }
-
-        autoCompleteList.setListData(data);
+        autoCompleteList.setListData(getMatchingCompletions(subWord));
         autoCompleteList.setSelectedIndex(0);
 
         popupMenu.add(autoCompleteList);
@@ -198,5 +197,12 @@ public class AutoComplete {
 
     private void hideAutoCompleteMenu() {
         popupMenu.setVisible(false);
+    }
+
+    private String @NotNull [] getMatchingCompletions(String subWord) {
+        // TODO: Matching does not need to be startsWith.
+        return Arrays.stream(this.completionsString)
+                .filter(completionText -> completionText.startsWith(subWord))
+                .toArray(String[]::new);
     }
 }

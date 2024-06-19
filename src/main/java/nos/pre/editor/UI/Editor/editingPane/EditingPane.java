@@ -2,12 +2,16 @@ package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.AutoComplete;
+import nos.pre.editor.autoComplete.completions.BaseCompletion;
+import nos.pre.editor.autoComplete.completions.KeywordCompletion;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.editor.DefaultPreEditorDocument;
 import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
+import nos.pre.editor.languages.java.JavaCompletions;
+import nos.pre.editor.languages.java.JavaKeywords;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +43,7 @@ public class EditingPane extends JTextPane {
 
     // Functionality objects ===
     private UndoRedoFunction undoRedoFunction;
+    private AutoComplete autoComplete;
 
     private final EditingPaneMenu editingPaneMenu;
 
@@ -76,8 +81,6 @@ public class EditingPane extends JTextPane {
         setLanguageDocument();
         addUnsavedChangeListener();
 
-        AutoComplete autoComplete = new AutoComplete(this, null);
-
         setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed) (see ensureAddUndoRedoFunction();)
         addSaveKeyboardShortcut();
     }
@@ -91,6 +94,7 @@ public class EditingPane extends JTextPane {
             case "java":
             // TODO: case "class": decompile class files
                 this.setStyledDocument(new JavaSyntaxDocument());
+                this.autoComplete = new AutoComplete(this, new JavaCompletions());
                 break;
             default:
                 this.setStyledDocument(new DefaultPreEditorDocument());
