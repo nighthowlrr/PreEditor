@@ -34,6 +34,12 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color EDITINGPANE_SELECTION_COLOR = new Color(0xA6D2FF);
     public static final Color EDITINGPANE_CURRENT_LINE_HIGHLIGHT = new Color(255, 255, 255, 20);
 
+    // EDITINGPANE_AUTOCOMPLETE_MENU
+    public static final Color AUTOCOMPLETE_MENU_BG = new Color(0x2B2D30);
+    public static final Color AUTOCOMPLETE_MENU_SELECTED_BG = new Color(0x43454a);
+    public static final Color AUTOCOMPLETE_MENU_FG = new Color(0xFFFFFF);
+    public static final Color AUTOCOMPLETE_MENU_BOTTOM_TEXT_BAR_BG = new Color(0x393B40); // TODO: Unused.
+
     // EDITOR_LINE_NUMBERS
     public static final Color EDITOR_LINE_NUMBERS_CURRENTLINE_FG = new Color(0xFFFFFF);
     public static final Color EDITOR_LINE_NUMBERS_FG = new Color(0x5C5C5C);

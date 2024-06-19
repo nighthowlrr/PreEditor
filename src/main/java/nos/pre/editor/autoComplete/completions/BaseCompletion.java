@@ -2,6 +2,9 @@ package nos.pre.editor.autoComplete.completions;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+
 public class BaseCompletion implements Comparable<BaseCompletion> {
     private static final int DEFAULT_RELEVANCE = 0;
 
@@ -10,7 +13,7 @@ public class BaseCompletion implements Comparable<BaseCompletion> {
     private final int relevance;
 
     public BaseCompletion(String completionText) {
-        this(completionText, "", DEFAULT_RELEVANCE);
+        this(completionText, null, DEFAULT_RELEVANCE);
     }
     public BaseCompletion(String completionText, String summary) {
         this(completionText, summary, DEFAULT_RELEVANCE);
@@ -19,6 +22,10 @@ public class BaseCompletion implements Comparable<BaseCompletion> {
         this.completionText = completionText;
         this.summary = summary;
         this.relevance = relevance;
+    }
+
+    public void insertCompletion(@NotNull Document document, int insertPosition, int subWordLength) throws BadLocationException {
+        document.insertString(insertPosition, getCompletionText().substring(subWordLength), null);
     }
 
     @Override

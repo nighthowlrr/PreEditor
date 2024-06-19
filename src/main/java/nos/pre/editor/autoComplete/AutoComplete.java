@@ -1,25 +1,26 @@
 package nos.pre.editor.autoComplete;
 
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
-import org.jetbrains.annotations.NotNull;
+import nos.pre.editor.defaultValues.UIColors;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class AutoComplete {
     private final int visibleRowCount = 5; // TODO: Implement scrolling
 
     private final EditingPane editingPane;
     private final ArrayList<BaseCompletion> completions;
-    private final String[] completionsString;
 
     private final JPopupMenu popupMenu = new JPopupMenu();
-    private final JList autoCompleteList = new JList();
+    private final JList<BaseCompletion> autoCompleteList = new JList<>();
 
     private String currentSubWord;
     private int currentInsertPosition;
@@ -27,27 +28,25 @@ public class AutoComplete {
     public AutoComplete(EditingPane editingPane, ArrayList<BaseCompletion> completions) {
         this.editingPane = editingPane;
         this.completions = completions;
-        this.completionsString = this.completions.stream().map(BaseCompletion::getCompletionText).toArray(String[]::new);
 
         initUI();
+
         this.editingPane.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    if (popupMenu.isVisible()) {
-                        insertSelection();
+                if (e.getKeyChar() == KeyEvent.VK_ENTER && popupMenu.isVisible()) {
+                    insertSelection();
 
-                        final int position = editingPane.getCaretPosition();
-                        SwingUtilities.invokeLater(() -> {
-                            try {
-                                editingPane.getDocument().remove(position - 1, 1);// Remove newLine from enter key
-                                // TODO: Manually removing newLine from pressing enter key ads lag, and new line is
-                                //  visibly inserted before removed, making it look like a graphic glitch
-                            } catch (BadLocationException e1) {
-                                e1.printStackTrace();
-                            }
-                        });
-                    }
+                    final int position = editingPane.getCaretPosition();
+                    SwingUtilities.invokeLater(() -> {
+                        try {
+                            editingPane.getDocument().remove(position - 1, 1); // Remove newLine from enter key
+                            // TODO: Manually removing newLine from pressing enter key ads lag, and new line is
+                            //  visibly inserted before removed, making it look like a graphic glitch
+                        } catch (BadLocationException e1) {
+                            e1.printStackTrace();
+                        }
+                    });
                 }
             }
 
@@ -92,6 +91,29 @@ public class AutoComplete {
         autoCompleteList.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
         autoCompleteList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         autoCompleteList.setVisibleRowCount(this.visibleRowCount);
+        autoCompleteList.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                // TODO: Proper list cell renderer component
+
+                final BaseCompletion completion = (BaseCompletion) value;
+
+                String text;
+                if (completion.getSummary() != null) {
+                    text = completion.getCompletionText() + "  -  " + completion.getSummary();
+                } else text = completion.getCompletionText();
+
+                JComponent component = (JComponent) super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
+                if (isSelected) {
+                    component.setBackground(UIColors.AUTOCOMPLETE_MENU_SELECTED_BG);
+                } else component.setBackground(UIColors.AUTOCOMPLETE_MENU_BG);
+                component.setForeground(UIColors.AUTOCOMPLETE_MENU_FG);
+                component.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F)); // TODO: UIFonts defaultValues Class
+                component.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+
+                return component;
+            }
+        });
 
         autoCompleteList.addMouseListener(new MouseAdapter() {
             @Override
@@ -164,8 +186,9 @@ public class AutoComplete {
         if (this.popupMenu.isVisible()) {
             if (this.autoCompleteList.getSelectedValue() != null) {
                 try {
-                    String selectedSuggestion = ((String) autoCompleteList.getSelectedValue()).substring(this.currentSubWord.length());
-                    this.editingPane.getDocument().insertString(this.currentInsertPosition, selectedSuggestion, null);
+                    BaseCompletion selectedCompletion = autoCompleteList.getSelectedValue();
+                    selectedCompletion.insertCompletion(this.editingPane.getDocument(), this.currentInsertPosition, this.currentSubWord.length());
+
                 } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
@@ -199,10 +222,13 @@ public class AutoComplete {
         popupMenu.setVisible(false);
     }
 
-    private String @NotNull [] getMatchingCompletions(String subWord) {
+    private Vector<BaseCompletion> getMatchingCompletions(String subWord) {
         // TODO: Matching does not need to be startsWith.
-        return Arrays.stream(this.completionsString)
-                .filter(completionText -> completionText.startsWith(subWord))
-                .toArray(String[]::new);
+
+        return this.completions.stream()
+                .filter(completion -> completion.getCompletionText().startsWith(subWord))
+                .collect(Collectors.toCollection(Vector::new));
+
+        //return Arrays.stream(this.completionsString).filter(completionText -> completionText.startsWith(subWord)).toArray(String[]::new);
     }
 }

@@ -63,7 +63,7 @@ public class EditingPane extends JTextPane {
 
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F));
+        this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F)); // TODO: UIFonts defaultValues Class
         this.setBackground(UIColors.EDITINGPANE_BG);
         this.setForeground(UIColors.EDITINGPANE_FG);
         this.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
