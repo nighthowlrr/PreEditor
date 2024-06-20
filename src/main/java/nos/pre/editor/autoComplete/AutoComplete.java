@@ -96,10 +96,7 @@ public class AutoComplete {
 
                 final BaseCompletion completion = (BaseCompletion) value;
 
-                String text;
-                if (completion.getSummary() != null) {
-                    text = completion.getCompletionText() + "  -  " + completion.getSummary();
-                } else text = completion.getCompletionText();
+                String text = completion.getAutoCompleteMenuText();
 
                 JComponent component = (JComponent) super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
                 if (isSelected) {
@@ -185,7 +182,7 @@ public class AutoComplete {
             if (this.autoCompleteList.getSelectedValue() != null) {
                 try {
                     BaseCompletion selectedCompletion = autoCompleteList.getSelectedValue();
-                    selectedCompletion.insertCompletion(this.editingPane.getDocument(), this.currentInsertPosition, this.currentSubWord.length());
+                    selectedCompletion.insertCompletion(this.editingPane, this.currentInsertPosition, this.currentSubWord.length());
 
                 } catch (BadLocationException e) {
                     e.printStackTrace();
