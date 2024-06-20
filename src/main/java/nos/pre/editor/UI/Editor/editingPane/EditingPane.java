@@ -73,7 +73,8 @@ public class EditingPane extends JTextPane {
         editingPaneMenu = new EditingPaneMenu(this);
         this.setComponentPopupMenu(this.editingPaneMenu);
 
-        LinePainter linePainter = new LinePainter(this, UIColors.EDITINGPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
+        // LinePainter linePainter = new LinePainter(this, UIColors.EDITINGPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
+        // TODO: linePainter temporarily disabled. See line highlight task in Todoist Project.
 
         addLanguageFeatures();
 
