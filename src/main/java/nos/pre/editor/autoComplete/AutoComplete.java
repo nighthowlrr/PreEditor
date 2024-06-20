@@ -3,21 +3,19 @@ package nos.pre.editor.autoComplete;
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
+import nos.pre.editor.autoComplete.completions.CompletionList;
 import nos.pre.editor.defaultValues.UIColors;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.stream.Collectors;
 
 public class AutoComplete {
     private final int visibleRowCount = 5; // TODO: Implement scrolling
 
     private final EditingPane editingPane;
-    private final ArrayList<BaseCompletion> completions;
+    private final CompletionList completions;
 
     private final JPopupMenu popupMenu = new JPopupMenu();
     private final JList<BaseCompletion> autoCompleteList = new JList<>();
@@ -25,7 +23,7 @@ public class AutoComplete {
     private String currentSubWord;
     private int currentInsertPosition;
 
-    public AutoComplete(EditingPane editingPane, ArrayList<BaseCompletion> completions) {
+    public AutoComplete(EditingPane editingPane, CompletionList completions) {
         this.editingPane = editingPane;
         this.completions = completions;
 
@@ -169,7 +167,7 @@ public class AutoComplete {
         popupMenu.setVisible(false);
         popupMenu.removeAll();
 
-        autoCompleteList.setListData(getMatchingCompletions(subWord));
+        autoCompleteList.setListData(CompletionList.getCompletionsAsArray(this.completions.getMatchingCompletions(subWord)));
         autoCompleteList.setSelectedIndex(0);
 
         popupMenu.add(autoCompleteList);
@@ -220,15 +218,5 @@ public class AutoComplete {
 
     private void hideAutoCompleteMenu() {
         popupMenu.setVisible(false);
-    }
-
-    private Vector<BaseCompletion> getMatchingCompletions(String subWord) {
-        // TODO: Matching does not need to be startsWith.
-
-        return this.completions.stream()
-                .filter(completion -> completion.getCompletionText().startsWith(subWord))
-                .collect(Collectors.toCollection(Vector::new));
-
-        //return Arrays.stream(this.completionsString).filter(completionText -> completionText.startsWith(subWord)).toArray(String[]::new);
     }
 }
