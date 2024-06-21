@@ -99,7 +99,7 @@ public class AutoComplete {
                 showAutoCompleteMenuLater();
             }
         });
-        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_AUTOCOMPLETE), autoCompleteKey);
+        this.editingPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_AUTOCOMPLETE, autoCompleteKey);
     }
 
     private void initUI() {

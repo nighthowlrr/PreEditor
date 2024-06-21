@@ -49,8 +49,8 @@ public class UndoRedoFunction {
         });
 
         // Add keyboard shortcuts for undo and redo
-        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_UNDO), undoKey);
-        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_REDO), redoKey);
+        this.editingPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_UNDO, undoKey);
+        this.editingPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_REDO, redoKey);
     }
 
     /**

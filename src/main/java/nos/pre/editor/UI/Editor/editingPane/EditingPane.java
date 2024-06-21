@@ -154,7 +154,7 @@ public class EditingPane extends JTextPane {
                 saveFile();
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_SAVE), saveKey);
+        this.getInputMap().put(KeyboardShortcuts.EDITINGPANE_SAVE, saveKey);
     }
 
     /**
