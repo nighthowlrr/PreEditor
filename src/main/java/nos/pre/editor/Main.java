@@ -7,9 +7,7 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new EditorProcess(new File("E:/JavaProjects/PreEditor")).createEditorFrame();
-        });
+        SwingUtilities.invokeLater(() -> new EditorProcess(new File("E:/JavaProjects/PreEditor")).createEditorFrame());
     }
 
     // TODO: Call to 'printStackTrace()' should be replaced with more robust logging.

@@ -59,6 +59,14 @@ public class AutoComplete {
                             e.consume();
                             // To stop the cursor from moving as well. For unknown reasons, doesn't work in keyReleased, when it should
                             break;
+                        case KeyEvent.VK_HOME:
+                            jumpToTop();
+                            e.consume();
+                            break;
+                        case KeyEvent.VK_END:
+                            jumpToBottom();
+                            e.consume();
+                            break;
                     }
                 }
             }
@@ -67,8 +75,10 @@ public class AutoComplete {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_UP && popupMenu.isVisible()) {
                     moveUp();
+                    e.consume();
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN && popupMenu.isVisible()) {
                     moveDown();
+                    e.consume();
                 } else if (Character.isLetterOrDigit(e.getKeyChar())) {
                     showAutoCompleteMenuLater();
                 } else if (Character.isWhitespace(e.getKeyChar()) || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
@@ -211,6 +221,14 @@ public class AutoComplete {
             index = Math.min(autoCompleteList.getSelectedIndex() + 1, autoCompleteList.getModel().getSize() - 1);
         }
         autoCompleteList.setSelectedIndex(index);
+    }
+
+    private void jumpToTop() {
+        autoCompleteList.setSelectedIndex(0);
+    }
+
+    private void jumpToBottom() {
+        autoCompleteList.setSelectedIndex(autoCompleteList.getModel().getSize() - 1);
     }
 
     private void hideAutoCompleteMenu() {
