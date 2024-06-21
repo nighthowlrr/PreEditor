@@ -99,6 +99,30 @@ public class EditingPane extends JTextPane {
         }
     }
 
+    // FILE I/O FUNCTIONS ===
+
+    public void openFile() throws Exception {
+        this.setText("");
+
+        // Read the file
+        Scanner scanner = new Scanner(this.openedFile);
+        while (scanner.hasNextLine()) {
+            // Append the text line-by-line
+            this.getStyledDocument().insertString(this.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
+        }
+        // Remove the last "\n" character
+        this.getStyledDocument().remove(this.getStyledDocument().getLength() - 1, 1);
+        scanner.close();
+
+        // Set Caret to the beginning of the text
+        this.setCaretPosition(0);
+
+        // OpenedFile has not been changed yet, so isFileSaved = true,
+        // and FileSaveListener.fileSaved() is triggered for all fileSaveListeners
+        isFileSaved = true;
+        runFileSavedListeners();
+    }
+
     private void addSaveFunctionality() {
         // Unsaved Changes Listener
         this.getDocument().addDocumentListener(new DocumentListener() {
@@ -133,28 +157,6 @@ public class EditingPane extends JTextPane {
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_SAVE), saveKey);
     }
 
-    public void openFile() throws Exception {
-        this.setText("");
-
-        // Read the file
-        Scanner scanner = new Scanner(this.openedFile);
-        while (scanner.hasNextLine()) {
-            // Append the text line-by-line
-            this.getStyledDocument().insertString(this.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
-        }
-        // Remove the last "\n" character
-        this.getStyledDocument().remove(this.getStyledDocument().getLength() - 1, 1);
-        scanner.close();
-
-        // Set Caret to the beginning of the text
-        this.setCaretPosition(0);
-
-        // OpenedFile has not been changed yet, so isFileSaved = true,
-        // and FileSaveListener.fileSaved() is triggered for all fileSaveListeners
-        isFileSaved = true;
-        runFileSavedListeners();
-    }
-
     /**
      * If <code>openedFile</code> is not saved, then saves the file, and runs <code>FileSaveListener.fileSaved()</code>
      * method for all FileSaveListeners
@@ -171,12 +173,6 @@ public class EditingPane extends JTextPane {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void ensureAddUndoRedoFunction() {
-        if (undoRedoEnabled) {
-            undoRedoFunction = new UndoRedoFunction(this); // TODO: Undo/Redo Functionality suddenly not working.
         }
     }
 
@@ -212,6 +208,20 @@ public class EditingPane extends JTextPane {
         int posInLine = dot - getLineStartOffset(line);
 
         return (line + 1) + ":" + (posInLine + 1);
+    }
+
+    // UNDO/REDO FUNCTIONS ===
+
+    /**
+     * If <code>undoRedoEnabled</code> is <code>True</code>, creates new <code>UndoRedoFunction</code> object.
+     * Otherwise, sets <code>undoRedoFunction</code> to <code>null</code>.
+     */
+    private void ensureAddUndoRedoFunction() {
+        if (undoRedoEnabled) {
+            undoRedoFunction = new UndoRedoFunction(this); // TODO: Undo/Redo Functionality suddenly not working.
+        } else {
+            undoRedoFunction = null;
+        }
     }
 
     /**
