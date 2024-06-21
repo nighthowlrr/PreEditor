@@ -176,11 +176,14 @@ public class EditingPane extends JTextPane {
         }
     }
 
+    // CARET LOCATION METHODS ===
+
     /**
      * Get the line the caret is currently on.
+     * @param offset Location of caret with reference to all text.
      * @return The line on which caret is currently on.
      */
-    private int getCaretLinePosition(int offset) {
+    public int getCaretLinePosition(int offset) {
         Document document = this.getDocument();
         Element map = document.getDefaultRootElement();
         return map.getElementIndex(offset);
@@ -189,25 +192,13 @@ public class EditingPane extends JTextPane {
     /**
      * Get char position of caret in the specified line.
      * @param line The line in which caret is located.
+     * @param offset Location of caret with reference to all text.
      * @return The char position of caret in the specified line.
      */
-    private int getLineStartOffset(int line) {
+    public int getCaretPositionInLine(int line, int offset) {
         Element map = this.getDocument().getDefaultRootElement();
         Element lineElem = map.getElement(line);
-        return lineElem.getStartOffset();
-    }
-
-    /**
-     * Returns a string in the format "line:position in line" for position of caret.
-     * @param e The caretEvent to listen to
-     * @return A string in the format "line:position in line" for position of caret.
-     */
-    public String getCaretLocationString(@NotNull CaretEvent e) {
-        int dot = e.getDot();
-        int line = getCaretLinePosition(dot);
-        int posInLine = dot - getLineStartOffset(line);
-
-        return (line + 1) + ":" + (posInLine + 1);
+        return offset - lineElem.getStartOffset();
     }
 
     // UNDO/REDO FUNCTIONS ===

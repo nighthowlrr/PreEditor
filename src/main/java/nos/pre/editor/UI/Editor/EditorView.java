@@ -8,6 +8,8 @@ import templateUI.SwingComponents.TextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import java.awt.*;
 import java.io.File;
 import java.util.Objects;
@@ -100,7 +102,13 @@ public class EditorView extends JPanel {
         tabPolicyLabel.setForeground(UIColors.EDITOR_STATUS_BAR_TAB_POLICY_TEXT);
         tabPolicyLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
-        editingPane.addCaretListener(e -> caretLocationLabel.setText(editingPane.getCaretLocationString(e)));
+        editingPane.addCaretListener(e -> {
+            int dot = e.getDot();
+            int line = editingPane.getCaretLinePosition(dot);
+            int posInLine = editingPane.getCaretPositionInLine(line, dot);
+
+            caretLocationLabel.setText((line + 1) + ":" + (posInLine + 1));
+        });
         caretLocationLabel.setForeground(UIColors.EDITOR_STATUS_BAR_CARET_LOCATION_TEXT);
         caretLocationLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
