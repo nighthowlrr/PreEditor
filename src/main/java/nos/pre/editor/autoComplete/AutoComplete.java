@@ -182,10 +182,15 @@ public class AutoComplete {
     }
 
     private void createAutoCompleteMenu(String subWord, int insertPosition, Point menuLocation) {
-        popupMenu.setVisible(false);
+        hideAutoCompleteMenu();
         popupMenu.removeAll();
 
-        autoCompleteList.setListData(CompletionList.getCompletionsAsArray(this.completions.getMatchingCompletions(subWord)));
+        BaseCompletion[] matchingCompletions = CompletionList.getCompletionsAsArray(this.completions.getMatchingCompletions(subWord));
+        if (matchingCompletions.length == 0) {
+            return;
+        }
+
+        autoCompleteList.setListData(matchingCompletions);
         autoCompleteList.setSelectedIndex(0);
 
         popupMenu.add(autoCompleteList);
