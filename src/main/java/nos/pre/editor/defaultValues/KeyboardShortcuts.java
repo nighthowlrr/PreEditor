@@ -6,4 +6,6 @@ public class KeyboardShortcuts { // TODO: Changeable & Store Defaults
 
     public static final String EDITINGPANE_UNDO = "control z";
     public static final String EDITINGPANE_REDO = "control shift z";
+
+    public static final String EDITINGPANE_AUTOCOMPLETE = "control SPACE";
 }

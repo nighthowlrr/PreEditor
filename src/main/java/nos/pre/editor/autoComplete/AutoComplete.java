@@ -4,6 +4,7 @@ import nos.pre.editor.UI.Editor.editingPane.EditingPane;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
 import nos.pre.editor.autoComplete.completions.CompletionList;
+import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 
 import javax.swing.*;
@@ -89,6 +90,16 @@ public class AutoComplete {
                 }
             }
         });
+
+        String autoCompleteKey = "AutoComplete";
+
+        this.editingPane.getActionMap().put(autoCompleteKey, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAutoCompleteMenuLater();
+            }
+        });
+        this.editingPane.getInputMap().put(KeyStroke.getKeyStroke(KeyboardShortcuts.EDITINGPANE_AUTOCOMPLETE), autoCompleteKey);
     }
 
     private void initUI() {
