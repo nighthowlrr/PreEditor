@@ -126,18 +126,12 @@ public class EditorView extends JPanel {
         this.add(statusBar, BorderLayout.SOUTH);
     }
 
-    /**
-     * Reads <code>this.openedFile</code> and appends its text to <code>EditingPane</code>
-     */
     private void openFile() {
         // TODO: If file type is not supported (file cannot be read and opened), then do not open a new tab
-        try {
-            editingPane.openFile();
-
+        if (editingPane.openFile()) {
             saveStatusLabel.setText("Saved");
             caretLocationLabel.setText("1:1");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             JOptionPane.showMessageDialog(null, "Unable to open file. An error occurred",
                     "Error", JOptionPane.ERROR_MESSAGE, null);
             // TODO: More detailed error messages

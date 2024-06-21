@@ -6,14 +6,13 @@ import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.editor.DefaultPreEditorDocument;
 import nos.pre.editor.editor.PreEditorDocument;
+import nos.pre.editor.files.FileIO;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaCompletions;
 import nos.pre.editor.languages.java.JavaSyntaxDocument;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
@@ -101,26 +100,20 @@ public class EditingPane extends JTextPane {
 
     // FILE I/O FUNCTIONS ===
 
-    public void openFile() throws Exception {
+    public boolean openFile() {
         this.setText("");
 
-        // Read the file
-        Scanner scanner = new Scanner(this.openedFile);
-        while (scanner.hasNextLine()) {
-            // Append the text line-by-line
-            this.getStyledDocument().insertString(this.getStyledDocument().getLength(), scanner.nextLine() + "\n", null);
-        }
-        // Remove the last "\n" character
-        this.getStyledDocument().remove(this.getStyledDocument().getLength() - 1, 1);
-        scanner.close();
+        if (FileIO.openFileToDocument(this.openedFile, this.getStyledDocument())) {
+            // Set Caret to the beginning of the text
+            this.setCaretPosition(0);
 
-        // Set Caret to the beginning of the text
-        this.setCaretPosition(0);
+            // OpenedFile has not been changed yet, so isFileSaved = true,
+            // and FileSaveListener.fileSaved() is triggered for all fileSaveListeners
+            isFileSaved = true;
+            runFileSavedListeners();
 
-        // OpenedFile has not been changed yet, so isFileSaved = true,
-        // and FileSaveListener.fileSaved() is triggered for all fileSaveListeners
-        isFileSaved = true;
-        runFileSavedListeners();
+            return true;
+        } else return false;
     }
 
     private void addSaveFunctionality() {
@@ -162,17 +155,9 @@ public class EditingPane extends JTextPane {
      * method for all FileSaveListeners
      */
     public void saveFile() {
-        if (! isFileSaved) {
-            try {
-                PrintWriter writer = new PrintWriter(this.openedFile);
-                writer.write(this.getText());
-                writer.close();
-
-                isFileSaved = true;
-                runFileSavedListeners();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+        if (FileIO.saveFile(this.openedFile, this.getText())) {
+            isFileSaved = true;
+            runFileSavedListeners();
         }
     }
 
