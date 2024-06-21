@@ -29,22 +29,24 @@ public class AutoComplete {
 
         initUI();
 
-        this.editingPane.addKeyListener(new KeyListener() {
+        this.editingPane.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER && popupMenu.isVisible()) {
-                    insertSelection();
+                if (popupMenu.isVisible()) {
+                    if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                        insertSelection();
 
-                    final int position = editingPane.getCaretPosition();
-                    SwingUtilities.invokeLater(() -> {
-                        try {
-                            editingPane.getDocument().remove(position - 1, 1); // Remove newLine from enter key
-                            // TODO: Manually removing newLine from pressing enter key ads lag, and new line is
-                            //  visibly inserted before removed, making it look like a graphic glitch
-                        } catch (BadLocationException e1) {
-                            e1.printStackTrace();
-                        }
-                    });
+                        final int position = editingPane.getCaretPosition();
+                        SwingUtilities.invokeLater(() -> {
+                            try {
+                                editingPane.getDocument().remove(position - 1, 1); // Remove newLine from enter key
+                                // TODO: Manually removing newLine from pressing enter key ads lag, and new line is
+                                //  visibly inserted before removed, making it look like a graphic glitch
+                            } catch (BadLocationException e1) {
+                                e1.printStackTrace();
+                            }
+                        });
+                    }
                 }
             }
 
@@ -53,11 +55,17 @@ public class AutoComplete {
                 if (popupMenu.isVisible()) {
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_UP:
+                            moveUp();
+                            e.consume();
+                            break;
                         case KeyEvent.VK_DOWN:
+                            moveDown();
+                            e.consume();
+                            break;
                         case KeyEvent.VK_LEFT:
                         case KeyEvent.VK_RIGHT:
                             e.consume();
-                            // To stop the cursor from moving as well. For unknown reasons, doesn't work in keyReleased, when it should
+                            // To stop the cursor from moving left or right.
                             break;
                         case KeyEvent.VK_HOME:
                             jumpToTop();
@@ -68,25 +76,17 @@ public class AutoComplete {
                             e.consume();
                             break;
                     }
-                }
-            }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_UP && popupMenu.isVisible()) {
-                    moveUp();
-                    e.consume();
-                } else if (e.getKeyCode() == KeyEvent.VK_DOWN && popupMenu.isVisible()) {
-                    moveDown();
-                    e.consume();
-                } else if (Character.isLetterOrDigit(e.getKeyChar())) {
+                    // TODO: Calling e.consume(); outside of switch statement causes autocomplete to not insert
+                    //  last character of completion...??
+                }
+
+                if (Character.isLetterOrDigit(e.getKeyChar())) {
                     showAutoCompleteMenuLater();
-                } else if (Character.isWhitespace(e.getKeyChar()) || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+                } else if ((Character.isWhitespace(e.getKeyChar()) && e.getKeyChar() != KeyEvent.VK_ENTER) // "\n" also counts as whitespace
+                        || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
                     hideAutoCompleteMenu();
                 }
-
-                // TODO: for unknown reason, using this code in "keyPressed" makes enter key action stop working,
-                //  but fixes cursor moving from up and down key...
             }
         });
     }
