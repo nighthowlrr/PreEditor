@@ -4,6 +4,8 @@ import nos.pre.editor.UI.Editor.editingPane.EditingPane;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import templateUI.SwingComponents.TextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
 
@@ -65,9 +67,9 @@ public class EditorView extends JPanel {
         editorScrollPane.setWheelScrollingEnabled(true);
         editorScrollPane.setBackground(editingPane.getBackground());
         editorScrollPane.setScrollThumbColor(new Color(0xFFFFFF));
-        // TODO: Colors or light & dark setting in jScrollPane
         editorScrollPane.setScrollTrackColor(editingPane.getBackground());
         editorScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        setEditorScrollPaneCorners();
         this.add(editorScrollPane, BorderLayout.CENTER);
 
         // STATUS BAR ===
@@ -141,5 +143,22 @@ public class EditorView extends JPanel {
     @Override
     public void requestFocus() {
         editingPane.requestFocus();
+    }
+
+
+    @Contract(" -> new")
+    private @NotNull JPanel createNewCorner() {
+        return new JPanel(null, true) {
+            @Override
+            public Color getBackground() {
+                return UIColors.EDITINGPANE_BG; // TODO: UIColors
+            }
+        };
+    }
+    private void setEditorScrollPaneCorners() {
+        editorScrollPane.setCorner(JScrollPane.UPPER_RIGHT_CORNER, createNewCorner());
+        editorScrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER, createNewCorner());
+        editorScrollPane.setCorner(JScrollPane.LOWER_RIGHT_CORNER, createNewCorner());
+        editorScrollPane.setCorner(JScrollPane.LOWER_LEFT_CORNER, createNewCorner());
     }
 }
