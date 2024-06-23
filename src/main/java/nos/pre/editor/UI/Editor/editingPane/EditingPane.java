@@ -18,10 +18,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class EditingPane extends JTextPane {
     // Functionality enabled booleans ===
@@ -65,9 +62,9 @@ public class EditingPane extends JTextPane {
         this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F)); // TODO: UIFonts defaultValues Class
         this.setBackground(UIColors.EDITINGPANE_BG);
         this.setForeground(UIColors.EDITINGPANE_FG);
+
+        this.setCaret(new PreCaret());
         this.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
-        this.setSelectionColor(UIColors.EDITINGPANE_SELECTION_COLOR);
-        // TODO: Make Caret bigger for visibility
 
         editingPaneMenu = new EditingPaneMenu(this);
         this.setComponentPopupMenu(this.editingPaneMenu);
