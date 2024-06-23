@@ -11,8 +11,7 @@ import java.awt.event.FocusEvent;
  * Custom Caret class.
  * Managing:
  * <li>Text Selection Color (both when text component is focused and unfocused)</li>
- *
- * (Color of caret itself is changed by the text component caret is bound to.)
+ * <li>Color of caret (set in <code>registerEditingPane()</code>)</li>
  */
 public class PreCaret extends DefaultCaret {
     private final Highlighter.HighlightPainter focusedHighlightPainter;
@@ -26,6 +25,12 @@ public class PreCaret extends DefaultCaret {
         // TODO: Make Caret bigger for visibility
     }
 
+    public void registerEditingPane(EditingPane editingPane) {
+        editingPane.setCaret(this);
+        editingPane.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
+        this.setSelectionVisible(true);
+    }
+
     @Override
     protected Highlighter.HighlightPainter getSelectionPainter() {
         return getComponent().hasFocus() ? focusedHighlightPainter : unfocusedHighlightPainter;
@@ -33,7 +38,7 @@ public class PreCaret extends DefaultCaret {
 
     @Override
     public void focusGained(FocusEvent e) {
-        // setSelectionVisible(false); // super.focusGained(e) sets selectionVisible to true.
+        setSelectionVisible(false); // super.focusGained(e) sets selectionVisible to true.
         super.focusGained(e);
     }
 

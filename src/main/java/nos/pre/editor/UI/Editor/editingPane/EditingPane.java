@@ -63,8 +63,8 @@ public class EditingPane extends JTextPane {
         this.setBackground(UIColors.EDITINGPANE_BG);
         this.setForeground(UIColors.EDITINGPANE_FG);
 
-        this.setCaret(new PreCaret());
-        this.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
+        PreCaret preCaret = new PreCaret();
+        preCaret.registerEditingPane(this);
 
         editingPaneMenu = new EditingPaneMenu(this);
         this.setComponentPopupMenu(this.editingPaneMenu);
