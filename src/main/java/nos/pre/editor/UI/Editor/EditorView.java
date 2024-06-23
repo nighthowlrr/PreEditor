@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.UI.Editor.editingPane.FindReplace;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
@@ -10,8 +11,6 @@ import templateUI.SwingComponents.TextLineNumber;
 import templateUI.SwingComponents.jScrollPane;
 
 import javax.swing.*;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import java.awt.*;
 import java.io.File;
 import java.util.Objects;
@@ -71,6 +70,9 @@ public class EditorView extends JPanel {
         editorScrollPane.setBorder(BorderFactory.createEmptyBorder());
         setEditorScrollPaneCorners();
         this.add(editorScrollPane, BorderLayout.CENTER);
+
+        // TODO: When scrolling horizontally, find/replace ui panel also scrolls then glitches back to normal position
+        editorScrollPane.setColumnHeaderView(new FindReplace(editingPane).getUI());
 
         // STATUS BAR ===
         statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
