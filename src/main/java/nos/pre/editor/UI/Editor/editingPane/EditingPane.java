@@ -10,7 +10,7 @@ import nos.pre.editor.files.FileIO;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaCompletions;
-import nos.pre.editor.languages.java.JavaSyntaxDocument;
+import nos.pre.editor.languages.java.JavaSyntaxPreEditorDocument;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -89,7 +89,7 @@ public class EditingPane extends JTextPane {
             // TODO: Make a global class and check from that class
             case "java":
             // TODO: case "class": decompile class files
-                this.setStyledDocument(new JavaSyntaxDocument());
+                this.setStyledDocument(new JavaSyntaxPreEditorDocument());
                 this.autoComplete = new AutoComplete(this, new JavaCompletions());
                 break;
             default:

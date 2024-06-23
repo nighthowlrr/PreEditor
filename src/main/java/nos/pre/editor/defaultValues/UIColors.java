@@ -69,4 +69,5 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color PROJECT_TOOL_WINDOW_FILESELECTED_UNFOCUSED = new Color(0x4DFFFFFF, true);
 
     // nice purple color = 0x6647D3
+    // black theme black bg with readability = 0x0C0F14
 }

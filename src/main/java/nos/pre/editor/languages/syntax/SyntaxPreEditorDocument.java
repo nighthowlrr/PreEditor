@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.text.*;
 import java.util.Map;
 
-public class SyntaxDocument extends PreEditorDocument {
+public class SyntaxPreEditorDocument extends PreEditorDocument {
     private final Map<String, KeywordType> languageKeywords;
     private final SyntaxColorInfo syntaxColorInfo;
     private final LanguageDelimiterInfo delimiterInfo;
@@ -15,7 +15,7 @@ public class SyntaxDocument extends PreEditorDocument {
     private final Element rootElement = this.getDefaultRootElement();
     private boolean multiLineComment;
 
-    public SyntaxDocument(Map<String, KeywordType> keywords, SyntaxColorInfo syntaxColorInfo, LanguageDelimiterInfo delimiterInfo) {
+    public SyntaxPreEditorDocument(Map<String, KeywordType> keywords, SyntaxColorInfo syntaxColorInfo, LanguageDelimiterInfo delimiterInfo) {
         super();
 
         this.languageKeywords = keywords;

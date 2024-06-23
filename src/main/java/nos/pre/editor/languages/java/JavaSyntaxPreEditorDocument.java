@@ -2,14 +2,14 @@ package nos.pre.editor.languages.java;
 
 import nos.pre.editor.languages.syntax.LanguageDelimiterInfo;
 import nos.pre.editor.languages.syntax.SyntaxColorInfo;
-import nos.pre.editor.languages.syntax.SyntaxDocument;
+import nos.pre.editor.languages.syntax.SyntaxPreEditorDocument;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class JavaSyntaxDocument extends SyntaxDocument {
-    public JavaSyntaxDocument() {
+public class JavaSyntaxPreEditorDocument extends SyntaxPreEditorDocument {
+    public JavaSyntaxPreEditorDocument() {
         super(JavaKeywords.getKeywordMap(), getJavaSyntaxColorInfo(), getJavaDelimiterInfo());
     }
 
