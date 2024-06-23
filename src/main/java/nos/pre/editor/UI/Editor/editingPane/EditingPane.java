@@ -264,4 +264,11 @@ public class EditingPane extends JTextPane {
             throw new IllegalStateException("EditingPane.getIndentSize(): this.StyledDocument not instanceof PreEditorDocument");
         }
     }
+
+    // UTIL METHODS ===
+
+    public void setSelection(int start, int end) {
+        this.setSelectionStart(start);
+        this.setSelectionEnd(end);
+    }
 }
