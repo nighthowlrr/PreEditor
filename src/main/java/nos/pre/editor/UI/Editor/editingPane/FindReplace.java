@@ -2,11 +2,14 @@ package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import templateUI.SwingComponents.jToggleButton;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
@@ -38,7 +41,7 @@ public class FindReplace {
     }
 
     private void selectNextOccurrenceOfText(String textToFind) {
-        if (! textToFind.isEmpty()) {
+        if (textToFind != null && ! textToFind.isEmpty()) {
 
             if (! matchCase) {
                 textToFind = textToFind.toLowerCase();
@@ -87,7 +90,7 @@ public class FindReplace {
     }
 
     private void selectPreviousOccurrenceOfText(String textToFind) {
-        if (! textToFind.isEmpty()) {
+        if (textToFind != null && ! textToFind.isEmpty()) {
 
             if (! matchCase) {
                 textToFind = textToFind.toLowerCase();
@@ -132,23 +135,31 @@ public class FindReplace {
         }
     }
 
+    @Contract(mutates = "this")
+    private void resetSearchPosition() {
+        this.currentSearchPos = 0;
+    }
+
     private void highlightAllOccurrencesOfText(String textToHighlight) {
         resetHighlights();
 
-        Document document = this.preTextPane.getDocument();
-        int textToHighlightLength = textToHighlight.length();
+        if (textToHighlight != null && ! textToHighlight.isEmpty()) {
 
-        try {
-            for (int searchIndex = 0; searchIndex + textToHighlightLength < document.getLength(); searchIndex++) {
-                String match = document.getText(searchIndex, textToHighlightLength);
-                if (doesTextMatch(match, textToHighlight)) {
-                    Object highlightTag = this.preTextPane.getHighlighter().addHighlight(searchIndex, searchIndex + textToHighlightLength, findHighlighter);
+            Document document = this.preTextPane.getDocument();
+            int textToHighlightLength = textToHighlight.length();
 
-                    this.highlights.add(highlightTag);
+            try {
+                for (int searchIndex = 0; searchIndex + textToHighlightLength < document.getLength(); searchIndex++) {
+                    String match = document.getText(searchIndex, textToHighlightLength);
+                    if (doesTextMatch(match, textToHighlight)) {
+                        Object highlightTag = this.preTextPane.getHighlighter().addHighlight(searchIndex, searchIndex + textToHighlightLength, findHighlighter);
+
+                        this.highlights.add(highlightTag);
+                    }
                 }
+            } catch (BadLocationException e) {
+                e.printStackTrace();
             }
-        } catch (BadLocationException e) {
-            e.printStackTrace();
         }
     }
 
@@ -162,14 +173,16 @@ public class FindReplace {
         }
     }
 
-    private void setMatchCase(boolean matchCase) {
-        if (this.matchCase != matchCase) {
-            this.matchCase = matchCase;
+    private void setMatchCase(boolean newMatchCase) {
+        if (this.matchCase != newMatchCase) {
+            this.matchCase = newMatchCase;
 
-            this.findReplaceUIPanel.setMatchCaseToggleButtonState(matchCase);
+            this.findReplaceUIPanel.setMatchCaseToggleButtonState(newMatchCase);
 
+            resetHighlights();
+            resetSearchPosition();
+            highlightAllOccurrencesOfText(this.findReplaceUIPanel.getFindTextFieldInput());
             selectNextOccurrenceOfText(this.findReplaceUIPanel.getFindTextFieldInput());
-            // TODO: Updated selected text occurrences
         }
     }
 
@@ -286,7 +299,30 @@ public class FindReplace {
         }
 
         private void addFunctionality() {
-            findTextField.addActionListener(e -> highlightAllOccurrencesOfText(findTextField.getText()));
+            findTextField.getDocument().addDocumentListener(new DocumentListener() {
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    showNewResults();
+                }
+
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    showNewResults();
+                }
+
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    showNewResults();
+                }
+
+                private void showNewResults() {
+                    highlightAllOccurrencesOfText(findTextField.getText());
+                    resetSearchPosition();
+                    selectNextOccurrenceOfText(findTextField.getText());
+                }
+            });
+
+            findTextField.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
 
             matchCaseToggleButton.addActionListener(e -> setMatchCase(matchCaseToggleButton.isSelected()));
             nextOccurrenceButton.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
@@ -295,7 +331,7 @@ public class FindReplace {
 
 
         public String getFindTextFieldInput() {
-            return replaceTextField.getText();
+            return findTextField.getText().isEmpty() ? null : findTextField.getText();
         }
         public void setMatchCaseToggleButtonState(boolean matchCaseEnabled) {
             matchCaseToggleButton.setSelected(matchCaseEnabled);
