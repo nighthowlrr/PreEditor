@@ -1,5 +1,7 @@
 package nos.pre.editor.UI.Editor.editingPane;
 
+import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.defaultValues.UIFonts;
 import nos.pre.editor.files.FileSaveListener;
 
 import javax.swing.*;
@@ -7,6 +9,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 public class PreTextPaneMenu extends JPopupMenu {
     private final PreTextPane preTextPane;
@@ -22,9 +25,13 @@ public class PreTextPaneMenu extends JPopupMenu {
             this.thisDesktop = Desktop.getDesktop();
         } else this.thisDesktop = null;
 
-        this.addMenuItems();
+        this.setupMenuItems();
         this.addListeners();
+
+        this.addAllMenuItems();
     }
+
+    private final ArrayList<JMenuItem> menuItems = new ArrayList<>();
 
     private final JMenuItem saveItem = new JMenuItem("Save");
 
@@ -42,38 +49,32 @@ public class PreTextPaneMenu extends JPopupMenu {
 
     private final JMenuItem googleSearchItem = new JMenuItem("Search with google");
 
-    private void addMenuItems() {
+    private void setupMenuItems() {
         saveItem.setEnabled(false);
-        saveItem.addActionListener(e -> {
-            this.preTextPane.saveFile();
-        });
-        this.add(saveItem);
-
-        this.addSeparator();
+        saveItem.addActionListener(e -> this.preTextPane.saveFile());
+        menuItems.add(saveItem);
 
         cutItem.setEnabled(false);
         cutItem.addActionListener(e -> this.preTextPane.cut());
-        this.add(cutItem);
+        menuItems.add(cutItem);
 
         copyItem.setEnabled(false);
         copyItem.addActionListener(e -> this.preTextPane.copy());
-        this.add(copyItem);
+        menuItems.add(copyItem);
 
         pasteItem.addActionListener(e -> this.preTextPane.paste()); // TODO: Using paste item from menu pastes text two times...
-        this.add(pasteItem);
-
-        this.addSeparator();
+        menuItems.add(pasteItem);
 
         if (this.preTextPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
             undoItem.setEnabled(true);
             undoItem.addActionListener(e -> this.preTextPane.undo());
-            this.add(undoItem);
+            menuItems.add(undoItem);
 
             redoItem.setEnabled(true);
             redoItem.addActionListener(e -> this.preTextPane.redo());
-            this.add(redoItem);
+            menuItems.add(redoItem);
 
-            this.addSeparator();
+
         }
 
         openInExplorerItem.setEnabled(isDesktopSupported);
@@ -85,7 +86,7 @@ public class PreTextPaneMenu extends JPopupMenu {
                 ex.printStackTrace();
             }
         });
-        openInMenu.add(openInExplorerItem);
+        menuItems.add(openInExplorerItem);
 
         openInAppItem.setEnabled(isDesktopSupported);
         openInAppItem.addActionListener(e -> {
@@ -95,15 +96,13 @@ public class PreTextPaneMenu extends JPopupMenu {
                 ex.printStackTrace();
             }
         });
-        openInMenu.add(openInAppItem);
+        menuItems.add(openInAppItem);
 
         openInTerminalItem.setEnabled(false);
         // TODO: Open the in-app terminal tool window
-        openInMenu.add(openInTerminalItem);
+        menuItems.add(openInTerminalItem);
 
-        this.add(openInMenu);
-
-        this.addSeparator();
+        menuItems.add(openInMenu);
 
         if (isDesktopSupported) {
             googleSearchItem.setEnabled(false);
@@ -114,6 +113,35 @@ public class PreTextPaneMenu extends JPopupMenu {
                     ex.printStackTrace();
                 }
             });
+            menuItems.add(googleSearchItem);
+        }
+
+        // Modify all menu items
+        for (JMenuItem menuItem : menuItems) {
+            menuItem.setFont(Fonts.LeagueSpartan.deriveFont(Font.BOLD, 14F));
+        }
+    }
+
+    private void addAllMenuItems() {
+        this.add(saveItem);
+        this.addSeparator();
+        this.add(cutItem);
+        this.add(copyItem);
+        this.add(pasteItem);
+        this.addSeparator();
+        if (this.preTextPane.isUndoRedoEnabled()) {
+            this.add(undoItem);
+            this.add(redoItem);
+            this.addSeparator();
+        }
+
+        openInMenu.add(openInExplorerItem);
+        openInMenu.add(openInAppItem);
+        openInMenu.add(openInTerminalItem);
+        this.add(openInMenu);
+
+        this.addSeparator();
+        if (isDesktopSupported) {
             this.add(googleSearchItem);
         }
     }
@@ -142,6 +170,6 @@ public class PreTextPaneMenu extends JPopupMenu {
 
     public void updateMenuItems() {
         this.removeAll();
-        this.addMenuItems();
+        this.addAllMenuItems();
     }
 }
