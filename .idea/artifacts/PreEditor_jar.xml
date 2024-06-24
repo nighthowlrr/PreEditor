@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PreEditor:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PreEditor_jar</output-path>
+    <root id="archive" name="PreEditor.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="PreEditor" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fifesoft/rsyntaxtextarea/3.4.0/rsyntaxtextarea-3.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fifesoft/autocomplete/3.3.1/autocomplete-3.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/formdev/flatlaf/3.4.1/flatlaf-3.4.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
