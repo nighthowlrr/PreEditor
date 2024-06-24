@@ -22,7 +22,7 @@ public class UIFonts {
     public static final Font PRETEXTPANE_MENU_FONT = Fonts.LeagueSpartan.deriveFont(Font.BOLD, 14F);
 
     // EDITOR_FIND_REPLACE_UI
-    public static final Font FIND_REPLACE_UI_LABEL_FONT = Fonts.SourceCodePro_Regular.deriveFont(14F);
+    public static final Font FIND_REPLACE_UI_LABEL_FONT = Fonts.LeagueSpartan.deriveFont(14F);
 
     // EDITOR_STATUS_BAR
     public static final Font EDITOR_STATUS_BAR_INDICATORS_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 12);

@@ -1,6 +1,5 @@
 package nos.pre.editor.UI.Editor.editingPane;
 
-import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;
 import org.jetbrains.annotations.NotNull;
@@ -9,9 +8,12 @@ import templateUI.SwingComponents.jToggleButton;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Document;
+import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 public class FindReplace {
     private final PreTextPane preTextPane;
@@ -21,6 +23,9 @@ public class FindReplace {
     private int currentSearchPos = 0;
 
     private final FindReplaceUIPanel findReplaceUIPanel;
+
+    private final Highlighter.HighlightPainter findHighlighter = new DefaultHighlighter.DefaultHighlightPainter(UIColors.FIND_REPLACE_HIGHLIGHT_COLOR);
+    private final ArrayList<Object> highlights = new ArrayList<>();
 
     public FindReplace(PreTextPane preTextPane) {
         this.preTextPane = preTextPane;
@@ -127,6 +132,36 @@ public class FindReplace {
         }
     }
 
+    private void highlightAllOccurrencesOfText(String textToHighlight) {
+        resetHighlights();
+
+        Document document = this.preTextPane.getDocument();
+        int textToHighlightLength = textToHighlight.length();
+
+        try {
+            for (int searchIndex = 0; searchIndex + textToHighlightLength < document.getLength(); searchIndex++) {
+                String match = document.getText(searchIndex, textToHighlightLength);
+                if (doesTextMatch(match, textToHighlight)) {
+                    Object highlightTag = this.preTextPane.getHighlighter().addHighlight(searchIndex, searchIndex + textToHighlightLength, findHighlighter);
+
+                    this.highlights.add(highlightTag);
+                }
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resetHighlights() {
+        if (! this.highlights.isEmpty()) {
+            for (Object highlight : this.highlights) {
+                this.preTextPane.getHighlighter().removeHighlight(highlight);
+            }
+
+            this.highlights.clear();
+        }
+    }
+
     private void setMatchCase(boolean matchCase) {
         if (this.matchCase != matchCase) {
             this.matchCase = matchCase;
@@ -202,8 +237,10 @@ public class FindReplace {
             matchCaseToggleButton.setToolTipText("Match Case");
 
             setUpFindUIButton(nextOccurrenceButton, "Select Next Occurrence");
+            nextOccurrenceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
 
             setUpFindUIButton(previousOccurrenceButton, "Select Previous Occurrence");
+            previousOccurrenceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIColors.FIND_REPLACE_UI_BORDER));
 
             findTextButtonPanel.setOpaque(false);
             findTextButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
@@ -241,7 +278,6 @@ public class FindReplace {
 
         private void setUpFindUIButton(@NotNull JButton button, @Nullable String toolTipText) {
             button.setPreferredSize(new Dimension(uiButtonWidth, uiBarHeight));
-            button.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIColors.FIND_REPLACE_UI_BORDER));
             button.setBackground(UIColors.FIND_REPLACE_UI_BG);
             button.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
             button.setFont(UIFonts.FIND_REPLACE_UI_LABEL_FONT);
@@ -250,7 +286,7 @@ public class FindReplace {
         }
 
         private void addFunctionality() {
-            findTextField.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
+            findTextField.addActionListener(e -> highlightAllOccurrencesOfText(findTextField.getText()));
 
             matchCaseToggleButton.addActionListener(e -> setMatchCase(matchCaseToggleButton.isSelected()));
             nextOccurrenceButton.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
