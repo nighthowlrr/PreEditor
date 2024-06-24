@@ -6,6 +6,7 @@ import nos.pre.editor.UI.toolWindows.projectTool.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowHolder;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.defaultValues.UIFonts;
 import nos.pre.editor.processManagers.EditorProcess;
 import org.jetbrains.annotations.NotNull;
 
@@ -267,7 +268,7 @@ public class EditorFrame extends JFrame {
 
         toolWindowToggleButton.setBackground(UIColors.TOOL_WINDOW_BAR_TOOLBUTTON_BG);
         toolWindowToggleButton.setForeground(UIColors.TOOL_WINDOW_BAR_TOOLBUTTON_FG);
-        toolWindowToggleButton.setFont(Fonts.LeagueSpartan.deriveFont(12F));
+        toolWindowToggleButton.setFont(UIFonts.TOOL_WINDOW_BAR_TOOLBUTTON_FONT);
         toolWindowToggleButton.setHorizontalTextPosition(JButton.CENTER);
         toolWindowToggleButton.setVerticalTextPosition(JButton.CENTER);
         toolWindowToggleButton.setBorder(BorderFactory.createEmptyBorder());

@@ -3,6 +3,7 @@ package nos.pre.editor.UI.Editor;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.GraphicsUtilities;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.defaultValues.UIFonts;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +22,7 @@ public class EditorTabbedPane extends JTabbedPane {
         this.setOpaque(true);
         this.setBackground(UIColors.EDITOR_TABBED_PANE_BG);
         this.setForeground(UIColors.EDITOR_TABBED_PANE_FG);
-        this.setFont(Fonts.LeagueSpartan.deriveFont(Font.BOLD, 14));
+        this.setFont(UIFonts.EDITOR_TABBED_PANE_FONT);
     }
 
     public void openEditorTab(@NotNull File file) {

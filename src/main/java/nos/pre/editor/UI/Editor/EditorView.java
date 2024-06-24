@@ -3,6 +3,7 @@ package nos.pre.editor.UI.Editor;
 import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
 import nos.pre.editor.UI.Editor.editingPane.FindReplace;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.defaultValues.UIFonts;
 import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileSaveListener;
 import org.jetbrains.annotations.Contract;
@@ -93,7 +94,7 @@ public class EditorView extends JPanel {
                 saveStatusLabel.setForeground(UIColors.EDITOR_STATUS_BAR_SAVESTATUS_UNSAVED_TEXT);
             }
         });
-        saveStatusLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        saveStatusLabel.setFont(UIFonts.EDITOR_STATUS_BAR_INDICATORS_FONT);
 
         int tabSize = preTextPane.getIndentSize();
         String tabPolicy = "";
@@ -104,7 +105,7 @@ public class EditorView extends JPanel {
         }
         tabPolicyLabel.setText(tabSize + " " + tabPolicy);
         tabPolicyLabel.setForeground(UIColors.EDITOR_STATUS_BAR_TAB_POLICY_TEXT);
-        tabPolicyLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        tabPolicyLabel.setFont(UIFonts.EDITOR_STATUS_BAR_INDICATORS_FONT);
 
         preTextPane.addCaretListener(e -> {
             int dot = e.getDot();
@@ -114,7 +115,7 @@ public class EditorView extends JPanel {
             caretLocationLabel.setText((line + 1) + ":" + (posInLine + 1));
         });
         caretLocationLabel.setForeground(UIColors.EDITOR_STATUS_BAR_CARET_LOCATION_TEXT);
-        caretLocationLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+        caretLocationLabel.setFont(UIFonts.EDITOR_STATUS_BAR_INDICATORS_FONT);
 
         statusBar.add(Box.createRigidArea(new Dimension(10, 0)));
         statusBar.add(saveStatusLabel);
@@ -153,7 +154,7 @@ public class EditorView extends JPanel {
         return new JPanel(null, true) {
             @Override
             public Color getBackground() {
-                return UIColors.PRETEXTPANE_BG; // TODO: UIColors
+                return UIColors.PRETEXTPANE_BG;
             }
         };
     }

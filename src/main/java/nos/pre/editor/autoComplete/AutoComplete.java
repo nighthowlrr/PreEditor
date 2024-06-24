@@ -124,7 +124,7 @@ public class AutoComplete {
                     component.setBackground(UIColors.AUTOCOMPLETE_MENU_SELECTED_BG);
                 } else component.setBackground(UIColors.AUTOCOMPLETE_MENU_BG);
                 component.setForeground(UIColors.AUTOCOMPLETE_MENU_FG);
-                component.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F)); // TODO: UIFonts defaultValues Class
+                component.setFont(preTextPane.getFont());
                 component.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
 
                 return component;

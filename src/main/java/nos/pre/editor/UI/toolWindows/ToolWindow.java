@@ -1,6 +1,7 @@
 package nos.pre.editor.UI.toolWindows;
 
 import nos.pre.editor.UI.Fonts;
+import nos.pre.editor.defaultValues.UIFonts;
 import org.jetbrains.annotations.Contract;
 
 import javax.swing.*;
@@ -70,9 +71,9 @@ public class ToolWindow extends JPanel {
         nameLabel.setOpaque(true);
         nameLabel.setBackground(this.getBackground());
         nameLabel.setPreferredSize(new Dimension(1, 30));
-        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setForeground(Color.WHITE); // TODO: UIColors
         nameLabel.setHorizontalAlignment(JLabel.LEFT);
-        nameLabel.setFont(Fonts.LeagueSpartan.deriveFont(Font.PLAIN, 15));
+        nameLabel.setFont(UIFonts.BASE_TOOL_WINDOW_NAME_LABEL_FONT);
         nameLabel.setBorder(BorderFactory.createLineBorder(nameLabel.getBackground(), 8));
 
         return nameLabel;

@@ -60,7 +60,7 @@ public class PreTextPane extends JTextPane {
 
         this.setDoubleBuffered(true);
         this.setFocusable(true);
-        this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F)); // TODO: UIFonts defaultValues Class
+        this.setFont(UIFonts.PRETEXTPANE_FONT);
         this.setBackground(UIColors.PRETEXTPANE_BG);
         this.setForeground(UIColors.PRETEXTPANE_FG);
 

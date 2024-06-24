@@ -2,6 +2,7 @@ package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.defaultValues.UIFonts;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import templateUI.SwingComponents.jToggleButton;
@@ -180,13 +181,13 @@ public class FindReplace {
             // Find TextField ===
             findTextFieldLabel.setPreferredSize(new Dimension(60, 0));
             findTextFieldLabel.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
-            findTextFieldLabel.setFont(Fonts.LeagueSpartan.deriveFont(Font.PLAIN, 14));
+            findTextFieldLabel.setFont(UIFonts.FIND_REPLACE_UI_LABEL_FONT);
 
             findTextField.setBackground(UIColors.FIND_REPLACE_UI_BG);
             findTextField.setForeground(UIColors.FIND_REPLACE_UI_INPUT_FG);
             findTextField.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, UIColors.FIND_REPLACE_UI_BORDER));
-            findTextField.setFont(Fonts.SourceCodePro_Regular.deriveFont(Font.PLAIN, 14));
-            findTextField.setCaretColor(UIColors.PRETEXTPANE_CARET_COLOR);
+            findTextField.setFont(preTextPane.getFont());
+            findTextField.setCaretColor(preTextPane.getCaretColor());
 
             findTextFieldContainer.setFocusable(false);
             findTextFieldContainer.setOpaque(false);
@@ -218,13 +219,13 @@ public class FindReplace {
             // Replace TextField ===
             replaceTextFieldLabel.setPreferredSize(new Dimension(60, 0));
             replaceTextFieldLabel.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
-            replaceTextFieldLabel.setFont(Fonts.LeagueSpartan.deriveFont(Font.PLAIN, 14));
+            replaceTextFieldLabel.setFont(UIFonts.FIND_REPLACE_UI_LABEL_FONT);
 
             replaceTextField.setBackground(UIColors.FIND_REPLACE_UI_BG);
             replaceTextField.setForeground(UIColors.FIND_REPLACE_UI_INPUT_FG);
             replaceTextField.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, UIColors.FIND_REPLACE_UI_BORDER));
-            replaceTextField.setFont(Fonts.SourceCodePro_Regular.deriveFont(Font.PLAIN, 14));
-            replaceTextField.setCaretColor(UIColors.PRETEXTPANE_CARET_COLOR);
+            replaceTextField.setFont(preTextPane.getFont());
+            replaceTextField.setCaretColor(preTextPane.getCaretColor());
 
             replaceTextFieldContainer.setFocusable(false);
             replaceTextFieldContainer.setOpaque(false);
@@ -243,6 +244,7 @@ public class FindReplace {
             button.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIColors.FIND_REPLACE_UI_BORDER));
             button.setBackground(UIColors.FIND_REPLACE_UI_BG);
             button.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
+            button.setFont(UIFonts.FIND_REPLACE_UI_LABEL_FONT);
             button.setFocusable(false);
             if (toolTipText != null) button.setToolTipText(toolTipText);
         }

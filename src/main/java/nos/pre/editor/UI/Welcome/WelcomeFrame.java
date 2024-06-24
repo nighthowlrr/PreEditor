@@ -5,6 +5,7 @@ import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.Welcome.Views.BasicSettingsView;
 import nos.pre.editor.UI.Welcome.Views.ProjectsListView;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.defaultValues.UIFonts;
 import templateUI.SwingComponents.jScrollPane;
 import templateUI.SwingComponents.jToggleButton;
 
@@ -54,14 +55,14 @@ public class WelcomeFrame extends JFrame {
         sidePanel.setBackground(UIColors.WELCOME_FRAME_SIDE_PANEL_BG);
         this.mainContentPanel.add(sidePanel, BorderLayout.WEST);
 
-        titleLabel.setFont(Fonts.URW_Gothic.deriveFont(Font.BOLD, 24));
+        titleLabel.setFont(UIFonts.WELCOME_FRAME_APP_TITLE_LABEL_FONT);
         titleLabel.setForeground(UIColors.GLOBAL_FG_LVL1);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         titleLabel.setVerticalAlignment(JLabel.BOTTOM);
         titleLabel.setPreferredSize(new Dimension(sidePanel.getPreferredSize().width, ( Fonts.getMetricsOfFont(titleLabel.getFont()).getHeight() ) + 10));
         sidePanel.add(titleLabel);
 
-        versionLabel.setFont(Fonts.URW_Gothic.deriveFont(Font.PLAIN, 18));
+        versionLabel.setFont(UIFonts.WELCOME_FRAME_APP_VERSION_LABEL_FONT);
         versionLabel.setForeground(UIColors.GLOBAL_FG_LVL3);
         versionLabel.setHorizontalAlignment(JLabel.CENTER);
         versionLabel.setVerticalAlignment(JLabel.TOP);
@@ -80,8 +81,8 @@ public class WelcomeFrame extends JFrame {
             toggleButton.setBorder(BorderFactory.createEmptyBorder());
             toggleButton.setBackground(sidePanel.getBackground());
             toggleButton.setForeground(UIColors.GLOBAL_FG_LVL2);
-            toggleButton.setSelectedColor(new Color(0x2E3955));
-            toggleButton.setFont(Fonts.URW_Gothic.deriveFont(Font.PLAIN, 16));
+            toggleButton.setSelectedColor(new Color(0x2E3955)); // TODO: UIColors
+            toggleButton.setFont(UIFonts.WELCOME_FRAME_VIEW_TOGGLE_BUTTON_FONT);
             toggleButton.setHorizontalAlignment(JButton.LEFT);
             toggleButton.setPreferredSize(new Dimension(sidePanel.getPreferredSize().width, 40));
 

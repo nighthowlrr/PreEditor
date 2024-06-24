@@ -118,7 +118,7 @@ public class PreTextPaneMenu extends JPopupMenu {
 
         // Modify all menu items
         for (JMenuItem menuItem : menuItems) {
-            menuItem.setFont(Fonts.LeagueSpartan.deriveFont(Font.BOLD, 14F));
+            menuItem.setFont(UIFonts.PRETEXTPANE_MENU_FONT);
         }
     }
 
