@@ -2,6 +2,8 @@ package nos.pre.editor.UI.Editor.editingPane;
 
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.defaultValues.UIColors;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import templateUI.SwingComponents.jToggleButton;
 
 import javax.swing.*;
@@ -135,8 +137,15 @@ public class FindReplace {
         }
     }
 
+    /**
+     * Returns <code>true</code> if <code>textToMatch</code> does match <code>textToMatchTo</code>.
+     * Case is taken into account if <code>FindReplace.matchCase</code> is <code>true</code>, otherwise case is ignored.
+     * @param textToMatch The String to match
+     * @param textToMatchTo The String to match <code>textToMatch</code> with
+     * @return <code>True</code> if both Strings match.
+     */
     private boolean doesTextMatch(String textToMatch, String textToMatchTo) {
-        return matchCase ? textToMatch.equals(textToMatchTo) : textToMatch.equalsIgnoreCase(textToMatchTo);
+        return this.matchCase ? textToMatch.equals(textToMatchTo) : textToMatch.equalsIgnoreCase(textToMatchTo);
     }
 
 
@@ -178,7 +187,6 @@ public class FindReplace {
             findTextField.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, UIColors.FIND_REPLACE_UI_BORDER));
             findTextField.setFont(Fonts.SourceCodePro_Regular.deriveFont(Font.PLAIN, 14));
             findTextField.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
-            findTextField.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
 
             findTextFieldContainer.setFocusable(false);
             findTextFieldContainer.setOpaque(false);
@@ -187,24 +195,14 @@ public class FindReplace {
             matchCaseToggleButton.setPreferredSize(new Dimension(uiButtonWidth, uiBarHeight));
             matchCaseToggleButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
             matchCaseToggleButton.setBackground(UIColors.FIND_REPLACE_UI_BG);
-            matchCaseToggleButton.setSelectedColor(UIColors.FIND_REPLACE_UI_SELECTED_BUTTON_BG);
             matchCaseToggleButton.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
             matchCaseToggleButton.setFocusable(false);
+            matchCaseToggleButton.setSelectedColor(UIColors.FIND_REPLACE_UI_SELECTED_BUTTON_BG);
             matchCaseToggleButton.setToolTipText("Match Case");
 
-            nextOccurrenceButton.setPreferredSize(new Dimension(uiButtonWidth, uiBarHeight));
-            nextOccurrenceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
-            nextOccurrenceButton.setBackground(UIColors.FIND_REPLACE_UI_BG);
-            nextOccurrenceButton.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
-            nextOccurrenceButton.setFocusable(false);
-            nextOccurrenceButton.setToolTipText("Select Next Occurrence");
+            setUpFindUIButton(nextOccurrenceButton, "Select Next Occurrence");
 
-            previousOccurrenceButton.setPreferredSize(new Dimension(uiButtonWidth, uiBarHeight));
-            previousOccurrenceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIColors.FIND_REPLACE_UI_BORDER));
-            previousOccurrenceButton.setBackground(UIColors.FIND_REPLACE_UI_BG);
-            previousOccurrenceButton.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
-            previousOccurrenceButton.setFocusable(false);
-            previousOccurrenceButton.setToolTipText("Select Previous Occurrence");
+            setUpFindUIButton(previousOccurrenceButton, "Select Previous Occurrence");
 
             findTextButtonPanel.setOpaque(false);
             findTextButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
@@ -240,7 +238,18 @@ public class FindReplace {
             this.add(replaceTextFieldContainer, BorderLayout.SOUTH);
         }
 
+        private void setUpFindUIButton(@NotNull JButton button, @Nullable String toolTipText) {
+            button.setPreferredSize(new Dimension(uiButtonWidth, uiBarHeight));
+            button.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIColors.FIND_REPLACE_UI_BORDER));
+            button.setBackground(UIColors.FIND_REPLACE_UI_BG);
+            button.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
+            button.setFocusable(false);
+            if (toolTipText != null) button.setToolTipText(toolTipText);
+        }
+
         private void addFunctionality() {
+            findTextField.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
+
             matchCaseToggleButton.addActionListener(e -> setMatchCase(matchCaseToggleButton.isSelected()));
             nextOccurrenceButton.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
             previousOccurrenceButton.addActionListener(e -> selectPreviousOccurrenceOfText(findTextField.getText()));
