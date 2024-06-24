@@ -135,11 +135,6 @@ public class FindReplace {
         }
     }
 
-    @Contract(mutates = "this")
-    private void resetSearchPosition() {
-        this.currentSearchPos = 0;
-    }
-
     private void highlightAllOccurrencesOfText(String textToHighlight) {
         resetHighlights();
 
@@ -161,6 +156,37 @@ public class FindReplace {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void replaceAllOccurrencesOfText(String textToReplace, String textToReplaceWith) {
+        if ( (textToReplace != null && ! textToReplace.isEmpty()) && (textToReplaceWith != null && ! textToReplaceWith.isEmpty()) ) {
+            Document document = this.preTextPane.getDocument();
+            int textToReplaceLength = textToReplace.length();
+
+            try {
+                for (int searchIndex = 0; searchIndex + textToReplaceLength < document.getLength(); searchIndex++) {
+                    String match = document.getText(searchIndex, textToReplaceLength);
+
+                    // If textToReplace does match...
+                    if (doesTextMatch(match, textToReplace)) {
+                        // Remove the initial word
+                        document.remove(searchIndex, textToReplaceLength);
+
+                        // Insert new word
+                        document.insertString(searchIndex, textToReplaceWith, null);
+
+                        searchIndex = searchIndex + textToReplaceWith.length();
+                    }
+                }
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Contract(mutates = "this")
+    private void resetSearchPosition() {
+        this.currentSearchPos = 0;
     }
 
     private void resetHighlights() {
@@ -201,12 +227,13 @@ public class FindReplace {
     private class FindReplaceUIPanel extends JPanel { // UI in separate class for organization
         private final int uiBarHeight = 30;
         private final int uiButtonWidth = 40;
+        private final int uiWideButtonWidth = 80;
 
         private final JPanel findTextFieldContainer = new JPanel(new BorderLayout(), true);
         private final JLabel findTextFieldLabel = new JLabel("Find: ");
         private final JTextField findTextField = new JTextField();
 
-        private final JPanel findTextButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        private final JPanel findButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0), true);
         private final jToggleButton matchCaseToggleButton = new jToggleButton("Cc", matchCase);
         private final JButton nextOccurrenceButton = new JButton("Next");
         private final JButton previousOccurrenceButton = new JButton("Prev");
@@ -215,6 +242,10 @@ public class FindReplace {
         private final JPanel replaceTextFieldContainer = new JPanel(new BorderLayout(), true);
         private final JLabel replaceTextFieldLabel = new JLabel("Replace: ");
         private final JTextField replaceTextField = new JTextField();
+
+        private final JPanel replaceButtonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0), true);
+        private final JButton replaceButton = new JButton("Replace");
+        private final JButton replaceAllButton = new JButton("Replace All");
 
         public FindReplaceUIPanel() {
             super(new BorderLayout(), true);
@@ -249,22 +280,22 @@ public class FindReplace {
             matchCaseToggleButton.setSelectedColor(UIColors.FIND_REPLACE_UI_SELECTED_BUTTON_BG);
             matchCaseToggleButton.setToolTipText("Match Case");
 
-            setUpFindUIButton(nextOccurrenceButton, "Select Next Occurrence");
+            setUpFindReplaceUIButton(nextOccurrenceButton, uiButtonWidth, "Select Next Occurrence");
             nextOccurrenceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
 
-            setUpFindUIButton(previousOccurrenceButton, "Select Previous Occurrence");
+            setUpFindReplaceUIButton(previousOccurrenceButton, uiButtonWidth, "Select Previous Occurrence");
             previousOccurrenceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIColors.FIND_REPLACE_UI_BORDER));
 
-            findTextButtonPanel.setOpaque(false);
-            findTextButtonPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
+            findButtonsPanel.setOpaque(false);
+            findButtonsPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
 
-            findTextButtonPanel.add(matchCaseToggleButton);
-            findTextButtonPanel.add(nextOccurrenceButton);
-            findTextButtonPanel.add(previousOccurrenceButton);
+            findButtonsPanel.add(matchCaseToggleButton);
+            findButtonsPanel.add(nextOccurrenceButton);
+            findButtonsPanel.add(previousOccurrenceButton);
 
             findTextFieldContainer.add(findTextFieldLabel, BorderLayout.WEST);
             findTextFieldContainer.add(findTextField, BorderLayout.CENTER);
-            findTextFieldContainer.add(findTextButtonPanel, BorderLayout.EAST);
+            findTextFieldContainer.add(findButtonsPanel, BorderLayout.EAST);
 
             // Replace TextField ===
             replaceTextFieldLabel.setPreferredSize(new Dimension(60, 0));
@@ -277,20 +308,33 @@ public class FindReplace {
             replaceTextField.setFont(preTextPane.getFont());
             replaceTextField.setCaretColor(preTextPane.getCaretColor());
 
+            setUpFindReplaceUIButton(replaceButton, uiWideButtonWidth, null);
+            replaceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
+
+            setUpFindReplaceUIButton(replaceAllButton, uiWideButtonWidth, null);
+            replaceAllButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, UIColors.FIND_REPLACE_UI_BORDER));
+
+            replaceButtonsPanel.setOpaque(false);
+            replaceButtonsPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
+
+            replaceButtonsPanel.add(replaceButton);
+            replaceButtonsPanel.add(replaceAllButton);
+
             replaceTextFieldContainer.setFocusable(false);
             replaceTextFieldContainer.setOpaque(false);
             replaceTextFieldContainer.setPreferredSize(new Dimension(0, uiBarHeight));
 
             replaceTextFieldContainer.add(replaceTextFieldLabel, BorderLayout.WEST);
             replaceTextFieldContainer.add(replaceTextField, BorderLayout.CENTER);
+            replaceTextFieldContainer.add(replaceButtonsPanel, BorderLayout.EAST);
 
             // ====
             this.add(findTextFieldContainer, BorderLayout.NORTH);
             this.add(replaceTextFieldContainer, BorderLayout.SOUTH);
         }
 
-        private void setUpFindUIButton(@NotNull JButton button, @Nullable String toolTipText) {
-            button.setPreferredSize(new Dimension(uiButtonWidth, uiBarHeight));
+        private void setUpFindReplaceUIButton(@NotNull JButton button, int width, @Nullable String toolTipText) {
+            button.setPreferredSize(new Dimension(width, uiBarHeight));
             button.setBackground(UIColors.FIND_REPLACE_UI_BG);
             button.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
             button.setFont(UIFonts.FIND_REPLACE_UI_LABEL_FONT);
@@ -327,6 +371,11 @@ public class FindReplace {
             matchCaseToggleButton.addActionListener(e -> setMatchCase(matchCaseToggleButton.isSelected()));
             nextOccurrenceButton.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
             previousOccurrenceButton.addActionListener(e -> selectPreviousOccurrenceOfText(findTextField.getText()));
+
+            replaceAllButton.addActionListener(e -> {
+                replaceAllOccurrencesOfText(findTextField.getText(), replaceTextField.getText());
+                highlightAllOccurrencesOfText(findTextField.getText());
+            });
         }
 
 
