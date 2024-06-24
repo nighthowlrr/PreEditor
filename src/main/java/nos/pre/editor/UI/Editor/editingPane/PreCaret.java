@@ -18,16 +18,16 @@ public class PreCaret extends DefaultCaret {
     private final Highlighter.HighlightPainter unfocusedHighlightPainter;
 
     public PreCaret() {
-        focusedHighlightPainter = new DefaultHighlighter.DefaultHighlightPainter(UIColors.EDITINGPANE_SELECTION_COLOR);
-        unfocusedHighlightPainter = new DefaultHighlighter.DefaultHighlightPainter(UIColors.EDITINGPANE_SELECTION_COLOR_UNFOCUSED);
+        focusedHighlightPainter = new DefaultHighlighter.DefaultHighlightPainter(UIColors.PRETEXTPANE_SELECTION_COLOR);
+        unfocusedHighlightPainter = new DefaultHighlighter.DefaultHighlightPainter(UIColors.PRETEXTPANE_SELECTION_COLOR_UNFOCUSED);
 
         setBlinkRate(500);
         // TODO: Make Caret bigger for visibility
     }
 
-    public void registerEditingPane(EditingPane editingPane) {
-        editingPane.setCaret(this);
-        editingPane.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
+    public void registerEditingPane(PreTextPane preTextPane) {
+        preTextPane.setCaret(this);
+        preTextPane.setCaretColor(UIColors.PRETEXTPANE_CARET_COLOR);
         this.setSelectionVisible(true);
     }
 

@@ -4,19 +4,18 @@ import nos.pre.editor.files.FileSaveListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class EditingPaneMenu extends JPopupMenu {
-    private final EditingPane editingPane;
+public class PreTextPaneMenu extends JPopupMenu {
+    private final PreTextPane preTextPane;
 
     private final boolean isDesktopSupported;
     private final Desktop thisDesktop;
 
-    public EditingPaneMenu(EditingPane editingPane) {
-        this.editingPane = editingPane;
+    public PreTextPaneMenu(PreTextPane preTextPane) {
+        this.preTextPane = preTextPane;
 
         this.isDesktopSupported = Desktop.isDesktopSupported();
         if (isDesktopSupported) {
@@ -46,32 +45,32 @@ public class EditingPaneMenu extends JPopupMenu {
     private void addMenuItems() {
         saveItem.setEnabled(false);
         saveItem.addActionListener(e -> {
-            this.editingPane.saveFile();
+            this.preTextPane.saveFile();
         });
         this.add(saveItem);
 
         this.addSeparator();
 
         cutItem.setEnabled(false);
-        cutItem.addActionListener(e -> this.editingPane.cut());
+        cutItem.addActionListener(e -> this.preTextPane.cut());
         this.add(cutItem);
 
         copyItem.setEnabled(false);
-        copyItem.addActionListener(e -> this.editingPane.copy());
+        copyItem.addActionListener(e -> this.preTextPane.copy());
         this.add(copyItem);
 
-        pasteItem.addActionListener(e -> this.editingPane.paste()); // TODO: Using paste item from menu pastes text two times...
+        pasteItem.addActionListener(e -> this.preTextPane.paste()); // TODO: Using paste item from menu pastes text two times...
         this.add(pasteItem);
 
         this.addSeparator();
 
-        if (this.editingPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
+        if (this.preTextPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
             undoItem.setEnabled(true);
-            undoItem.addActionListener(e -> this.editingPane.undo());
+            undoItem.addActionListener(e -> this.preTextPane.undo());
             this.add(undoItem);
 
             redoItem.setEnabled(true);
-            redoItem.addActionListener(e -> this.editingPane.redo());
+            redoItem.addActionListener(e -> this.preTextPane.redo());
             this.add(redoItem);
 
             this.addSeparator();
@@ -80,7 +79,7 @@ public class EditingPaneMenu extends JPopupMenu {
         openInExplorerItem.setEnabled(isDesktopSupported);
         openInExplorerItem.addActionListener(e -> {
             try {
-                thisDesktop.browse(this.editingPane.getOpenedFile().getParentFile().toURI());
+                thisDesktop.browse(this.preTextPane.getOpenedFile().getParentFile().toURI());
                 // TODO: Also select the file in file explorer instead of just opening the file's parent folder.
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -91,7 +90,7 @@ public class EditingPaneMenu extends JPopupMenu {
         openInAppItem.setEnabled(isDesktopSupported);
         openInAppItem.addActionListener(e -> {
             try {
-                thisDesktop.browse(this.editingPane.getOpenedFile().toURI());
+                thisDesktop.browse(this.preTextPane.getOpenedFile().toURI());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -110,7 +109,7 @@ public class EditingPaneMenu extends JPopupMenu {
             googleSearchItem.setEnabled(false);
             googleSearchItem.addActionListener(e -> {
                 try {
-                    thisDesktop.browse(new URI("https://www.google.com/search?q=" + this.editingPane.getSelectedText()));
+                    thisDesktop.browse(new URI("https://www.google.com/search?q=" + this.preTextPane.getSelectedText()));
                 } catch (IOException | URISyntaxException ex) {
                     ex.printStackTrace();
                 }
@@ -120,7 +119,7 @@ public class EditingPaneMenu extends JPopupMenu {
     }
 
     private void addListeners() {
-        this.editingPane.addCaretListener(e -> {
+        this.preTextPane.addCaretListener(e -> {
             boolean dotEqualsMark = e.getDot() == e.getMark();
 
             cutItem.setEnabled(! dotEqualsMark);
@@ -129,7 +128,7 @@ public class EditingPaneMenu extends JPopupMenu {
             googleSearchItem.setEnabled(! dotEqualsMark);
         });
 
-        this.editingPane.addFileSaveListener(new FileSaveListener() {
+        this.preTextPane.addFileSaveListener(new FileSaveListener() {
             @Override
             public void fileSaved() {
                 saveItem.setEnabled(false);

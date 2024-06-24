@@ -4,6 +4,7 @@ import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.AutoComplete;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
+import nos.pre.editor.defaultValues.UIFonts;
 import nos.pre.editor.editor.DefaultPreEditorDocument;
 import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileIO;
@@ -20,7 +21,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-public class EditingPane extends JTextPane {
+public class PreTextPane extends JTextPane {
     // Functionality enabled booleans ===
     private boolean undoRedoEnabled; // True by default (set in constructor)
     // TODO: ViewingModes: ReadOnly, EditingMode (May need to change saving code (e.g. boolean in EditingPaneMenu))
@@ -31,14 +32,14 @@ public class EditingPane extends JTextPane {
     public void setUndoRedoEnabled(boolean undoRedoEnabled) {
         this.undoRedoEnabled = undoRedoEnabled;
         this.ensureAddUndoRedoFunction();
-        this.editingPaneMenu.updateMenuItems();
+        this.preTextPaneMenu.updateMenuItems();
     }
 
     // Functionality objects ===
     private UndoRedoFunction undoRedoFunction;
     private AutoComplete autoComplete;
 
-    private final EditingPaneMenu editingPaneMenu;
+    private final PreTextPaneMenu preTextPaneMenu;
 
     // LISTENERS
     private final ArrayList<FileSaveListener> fileSaveListenersList = new ArrayList<>();
@@ -54,22 +55,22 @@ public class EditingPane extends JTextPane {
     private boolean isFileSaved;
 
 
-    public EditingPane(File openedFile) {
+    public PreTextPane(File openedFile) {
         this.openedFile = openedFile;
 
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         this.setFont(Fonts.SourceCodePro_Regular.deriveFont(14F)); // TODO: UIFonts defaultValues Class
-        this.setBackground(UIColors.EDITINGPANE_BG);
-        this.setForeground(UIColors.EDITINGPANE_FG);
+        this.setBackground(UIColors.PRETEXTPANE_BG);
+        this.setForeground(UIColors.PRETEXTPANE_FG);
 
         PreCaret preCaret = new PreCaret();
         preCaret.registerEditingPane(this);
 
-        editingPaneMenu = new EditingPaneMenu(this);
-        this.setComponentPopupMenu(this.editingPaneMenu);
+        preTextPaneMenu = new PreTextPaneMenu(this);
+        this.setComponentPopupMenu(this.preTextPaneMenu);
 
-        // LinePainter linePainter = new LinePainter(this, UIColors.EDITINGPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
+        // LinePainter linePainter = new LinePainter(this, UIColors.PRETEXTPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
         // TODO: linePainter temporarily disabled. See line highlight task in Todoist Project.
 
         addLanguageFeatures();

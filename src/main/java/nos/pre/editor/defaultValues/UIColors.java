@@ -27,15 +27,15 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color EDITOR_TABBED_PANE_OPENTAB_INDICATOR = UIColors.GLOBAL_COLOR_ACCENT;
     public static final Color EDITOR_TABBED_PANE_OPENTAB_BG = new Color(0x322767BA, true); // 32-Alpha, 2767BA-GLOBAL_ACCENT
 
-    // EDITINGPANE
-    public static final Color EDITINGPANE_BG = new Color(0x1E1F22);
-    public static final Color EDITINGPANE_FG = new Color(0xFFFFFF);
-    public static final Color EDITINGPANE_CARET_COLOR = new Color(0x2767BA);
-    public static final Color EDITINGPANE_SELECTION_COLOR = new Color(0xA6D2FF);
-    public static final Color EDITINGPANE_SELECTION_COLOR_UNFOCUSED = new Color(0x5C92BC);
-    public static final Color EDITINGPANE_CURRENT_LINE_HIGHLIGHT = new Color(255, 255, 255, 20);
+    // PRETEXTPANE
+    public static final Color PRETEXTPANE_BG = new Color(0x1E1F22);
+    public static final Color PRETEXTPANE_FG = new Color(0xFFFFFF);
+    public static final Color PRETEXTPANE_CARET_COLOR = new Color(0x2767BA);
+    public static final Color PRETEXTPANE_SELECTION_COLOR = new Color(0xA6D2FF);
+    public static final Color PRETEXTPANE_SELECTION_COLOR_UNFOCUSED = new Color(0x5C92BC);
+    public static final Color PRETEXTPANE_CURRENT_LINE_HIGHLIGHT = new Color(255, 255, 255, 20);
 
-    // EDITINGPANE_AUTOCOMPLETE_MENU
+    // PRETEXTPANE_AUTOCOMPLETE_MENU
     public static final Color AUTOCOMPLETE_MENU_BG = new Color(0x2B2D30);
     public static final Color AUTOCOMPLETE_MENU_SELECTED_BG = new Color(0x43454a);
     public static final Color AUTOCOMPLETE_MENU_FG = new Color(0xFFFFFF);
@@ -54,7 +54,7 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color EDITOR_LINE_NUMBERS_SEPARATOR = new Color(0x2E3032);
 
     // EDITOR_STATUS_BAR
-    public static final Color EDITOR_STATUS_BAR_BG = UIColors.EDITINGPANE_BG;
+    public static final Color EDITOR_STATUS_BAR_BG = UIColors.PRETEXTPANE_BG;
     public static final Color EDITOR_STATUS_BAR_BORDER = new Color(0x2E3032);
     public static final Color EDITOR_STATUS_BAR_CARET_LOCATION_TEXT = new Color(0xC0C0C0);
     public static final Color EDITOR_STATUS_BAR_TAB_POLICY_TEXT = new Color(0XC0C0C0);

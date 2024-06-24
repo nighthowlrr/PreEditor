@@ -1,6 +1,6 @@
 package nos.pre.editor.autoComplete.completions;
 
-import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,8 +26,8 @@ public class BaseCompletion implements Comparable<BaseCompletion> {
         this.relevance = relevance;
     }
 
-    public void insertCompletion(@NotNull EditingPane editingPane, int insertPosition, int subWordLength) throws BadLocationException {
-        editingPane.getDocument().insertString(insertPosition, this.completionText.substring(subWordLength), null);
+    public void insertCompletion(@NotNull PreTextPane preTextPane, int insertPosition, int subWordLength) throws BadLocationException {
+        preTextPane.getDocument().insertString(insertPosition, this.completionText.substring(subWordLength), null);
     }
 
     public String getAutoCompleteMenuText() {

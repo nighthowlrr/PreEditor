@@ -28,7 +28,7 @@ Class: `nos.pre.editor.UI.Editor.EditorTabbedPane`
 - EditorView (JPanel)
   - editorScrollPane (jScrollPane) (_CENTER in EditorView_)
     - editingPaneHolder (JPanel) (_main view in editorScrollPane_)
-      - editingPane (EditingPane - JTextPane) (_CENTER in editingPaneHolder_)
+      - preTextPane (EditingPane - JTextPane) (_CENTER in editingPaneHolder_)
     - editorLineNumber (TextLineNumber - Custom Component) (`editorScrollPane.rowHeaderView`)
   - statusBar (JPanel) (_SOUTH in EditorView_)
     - saveStatusLabel (JLabel)

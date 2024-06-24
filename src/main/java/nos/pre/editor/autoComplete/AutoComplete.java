@@ -1,6 +1,6 @@
 package nos.pre.editor.autoComplete;
 
-import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
 import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
 import nos.pre.editor.autoComplete.completions.CompletionList;
@@ -15,7 +15,7 @@ import java.awt.event.*;
 public class AutoComplete {
     private final int visibleRowCount = 5; // TODO: Implement scrolling
 
-    private final EditingPane editingPane;
+    private final PreTextPane preTextPane;
     private final CompletionList completions;
 
     private final JPopupMenu popupMenu = new JPopupMenu();
@@ -24,23 +24,23 @@ public class AutoComplete {
     private String currentSubWord;
     private int currentInsertPosition;
 
-    public AutoComplete(EditingPane editingPane, CompletionList completions) {
-        this.editingPane = editingPane;
+    public AutoComplete(PreTextPane preTextPane, CompletionList completions) {
+        this.preTextPane = preTextPane;
         this.completions = completions;
 
         initUI();
 
-        this.editingPane.addKeyListener(new KeyAdapter() {
+        this.preTextPane.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (popupMenu.isVisible()) {
                     if (e.getKeyChar() == KeyEvent.VK_ENTER) {
                         insertSelection();
 
-                        final int position = editingPane.getCaretPosition();
+                        final int position = preTextPane.getCaretPosition();
                         SwingUtilities.invokeLater(() -> {
                             try {
-                                editingPane.getDocument().remove(position - 1, 1); // Remove newLine from enter key
+                                preTextPane.getDocument().remove(position - 1, 1); // Remove newLine from enter key
                                 // TODO: Manually removing newLine from pressing enter key ads lag, and new line is
                                 //  visibly inserted before removed, making it look like a graphic glitch
                             } catch (BadLocationException e1) {
@@ -93,13 +93,13 @@ public class AutoComplete {
 
         String autoCompleteKey = "AutoComplete";
 
-        this.editingPane.getActionMap().put(autoCompleteKey, new AbstractAction() {
+        this.preTextPane.getActionMap().put(autoCompleteKey, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAutoCompleteMenuLater();
             }
         });
-        this.editingPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_AUTOCOMPLETE, autoCompleteKey);
+        this.preTextPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_AUTOCOMPLETE, autoCompleteKey);
     }
 
     private void initUI() {
@@ -144,16 +144,16 @@ public class AutoComplete {
     private void showAutoCompleteMenu() {
         hideAutoCompleteMenu();
 
-        int cursorPosition = this.editingPane.getCaretPosition();
+        int cursorPosition = this.preTextPane.getCaretPosition();
         Point location;
         try {
-            location = this.editingPane.modelToView2D(cursorPosition).getBounds().getLocation();
+            location = this.preTextPane.modelToView2D(cursorPosition).getBounds().getLocation();
         } catch (BadLocationException e) {
             e.printStackTrace();
             return;
         }
 
-        String editingPaneText = this.editingPane.getText();
+        String editingPaneText = this.preTextPane.getText();
         int start = Math.max(0, cursorPosition - 1);
         while (start > 0) {
             if (!Character.isWhitespace(editingPaneText.charAt(start))) {
@@ -174,7 +174,7 @@ public class AutoComplete {
         }
 
         createAutoCompleteMenu(subWord, cursorPosition, location);
-        SwingUtilities.invokeLater(this.editingPane::requestFocusInWindow);
+        SwingUtilities.invokeLater(this.preTextPane::requestFocusInWindow);
     }
 
     private void showAutoCompleteMenuLater() {
@@ -195,8 +195,8 @@ public class AutoComplete {
 
         popupMenu.add(autoCompleteList);
 
-        popupMenu.show(this.editingPane, menuLocation.x,
-                this.editingPane.getBaseline(0, 0) + menuLocation.y);
+        popupMenu.show(this.preTextPane, menuLocation.x,
+                this.preTextPane.getBaseline(0, 0) + menuLocation.y);
 
         this.currentSubWord = subWord;
         this.currentInsertPosition = insertPosition;
@@ -208,7 +208,7 @@ public class AutoComplete {
             if (this.autoCompleteList.getSelectedValue() != null) {
                 try {
                     BaseCompletion selectedCompletion = autoCompleteList.getSelectedValue();
-                    selectedCompletion.insertCompletion(this.editingPane, this.currentInsertPosition, this.currentSubWord.length());
+                    selectedCompletion.insertCompletion(this.preTextPane, this.currentInsertPosition, this.currentSubWord.length());
 
                 } catch (BadLocationException e) {
                     e.printStackTrace();

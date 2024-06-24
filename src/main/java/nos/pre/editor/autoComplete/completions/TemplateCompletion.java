@@ -1,6 +1,6 @@
 package nos.pre.editor.autoComplete.completions;
 
-import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.text.BadLocationException;
@@ -24,18 +24,18 @@ public class TemplateCompletion extends BaseCompletion {
     }
 
     @Override
-    public void insertCompletion(@NotNull EditingPane editingPane, int insertPosition, int subWordLength) throws BadLocationException {
+    public void insertCompletion(@NotNull PreTextPane preTextPane, int insertPosition, int subWordLength) throws BadLocationException {
         // remove subWord typed
-        editingPane.getDocument().remove(insertPosition - subWordLength, subWordLength);
+        preTextPane.getDocument().remove(insertPosition - subWordLength, subWordLength);
 
         // get new insert Position, since subWord is removed.
         int newInsertPosition = insertPosition - subWordLength;
 
         // Insert completion Text before and after caret
-        editingPane.getDocument().insertString(newInsertPosition, completionTextBeforeCaret, null);
-        final int newCaretPosition = editingPane.getCaretPosition();
-        editingPane.getDocument().insertString(newCaretPosition, completionTextAfterCaret, null);
-        editingPane.setCaretPosition(newCaretPosition);
+        preTextPane.getDocument().insertString(newInsertPosition, completionTextBeforeCaret, null);
+        final int newCaretPosition = preTextPane.getCaretPosition();
+        preTextPane.getDocument().insertString(newCaretPosition, completionTextAfterCaret, null);
+        preTextPane.setCaretPosition(newCaretPosition);
     }
 
     @Override

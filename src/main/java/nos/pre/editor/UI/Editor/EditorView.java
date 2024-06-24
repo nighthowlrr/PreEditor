@@ -1,6 +1,6 @@
 package nos.pre.editor.UI.Editor;
 
-import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
 import nos.pre.editor.UI.Editor.editingPane.FindReplace;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.editor.PreEditorDocument;
@@ -31,7 +31,7 @@ public class EditorView extends JPanel {
     }
 
     private JPanel editingPaneHolder;
-    private EditingPane editingPane;
+    private PreTextPane preTextPane;
     private TextLineNumber editorLineNumber;
     private jScrollPane editorScrollPane;
 
@@ -42,8 +42,8 @@ public class EditorView extends JPanel {
 
     private void initUI() {
         editingPaneHolder  = new JPanel(new BorderLayout(), true);
-        editingPane = new EditingPane(this.openedFile);
-        editorLineNumber = new TextLineNumber(editingPane);
+        preTextPane = new PreTextPane(this.openedFile);
+        editorLineNumber = new TextLineNumber(preTextPane);
         editorScrollPane = new jScrollPane(editingPaneHolder);
 
         statusBar = new JPanel(true);
@@ -56,7 +56,7 @@ public class EditorView extends JPanel {
         this.initUI();
 
         // EDITOR PANE & LINE NUMBER ===
-        editingPaneHolder.add(editingPane, BorderLayout.CENTER);
+        editingPaneHolder.add(preTextPane, BorderLayout.CENTER);
 
         editorLineNumber.setCurrentLineForeground(UIColors.EDITOR_LINE_NUMBERS_CURRENTLINE_FG);
         editorLineNumber.setLineForeground(UIColors.EDITOR_LINE_NUMBERS_FG);
@@ -64,15 +64,15 @@ public class EditorView extends JPanel {
         editorScrollPane.setRowHeaderView(editorLineNumber);
 
         editorScrollPane.setWheelScrollingEnabled(true);
-        editorScrollPane.setBackground(editingPane.getBackground());
+        editorScrollPane.setBackground(preTextPane.getBackground());
         editorScrollPane.setScrollThumbColor(new Color(0xFFFFFF));
-        editorScrollPane.setScrollTrackColor(editingPane.getBackground());
+        editorScrollPane.setScrollTrackColor(preTextPane.getBackground());
         editorScrollPane.setBorder(BorderFactory.createEmptyBorder());
         setEditorScrollPaneCorners();
         this.add(editorScrollPane, BorderLayout.CENTER);
 
         // TODO: When scrolling horizontally, find/replace ui panel also scrolls then glitches back to normal position
-        editorScrollPane.setColumnHeaderView(new FindReplace(editingPane).getUI());
+        editorScrollPane.setColumnHeaderView(new FindReplace(preTextPane).getUI());
 
         // STATUS BAR ===
         statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
@@ -81,7 +81,7 @@ public class EditorView extends JPanel {
         statusBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, UIColors.EDITOR_STATUS_BAR_BORDER));
         statusBar.setBackground(UIColors.EDITOR_STATUS_BAR_BG);
 
-        editingPane.addFileSaveListener(new FileSaveListener() {
+        preTextPane.addFileSaveListener(new FileSaveListener() {
             @Override
             public void fileSaved() {
                 saveStatusLabel.setText("Saved");
@@ -95,21 +95,21 @@ public class EditorView extends JPanel {
         });
         saveStatusLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
-        int tabSize = editingPane.getIndentSize();
+        int tabSize = preTextPane.getIndentSize();
         String tabPolicy = "";
-        if (Objects.equals(editingPane.getIndentStyle(), PreEditorDocument.INDENT_STYLE_USE_SPACES)) {
+        if (Objects.equals(preTextPane.getIndentStyle(), PreEditorDocument.INDENT_STYLE_USE_SPACES)) {
             tabPolicy = "spaces";
-        } else if (Objects.equals(editingPane.getIndentStyle(), PreEditorDocument.INDENT_STYLE_USE_TABS)) {
+        } else if (Objects.equals(preTextPane.getIndentStyle(), PreEditorDocument.INDENT_STYLE_USE_TABS)) {
             tabPolicy = "tab"; // TODO: refinement: proper text (reference intellij)
         }
         tabPolicyLabel.setText(tabSize + " " + tabPolicy);
         tabPolicyLabel.setForeground(UIColors.EDITOR_STATUS_BAR_TAB_POLICY_TEXT);
         tabPolicyLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
 
-        editingPane.addCaretListener(e -> {
+        preTextPane.addCaretListener(e -> {
             int dot = e.getDot();
-            int line = editingPane.getCaretLinePosition(dot);
-            int posInLine = editingPane.getCaretPositionInLine(line, dot);
+            int line = preTextPane.getCaretLinePosition(dot);
+            int posInLine = preTextPane.getCaretPositionInLine(line, dot);
 
             caretLocationLabel.setText((line + 1) + ":" + (posInLine + 1));
         });
@@ -132,7 +132,7 @@ public class EditorView extends JPanel {
 
     private void openFile() {
         // TODO: If file type is not supported (file cannot be read and opened), then do not open a new tab
-        if (editingPane.openFile()) {
+        if (preTextPane.openFile()) {
             saveStatusLabel.setText("Saved");
             caretLocationLabel.setText("1:1");
         } else {
@@ -144,7 +144,7 @@ public class EditorView extends JPanel {
 
     @Override
     public void requestFocus() {
-        editingPane.requestFocus();
+        preTextPane.requestFocus();
     }
 
 
@@ -153,7 +153,7 @@ public class EditorView extends JPanel {
         return new JPanel(null, true) {
             @Override
             public Color getBackground() {
-                return UIColors.EDITINGPANE_BG; // TODO: UIColors
+                return UIColors.PRETEXTPANE_BG; // TODO: UIColors
             }
         };
     }

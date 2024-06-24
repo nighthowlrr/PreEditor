@@ -1,6 +1,6 @@
 package nos.pre.editor.functions;
 
-import nos.pre.editor.UI.Editor.editingPane.EditingPane;
+import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 
 import javax.swing.*;
@@ -12,24 +12,24 @@ public class UndoRedoFunction {
     private static final String undoKey = "Undo";
     private static final String redoKey = "Redo";
 
-    private final EditingPane editingPane;
+    private final PreTextPane preTextPane;
 
     private final UndoManager undoManager = new UndoManager();
 
-    public UndoRedoFunction(EditingPane editingPane) {
-        this.editingPane = editingPane;
+    public UndoRedoFunction(PreTextPane preTextPane) {
+        this.preTextPane = preTextPane;
         undoManager.setLimit(100); // TODO: User can change limit from settings
         addUndoRedo();
     }
 
     private void addUndoRedo() {
-        Document document = this.editingPane.getDocument();
+        Document document = this.preTextPane.getDocument();
 
         // Add UndoableEdit when edits are made to the document
         document.addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
 
         // Undo action
-        this.editingPane.getActionMap().put(undoKey, new AbstractAction(undoKey) {
+        this.preTextPane.getActionMap().put(undoKey, new AbstractAction(undoKey) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (undoManager.canUndo()) {
@@ -39,7 +39,7 @@ public class UndoRedoFunction {
         });
 
         // Redo action
-        this.editingPane.getActionMap().put(redoKey, new AbstractAction(redoKey) {
+        this.preTextPane.getActionMap().put(redoKey, new AbstractAction(redoKey) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (undoManager.canRedo()) {
@@ -49,8 +49,8 @@ public class UndoRedoFunction {
         });
 
         // Add keyboard shortcuts for undo and redo
-        this.editingPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_UNDO, undoKey);
-        this.editingPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_REDO, redoKey);
+        this.preTextPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_UNDO, undoKey);
+        this.preTextPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_REDO, redoKey);
     }
 
     /**

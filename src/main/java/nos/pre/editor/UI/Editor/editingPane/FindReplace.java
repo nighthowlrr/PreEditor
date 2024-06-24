@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 public class FindReplace {
-    private final EditingPane editingPane;
+    private final PreTextPane preTextPane;
 
     private boolean matchCase = false;
 
@@ -21,8 +21,8 @@ public class FindReplace {
 
     private final FindReplaceUIPanel findReplaceUIPanel;
 
-    public FindReplace(EditingPane editingPane) {
-        this.editingPane = editingPane;
+    public FindReplace(PreTextPane preTextPane) {
+        this.preTextPane = preTextPane;
 
         this.findReplaceUIPanel = new FindReplaceUIPanel();
     }
@@ -38,7 +38,7 @@ public class FindReplace {
                 textToFind = textToFind.toLowerCase();
             }
 
-            Document document = this.editingPane.getDocument();
+            Document document = this.preTextPane.getDocument();
             int textToFindLength = textToFind.length();
 
             boolean found = false;
@@ -61,11 +61,11 @@ public class FindReplace {
                 // If a match has been found...
                 if (found) {
                     // Scroll to where the text is.
-                    Rectangle2D viewRect = this.editingPane.modelToView2D(this.currentSearchPos);
-                    this.editingPane.scrollRectToVisible((Rectangle) viewRect);
+                    Rectangle2D viewRect = this.preTextPane.modelToView2D(this.currentSearchPos);
+                    this.preTextPane.scrollRectToVisible((Rectangle) viewRect);
 
                     // Select the text found.
-                    this.editingPane.setSelection(this.currentSearchPos, this.currentSearchPos + textToFindLength);
+                    this.preTextPane.setSelection(this.currentSearchPos, this.currentSearchPos + textToFindLength);
 
                     // Move the search position beyond the current match
                     this.currentSearchPos += textToFindLength;
@@ -87,7 +87,7 @@ public class FindReplace {
                 textToFind = textToFind.toLowerCase();
             }
 
-            Document document = this.editingPane.getDocument();
+            Document document = this.preTextPane.getDocument();
             int textToFindLength = textToFind.length();
 
             boolean found = false;
@@ -110,11 +110,11 @@ public class FindReplace {
                 // If a match has been found...
                 if (found) {
                     // Scroll to where the text is.
-                    Rectangle2D viewRect = this.editingPane.modelToView2D(this.currentSearchPos);
-                    this.editingPane.scrollRectToVisible((Rectangle) viewRect);
+                    Rectangle2D viewRect = this.preTextPane.modelToView2D(this.currentSearchPos);
+                    this.preTextPane.scrollRectToVisible((Rectangle) viewRect);
 
                     // Select the text found.
-                    this.editingPane.setSelection(this.currentSearchPos , this.currentSearchPos + textToFindLength);
+                    this.preTextPane.setSelection(this.currentSearchPos , this.currentSearchPos + textToFindLength);
 
                     // Move the search position above the current match
                     this.currentSearchPos -= textToFindLength;
@@ -186,7 +186,7 @@ public class FindReplace {
             findTextField.setForeground(UIColors.FIND_REPLACE_UI_INPUT_FG);
             findTextField.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, UIColors.FIND_REPLACE_UI_BORDER));
             findTextField.setFont(Fonts.SourceCodePro_Regular.deriveFont(Font.PLAIN, 14));
-            findTextField.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
+            findTextField.setCaretColor(UIColors.PRETEXTPANE_CARET_COLOR);
 
             findTextFieldContainer.setFocusable(false);
             findTextFieldContainer.setOpaque(false);
@@ -224,7 +224,7 @@ public class FindReplace {
             replaceTextField.setForeground(UIColors.FIND_REPLACE_UI_INPUT_FG);
             replaceTextField.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, UIColors.FIND_REPLACE_UI_BORDER));
             replaceTextField.setFont(Fonts.SourceCodePro_Regular.deriveFont(Font.PLAIN, 14));
-            replaceTextField.setCaretColor(UIColors.EDITINGPANE_CARET_COLOR);
+            replaceTextField.setCaretColor(UIColors.PRETEXTPANE_CARET_COLOR);
 
             replaceTextFieldContainer.setFocusable(false);
             replaceTextFieldContainer.setOpaque(false);
