@@ -1,6 +1,6 @@
 package nos.pre.editor.functions;
 
-import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
+import nos.pre.editor.pretextpane.PreTextPane;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 
 import javax.swing.*;

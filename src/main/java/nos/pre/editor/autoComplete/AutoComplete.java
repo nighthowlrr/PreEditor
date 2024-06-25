@@ -1,6 +1,6 @@
 package nos.pre.editor.autoComplete;
 
-import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
+import nos.pre.editor.pretextpane.PreTextPane;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
 import nos.pre.editor.autoComplete.completions.CompletionList;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;

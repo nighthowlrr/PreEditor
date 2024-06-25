@@ -1,6 +1,5 @@
-package nos.pre.editor.UI.Editor.editingPane;
+package nos.pre.editor.pretextpane;
 
-import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.defaultValues.UIFonts;
 import nos.pre.editor.files.FileSaveListener;
 

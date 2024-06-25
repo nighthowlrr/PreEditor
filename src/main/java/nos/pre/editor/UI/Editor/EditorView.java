@@ -1,7 +1,7 @@
 package nos.pre.editor.UI.Editor;
 
-import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
-import nos.pre.editor.UI.Editor.editingPane.FindReplace;
+import nos.pre.editor.pretextpane.PreTextPane;
+import nos.pre.editor.pretextpane.FindReplace;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;

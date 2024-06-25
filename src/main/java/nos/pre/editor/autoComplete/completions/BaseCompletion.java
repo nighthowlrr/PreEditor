@@ -1,6 +1,6 @@
 package nos.pre.editor.autoComplete.completions;
 
-import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
+import nos.pre.editor.pretextpane.PreTextPane;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

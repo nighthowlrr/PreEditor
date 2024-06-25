@@ -1,4 +1,4 @@
-package nos.pre.editor.UI.Editor.editingPane;
+package nos.pre.editor.pretextpane;
 
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;
