@@ -25,6 +25,9 @@ public class FindReplace {
 
     private int currentSearchPos = 0;
 
+    private String selectedOccurrence = null;
+    private int selectedOccurrencePos = -1;
+
     private final FindReplaceUIPanel findReplaceUIPanel;
 
     private final Highlighter.HighlightPainter findHighlighter = new DefaultHighlighter.DefaultHighlightPainter(UIColors.FIND_REPLACE_HIGHLIGHT_COLOR);
@@ -76,6 +79,10 @@ public class FindReplace {
                     // Select the text found.
                     this.preTextPane.setSelection(this.currentSearchPos, this.currentSearchPos + textToFindLength);
 
+                    // Update current occurrence info
+                    this.selectedOccurrence = textToFind;
+                    this.selectedOccurrencePos = this.currentSearchPos;
+
                     // Move the search position beyond the current match
                     this.currentSearchPos += textToFindLength;
                 }
@@ -125,6 +132,10 @@ public class FindReplace {
                     // Select the text found.
                     this.preTextPane.setSelection(this.currentSearchPos , this.currentSearchPos + textToFindLength);
 
+                    // Update current occurrence info
+                    this.selectedOccurrence = textToFind;
+                    this.selectedOccurrencePos = this.currentSearchPos;
+
                     // Move the search position above the current match
                     this.currentSearchPos -= textToFindLength;
                 }
@@ -154,6 +165,35 @@ public class FindReplace {
                 }
             } catch (BadLocationException e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    private void replaceCurrentOccurrenceOfText(String textToReplace, String textToReplaceWith) {
+        if ( (textToReplace != null && ! textToReplace.isEmpty()) && (textToReplaceWith != null && ! textToReplaceWith.isEmpty()) ) {
+
+            if (! matchCase) {
+                textToReplace = textToReplace.toLowerCase();
+            }
+
+            if (textToReplace.equals(this.selectedOccurrence)) {
+                Document document = this.preTextPane.getDocument();
+                int textToReplaceLength = textToReplace.length();
+
+                try {
+                    String match = document.getText(this.selectedOccurrencePos, textToReplaceLength);
+                    if (doesTextMatch(match, textToReplace)) {
+                        document.remove(this.selectedOccurrencePos, textToReplaceLength);
+
+                        document.insertString(this.selectedOccurrencePos, textToReplaceWith, null);
+                    }
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                System.out.println("FindReplace.replaceCurrentOccurrenceOfText: textToReplace does not equal selectedOccurrence." +
+                        "textToReplace: " + textToReplace + "; this.selectedOccurrence: " + this.selectedOccurrence + ";");
             }
         }
     }
@@ -372,6 +412,15 @@ public class FindReplace {
             nextOccurrenceButton.addActionListener(e -> selectNextOccurrenceOfText(findTextField.getText()));
             previousOccurrenceButton.addActionListener(e -> selectPreviousOccurrenceOfText(findTextField.getText()));
 
+            replaceTextField.addActionListener(e -> {
+                replaceCurrentOccurrenceOfText(findTextField.getText(), replaceTextField.getText());
+                selectNextOccurrenceOfText(findTextField.getText());
+            });
+
+            replaceButton.addActionListener(e -> {
+                replaceCurrentOccurrenceOfText(findTextField.getText(), replaceTextField.getText());
+                selectNextOccurrenceOfText(findTextField.getText());
+            });
             replaceAllButton.addActionListener(e -> {
                 replaceAllOccurrencesOfText(findTextField.getText(), replaceTextField.getText());
                 highlightAllOccurrencesOfText(findTextField.getText());
