@@ -2,6 +2,7 @@ package nos.pre.editor.UI.Editor;
 
 import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
 import nos.pre.editor.UI.Editor.editingPane.FindReplace;
+import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;
 import nos.pre.editor.editor.PreEditorDocument;
@@ -13,6 +14,7 @@ import templateUI.SwingComponents.jScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Objects;
 
@@ -34,7 +36,10 @@ public class EditorView extends JPanel {
     private JPanel editingPaneHolder;
     private PreTextPane preTextPane;
     private TextLineNumber editorLineNumber;
+    private FindReplace findReplace;
     private jScrollPane editorScrollPane;
+
+    private boolean isFindReplaceShowing;
 
     private JPanel statusBar;
     private JLabel saveStatusLabel;
@@ -45,7 +50,10 @@ public class EditorView extends JPanel {
         editingPaneHolder  = new JPanel(new BorderLayout(), true);
         preTextPane = new PreTextPane(this.openedFile);
         editorLineNumber = new TextLineNumber(preTextPane);
+        findReplace = new FindReplace(preTextPane);
         editorScrollPane = new jScrollPane(editingPaneHolder);
+
+        isFindReplaceShowing = false;
 
         statusBar = new JPanel(true);
         saveStatusLabel = new JLabel();
@@ -57,6 +65,8 @@ public class EditorView extends JPanel {
         this.initUI();
 
         // EDITOR PANE & LINE NUMBER ===
+        addFindReplaceShortcut();
+
         editingPaneHolder.add(preTextPane, BorderLayout.CENTER);
 
         editorLineNumber.setCurrentLineForeground(UIColors.EDITOR_LINE_NUMBERS_CURRENTLINE_FG);
@@ -73,7 +83,7 @@ public class EditorView extends JPanel {
         this.add(editorScrollPane, BorderLayout.CENTER);
 
         // TODO: When scrolling horizontally, find/replace ui panel also scrolls then glitches back to normal position
-        editorScrollPane.setColumnHeaderView(new FindReplace(preTextPane).getUI());
+        //editorScrollPane.setColumnHeaderView(new FindReplace(preTextPane).getUI());
 
         // STATUS BAR ===
         statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
@@ -141,6 +151,26 @@ public class EditorView extends JPanel {
                     "Error", JOptionPane.ERROR_MESSAGE, null);
             // TODO: More detailed error messages
         }
+    }
+
+    private void addFindReplaceShortcut() {
+        String findReplaceKey = "findReplace";
+
+        this.preTextPane.getActionMap().put(findReplaceKey, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!isFindReplaceShowing) {
+                    editorScrollPane.setColumnHeaderView(findReplace.getUI());
+                    findReplace.showHighlights();
+                    isFindReplaceShowing = true;
+                } else {
+                    editorScrollPane.setColumnHeaderView(null);
+                    findReplace.hideHighlights();
+                    isFindReplaceShowing = false;
+                }
+            }
+        });
+        this.preTextPane.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_FIND_REPLACE, findReplaceKey);
     }
 
     @Override

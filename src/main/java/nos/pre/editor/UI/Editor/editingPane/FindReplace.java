@@ -31,7 +31,7 @@ public class FindReplace {
     private final FindReplaceUIPanel findReplaceUIPanel;
 
     private final Highlighter.HighlightPainter findHighlighter = new DefaultHighlighter.DefaultHighlightPainter(UIColors.FIND_REPLACE_HIGHLIGHT_COLOR);
-    private final ArrayList<Object> highlights = new ArrayList<>();
+    private final ArrayList<FindHighlightInfo> highlights = new ArrayList<>();
 
     public FindReplace(PreTextPane preTextPane) {
         this.preTextPane = preTextPane;
@@ -160,7 +160,7 @@ public class FindReplace {
                     if (doesTextMatch(match, textToHighlight)) {
                         Object highlightTag = this.preTextPane.getHighlighter().addHighlight(searchIndex, searchIndex + textToHighlightLength, findHighlighter);
 
-                        this.highlights.add(highlightTag);
+                        this.highlights.add(new FindHighlightInfo(highlightTag, searchIndex, searchIndex + textToHighlightLength));
                     }
                 }
             } catch (BadLocationException e) {
@@ -229,10 +229,34 @@ public class FindReplace {
         this.currentSearchPos = 0;
     }
 
+    public void showHighlights() {
+        ArrayList<FindHighlightInfo> newHighlightTags = new ArrayList<>();
+
+        for (FindHighlightInfo highlightInfo : this.highlights) {
+            try {
+                Object highlightTag = this.preTextPane.getHighlighter().addHighlight(highlightInfo.startPos, highlightInfo.endPos, this.findHighlighter);
+                newHighlightTags.add(new FindHighlightInfo(highlightTag, highlightInfo.startPos, highlightInfo.endPos));
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
+        }
+
+        this.highlights.clear();
+        this.highlights.addAll(newHighlightTags);
+
+        // New HighlightTags are added because removing them once makes them unusable.
+    }
+
+    public void hideHighlights() {
+        for (FindHighlightInfo highlightInfo : this.highlights) {
+            this.preTextPane.getHighlighter().removeHighlight(highlightInfo.highlightTag());
+        }
+    }
+
     private void resetHighlights() {
         if (! this.highlights.isEmpty()) {
-            for (Object highlight : this.highlights) {
-                this.preTextPane.getHighlighter().removeHighlight(highlight);
+            for (FindHighlightInfo highlightInfo : this.highlights) {
+                this.preTextPane.getHighlighter().removeHighlight(highlightInfo.highlightTag());
             }
 
             this.highlights.clear();
@@ -439,4 +463,6 @@ public class FindReplace {
             matchCaseToggleButton.setSelected(matchCaseEnabled);
         }
     }
+
+    private record FindHighlightInfo(Object highlightTag, int startPos, int endPos) {}
 }
