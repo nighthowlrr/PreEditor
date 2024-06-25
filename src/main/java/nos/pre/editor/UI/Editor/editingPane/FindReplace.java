@@ -312,13 +312,8 @@ public class FindReplace {
             findTextFieldContainer.setOpaque(false);
             findTextFieldContainer.setPreferredSize(new Dimension(0, uiBarHeight));
 
-            matchCaseToggleButton.setPreferredSize(new Dimension(uiButtonWidth, uiBarHeight));
+            setUpFindReplaceUIButton(matchCaseToggleButton, uiButtonWidth, "Match Case");
             matchCaseToggleButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
-            matchCaseToggleButton.setBackground(UIColors.FIND_REPLACE_UI_BG);
-            matchCaseToggleButton.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
-            matchCaseToggleButton.setFocusable(false);
-            matchCaseToggleButton.setSelectedColor(UIColors.FIND_REPLACE_UI_SELECTED_BUTTON_BG);
-            matchCaseToggleButton.setToolTipText("Match Case");
 
             setUpFindReplaceUIButton(nextOccurrenceButton, uiButtonWidth, "Select Next Occurrence");
             nextOccurrenceButton.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, UIColors.FIND_REPLACE_UI_BORDER));
@@ -377,6 +372,15 @@ public class FindReplace {
             button.setPreferredSize(new Dimension(width, uiBarHeight));
             button.setBackground(UIColors.FIND_REPLACE_UI_BG);
             button.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
+            button.setFont(UIFonts.FIND_REPLACE_UI_LABEL_FONT);
+            button.setFocusable(false);
+            if (toolTipText != null) button.setToolTipText(toolTipText);
+        }
+        private void setUpFindReplaceUIButton(@NotNull jToggleButton button, int width, @Nullable String toolTipText) {
+            button.setPreferredSize(new Dimension(width, uiBarHeight));
+            button.setBackground(UIColors.FIND_REPLACE_UI_BG);
+            button.setForeground(UIColors.FIND_REPLACE_UI_LABELS_FG);
+            button.setSelectedColor(UIColors.FIND_REPLACE_UI_SELECTED_BUTTON_BG);
             button.setFont(UIFonts.FIND_REPLACE_UI_LABEL_FONT);
             button.setFocusable(false);
             if (toolTipText != null) button.setToolTipText(toolTipText);

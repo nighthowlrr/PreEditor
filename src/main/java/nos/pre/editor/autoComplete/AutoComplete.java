@@ -1,7 +1,6 @@
 package nos.pre.editor.autoComplete;
 
 import nos.pre.editor.UI.Editor.editingPane.PreTextPane;
-import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
 import nos.pre.editor.autoComplete.completions.CompletionList;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
@@ -99,7 +98,7 @@ public class AutoComplete {
                 showAutoCompleteMenuLater();
             }
         });
-        this.preTextPane.getInputMap().put(KeyboardShortcuts.EDITINGPANE_AUTOCOMPLETE, autoCompleteKey);
+        this.preTextPane.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_AUTOCOMPLETE, autoCompleteKey);
     }
 
     private void initUI() {

@@ -1,6 +1,5 @@
 package nos.pre.editor.UI.Editor.editingPane;
 
-import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.autoComplete.AutoComplete;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
@@ -145,7 +144,7 @@ public class PreTextPane extends JTextPane {
                 saveFile();
             }
         });
-        this.getInputMap().put(KeyboardShortcuts.EDITINGPANE_SAVE, saveKey);
+        this.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_SAVE, saveKey);
     }
 
     /**
