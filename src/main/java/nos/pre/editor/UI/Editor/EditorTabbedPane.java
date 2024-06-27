@@ -10,6 +10,8 @@ import java.util.Objects;
 
 public class EditorTabbedPane extends jTabbedPane {
     public EditorTabbedPane() {
+        super(true);
+
         this.setOpaque(true);
         this.setBackground(UIColors.EDITOR_TABBED_PANE_BG);
         this.setForeground(UIColors.EDITOR_TABBED_PANE_FG);

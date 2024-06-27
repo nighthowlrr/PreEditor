@@ -10,7 +10,11 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 
 public class jTabbedPane extends JTabbedPane {
-    public jTabbedPane() {
+    private final boolean tabsCloseable;
+
+    public jTabbedPane(boolean tabsCloseable) {
+        this.tabsCloseable = tabsCloseable;
+
         this.setUI(new CustomTabbedPaneUI());
 
         this.setDoubleBuffered(true);
@@ -35,7 +39,9 @@ public class jTabbedPane extends JTabbedPane {
     }
 
     private void addTabProcedure(String title) {
-        this.setTabComponentAt(this.getTabCount() - 1, new TabTitleComponent(this, title));
+        if (tabsCloseable) {
+            this.setTabComponentAt(this.getTabCount() - 1, new TabTitleComponent(this, title));
+        }
 
         // Select last tab (Assuming that new tab is always created at last index)
         this.setSelectedIndex(this.getTabCount() - 1);
