@@ -19,8 +19,11 @@ import javax.swing.text.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PreTextPane extends JTextPane {
+    private String savedFileText;
+
     // Functionality enabled booleans ===
     private boolean undoRedoEnabled; // True by default (set in constructor)
     // TODO: ViewingModes: ReadOnly, EditingMode (May need to change saving code (e.g. boolean in EditingPaneMenu))
@@ -107,6 +110,11 @@ public class PreTextPane extends JTextPane {
             // OpenedFile has not been changed yet, so isFileSaved = true,
             // and FileSaveListener.fileSaved() is triggered for all fileSaveListeners
             isFileSaved = true;
+            try {
+                savedFileText = this.getDocument().getText(0, this.getDocument().getLength() - 1);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
             runFileSavedListeners();
 
             return true;
@@ -154,7 +162,59 @@ public class PreTextPane extends JTextPane {
     public void saveFile() {
         if (FileIO.saveFile(this.openedFile, this.getText())) {
             isFileSaved = true;
+            try {
+                savedFileText = this.getDocument().getText(0, this.getDocument().getLength() - 1);
+            } catch (BadLocationException e) {
+                e.printStackTrace();
+            }
             runFileSavedListeners();
+        }
+    }
+
+    public void reloadFileFromDisk() {
+        String fileText = FileIO.openFile(this.openedFile);
+
+        System.out.println("! Objects.equals(this.savedFileText, fileText) = " + (! Objects.equals(this.savedFileText, fileText)) );
+
+        if (! Objects.equals(this.savedFileText, fileText)) {
+            if (this.isFileSaved) { //
+                int caretPos = this.getCaretPosition();
+
+                this.openFile(); // Opening file code already written.
+
+                if (caretPos > this.getDocument().getLength()) {
+                    caretPos = this.getDocument().getLength();
+                }
+
+                this.setCaretPosition(caretPos);
+
+                System.out.println("reloaded");
+
+            } else {
+                // TODO: Implement Show difference feature
+                int option = JOptionPane.showOptionDialog(null,
+                        "Changes have been made to \"" + this.openedFile.getAbsolutePath() + "\" in memory and on disk.",
+                        "File changes conflict", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+                        new String[] {"Load changes from disk", "Keep memory changes", "Show difference (not implemented)"},
+                        "Load changes from disk");
+
+                if (option == JOptionPane.YES_OPTION) { // Load changes from disk
+                    int caretPos = this.getCaretPosition();
+
+                    this.openFile(); // Opening file code already written.
+
+                    if (caretPos > this.getDocument().getLength()) {
+                        caretPos = this.getDocument().getLength();
+                    }
+
+                    this.setCaretPosition(caretPos);
+
+                } else if (option == JOptionPane.NO_OPTION) { // Keep memory changes
+
+                } else if (option == JOptionPane.CANCEL_OPTION) { // Show difference
+                    System.out.println("PreTextPane.reloadFileFromDisk: show difference (cancel option)");
+                }
+            }
         }
     }
 

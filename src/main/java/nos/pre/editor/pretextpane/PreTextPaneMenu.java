@@ -32,10 +32,11 @@ public class PreTextPaneMenu extends JPopupMenu {
 
     private final ArrayList<JMenuItem> menuItems = new ArrayList<>();
 
-    private final JMenuItem saveItem = new JMenuItem("Save");
-
     private final JMenuItem undoItem = new JMenuItem("Undo");
     private final JMenuItem redoItem = new JMenuItem("Redo");
+
+    private final JMenuItem saveItem = new JMenuItem("Save");
+    private final JMenuItem reloadFromDiskItem = new JMenuItem("Reload file from disk");
 
     private final JMenuItem cutItem = new JMenuItem("Cut");
     private final JMenuItem copyItem = new JMenuItem("Copy");
@@ -49,9 +50,22 @@ public class PreTextPaneMenu extends JPopupMenu {
     private final JMenuItem googleSearchItem = new JMenuItem("Search with google");
 
     private void setupMenuItems() {
+        if (this.preTextPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
+            undoItem.setEnabled(true);
+            undoItem.addActionListener(e -> this.preTextPane.undo());
+            menuItems.add(undoItem);
+
+            redoItem.setEnabled(true);
+            redoItem.addActionListener(e -> this.preTextPane.redo());
+            menuItems.add(redoItem);
+        }
+
         saveItem.setEnabled(false);
         saveItem.addActionListener(e -> this.preTextPane.saveFile());
         menuItems.add(saveItem);
+
+        reloadFromDiskItem.addActionListener(e -> this.preTextPane.reloadFileFromDisk());
+        menuItems.add(reloadFromDiskItem);
 
         cutItem.setEnabled(false);
         cutItem.addActionListener(e -> this.preTextPane.cut());
@@ -63,18 +77,6 @@ public class PreTextPaneMenu extends JPopupMenu {
 
         pasteItem.addActionListener(e -> this.preTextPane.paste()); // TODO: Using paste item from menu pastes text two times...
         menuItems.add(pasteItem);
-
-        if (this.preTextPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
-            undoItem.setEnabled(true);
-            undoItem.addActionListener(e -> this.preTextPane.undo());
-            menuItems.add(undoItem);
-
-            redoItem.setEnabled(true);
-            redoItem.addActionListener(e -> this.preTextPane.redo());
-            menuItems.add(redoItem);
-
-
-        }
 
         openInExplorerItem.setEnabled(isDesktopSupported);
         openInExplorerItem.addActionListener(e -> {
@@ -122,17 +124,18 @@ public class PreTextPaneMenu extends JPopupMenu {
     }
 
     private void addAllMenuItems() {
-        this.add(saveItem);
-        this.addSeparator();
-        this.add(cutItem);
-        this.add(copyItem);
-        this.add(pasteItem);
-        this.addSeparator();
         if (this.preTextPane.isUndoRedoEnabled()) {
             this.add(undoItem);
             this.add(redoItem);
             this.addSeparator();
         }
+        this.add(saveItem);
+        this.add(reloadFromDiskItem);
+        this.addSeparator();
+        this.add(cutItem);
+        this.add(copyItem);
+        this.add(pasteItem);
+        this.addSeparator();
 
         openInMenu.add(openInExplorerItem);
         openInMenu.add(openInAppItem);

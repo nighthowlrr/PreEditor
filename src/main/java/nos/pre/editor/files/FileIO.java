@@ -1,5 +1,7 @@
 package nos.pre.editor.files;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import java.io.File;
@@ -23,6 +25,21 @@ public class FileIO {
         } catch (FileNotFoundException | BadLocationException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static @NotNull String openFile(File fileToOpen) {
+        try {
+            StringBuilder fileText = new StringBuilder();
+
+            Scanner scanner = new Scanner(fileToOpen);
+            while (scanner.hasNextLine()) {
+                fileText.append(scanner.nextLine() + "\n");
+            }
+
+            return fileText.toString();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
