@@ -32,6 +32,8 @@ public class PreTextPaneMenu extends JPopupMenu {
 
     private final ArrayList<JMenuItem> menuItems = new ArrayList<>();
 
+    private final JMenuItem autocompleteItem = new JMenuItem("Show AutoComplete suggestions");
+
     private final JMenuItem undoItem = new JMenuItem("Undo");
     private final JMenuItem redoItem = new JMenuItem("Redo");
 
@@ -50,6 +52,9 @@ public class PreTextPaneMenu extends JPopupMenu {
     private final JMenuItem googleSearchItem = new JMenuItem("Search with google");
 
     private void setupMenuItems() {
+        autocompleteItem.addActionListener(e -> this.preTextPane.showAutoCompleteMenuLater());
+        menuItems.add(autocompleteItem);
+
         if (this.preTextPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
             undoItem.setEnabled(true);
             undoItem.addActionListener(e -> this.preTextPane.undo());
@@ -124,6 +129,8 @@ public class PreTextPaneMenu extends JPopupMenu {
     }
 
     private void addAllMenuItems() {
+        this.add(autocompleteItem);
+        this.addSeparator();
         if (this.preTextPane.isUndoRedoEnabled()) {
             this.add(undoItem);
             this.add(redoItem);

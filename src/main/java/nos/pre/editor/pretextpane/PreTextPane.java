@@ -331,4 +331,10 @@ public class PreTextPane extends JTextPane {
         this.setSelectionStart(start);
         this.setSelectionEnd(end);
     }
+
+    public void showAutoCompleteMenuLater() {
+        if (this.autoComplete != null) {
+            this.autoComplete.showAutoCompleteMenuLater();
+        }
+    }
 }

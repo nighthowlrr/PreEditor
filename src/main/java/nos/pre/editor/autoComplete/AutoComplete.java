@@ -176,7 +176,7 @@ public class AutoComplete {
         SwingUtilities.invokeLater(this.preTextPane::requestFocusInWindow);
     }
 
-    private void showAutoCompleteMenuLater() {
+    public void showAutoCompleteMenuLater() {
         SwingUtilities.invokeLater(this::showAutoCompleteMenu);
     }
 
