@@ -21,5 +21,15 @@ public class JavaCompletions extends CompletionList {
         this.add(new TemplateCompletion("psvm",
                 "public static void main(String[] args) {", "}",
                 "main() method declaration"));
+
+        this.add(new TemplateCompletion("else-if",
+                "else if (", ") {}",
+                "Add an else-if branch"));
+
+        this.add(new TemplateCompletion("try-catch",
+                "try {", "}\ncatch () {}",
+                "Create a try catch block"));
+
+        // TODO: Proper indentation and bracket location
     }
 }
