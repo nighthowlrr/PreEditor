@@ -66,11 +66,19 @@ public class EditorTabbedPane extends JTabbedPane {
 
         // Select last tab (Assuming that new tab is always created at last index)
         this.setSelectedIndex(this.getTabCount() - 1);
-
-        // TODO: Request focus to editor textPane
     }
 
-    // TODO: Method to Request focus to editor textPane of current tab
+    private void focusPreTextPaneInTab(int index) {
+        if (this.getComponentAt(index) instanceof EditorView editorView) {
+            editorView.focusPreTextPane();
+        }
+    }
+
+    @Override
+    public void setSelectedIndex(int index) {
+        super.setSelectedIndex(index);
+        focusPreTextPaneInTab(index);
+    }
 
     private static class TabTitleComponent extends JPanel {
         private final JTabbedPane tabbedPane;

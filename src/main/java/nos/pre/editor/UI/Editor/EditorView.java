@@ -83,7 +83,6 @@ public class EditorView extends JPanel {
         this.add(editorScrollPane, BorderLayout.CENTER);
 
         // TODO: When scrolling horizontally, find/replace ui panel also scrolls then glitches back to normal position
-        //editorScrollPane.setColumnHeaderView(new FindReplace(preTextPane).getUI());
 
         // STATUS BAR ===
         statusBar.setLayout(new BoxLayout(statusBar, BoxLayout.X_AXIS));
@@ -171,6 +170,10 @@ public class EditorView extends JPanel {
             }
         });
         this.preTextPane.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_FIND_REPLACE, findReplaceKey);
+    }
+
+    public void focusPreTextPane() {
+        preTextPane.requestFocus();
     }
 
     @Override
