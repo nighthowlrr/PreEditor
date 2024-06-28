@@ -18,6 +18,11 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color WELCOME_FRAME_SIDE_PANEL_BG = new Color(0x2B2D30);
 
 
+    // SETTINGS_FRAME
+    public static final Color SETTINGS_FRAME_MAIN_BG = new Color(0x1E1F22);
+    public static final Color SETTINGS_FRAME_MAIN_FG = new Color(0xFFFFFF);
+
+
     // EDITOR_FRAME
     public static final Color EDITOR_FRAME_DIVIDER_COLOR = new Color(0x1E1F22);
 

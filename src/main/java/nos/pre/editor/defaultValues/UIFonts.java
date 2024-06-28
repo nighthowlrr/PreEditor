@@ -12,6 +12,10 @@ public class UIFonts {
     public static final Font WELCOME_FRAME_VIEW_TOGGLE_BUTTON_FONT = Fonts.URW_Gothic.deriveFont(16F);
 
 
+    // SETTINGS_FRAME
+    public static final Font SETTINGS_FRAME_MAIN_FONT = Fonts.LeagueSpartan.deriveFont(Font.BOLD, 16F);
+
+
     // EDITOR_TABBED_PANE
     public static final Font EDITOR_TABBED_PANE_FONT = Fonts.LeagueSpartan.deriveFont(Font.BOLD, 14F);
 
