@@ -145,8 +145,13 @@ public class jTabbedPane extends JTabbedPane {
 
 
         @Override
-        public void paint(Graphics g, JComponent c) {
-            super.paint(g, c);
+        protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight) {
+            return super.calculateTabHeight(tabPlacement, tabIndex, fontHeight) + 6;
+        }
+
+        @Override
+        protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
+            return super.calculateTabWidth(tabPlacement, tabIndex, metrics);
         }
 
         @Override
@@ -168,18 +173,45 @@ public class jTabbedPane extends JTabbedPane {
         @Override
         protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex,
                                            Rectangle iconRect, Rectangle textRect, boolean isSelected) {
-            Point startLocation = new Point();
-            Point endLocation = new Point();
-            startLocation.x = rects[tabIndex].x + 1;
-            startLocation.y = rects[tabIndex].y + rects[tabIndex].height - 2;
-
-            endLocation.x = rects[tabIndex].x + rects[tabIndex].width - 2;
-            endLocation.y = startLocation.y;
-
             if (isSelected) {
+                Point startLocation = new Point();
+                Point endLocation = new Point();
+
+                final int indicatorWidth = 3;
+                Rectangle tabRect = rects[tabIndex];
+
+                if (tabPlacement == JTabbedPane.LEFT) {
+                    startLocation.x = tabRect.x + tabRect.width + 1 - indicatorWidth;
+                    startLocation.y = tabRect.y + 1;
+
+                    endLocation.x = startLocation.x;
+                    endLocation.y = tabRect.y + tabRect.height - 2;
+
+                } else if (tabPlacement == JTabbedPane.RIGHT) {
+                    startLocation.x = tabRect.x;
+                    startLocation.y = tabRect.y + 1;
+
+                    endLocation.x = startLocation.x;
+                    endLocation.y = tabRect.y + tabRect.height - 2;
+
+                } else if (tabPlacement == JTabbedPane.TOP) {
+                    startLocation.x = tabRect.x + 1;
+                    startLocation.y = tabRect.y + tabRect.height - 2;
+
+                    endLocation.x = tabRect.x + tabRect.width - 2;
+                    endLocation.y = startLocation.y;
+
+                } else if (tabPlacement == JTabbedPane.BOTTOM) {
+                    startLocation.x = tabRect.x + 1;
+                    startLocation.y = tabRect.y;
+
+                    endLocation.x = tabRect.x + tabRect.width - 2;
+                    endLocation.y = startLocation.y;
+                }
+
                 Graphics2D g2d = GraphicsUtilities.getGraphics2DWithHints(g);
 
-                g2d.setStroke(new BasicStroke(2.0F));
+                g2d.setStroke(new BasicStroke(indicatorWidth));
                 g2d.setColor(this.tabIndicatorColor);
 
                 g2d.drawLine(startLocation.x, startLocation.y, endLocation.x, endLocation.y);
