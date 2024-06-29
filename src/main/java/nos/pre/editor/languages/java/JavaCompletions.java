@@ -30,6 +30,13 @@ public class JavaCompletions extends CompletionList {
                 "try {", "}\ncatch () {}",
                 "Create a try catch block"));
 
+        this.add(new TemplateCompletion("psf",
+                "public static final ", "",
+                "public static final"));
+        this.add(new TemplateCompletion("prsf",
+                "private static final ", "",
+                "private static final"));
+
         // TODO: Proper indentation and bracket location
     }
 }
