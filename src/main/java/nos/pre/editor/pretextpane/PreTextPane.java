@@ -174,8 +174,6 @@ public class PreTextPane extends JTextPane {
     public void reloadFileFromDisk() {
         String fileText = FileIO.openFile(this.openedFile);
 
-        System.out.println("! Objects.equals(this.savedFileText, fileText) = " + (! Objects.equals(this.savedFileText, fileText)) );
-
         if (! Objects.equals(this.savedFileText, fileText)) {
             if (this.isFileSaved) { //
                 int caretPos = this.getCaretPosition();
@@ -187,8 +185,6 @@ public class PreTextPane extends JTextPane {
                 }
 
                 this.setCaretPosition(caretPos);
-
-                System.out.println("reloaded");
 
             } else {
                 // TODO: Implement Show difference feature
