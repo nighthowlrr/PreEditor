@@ -85,17 +85,24 @@ public class PreTextPane extends JTextPane {
         String fileName = this.openedFile.getName();
         String fileExtension = this.openedFile.getName().substring(fileName.lastIndexOf(".") + 1);
 
+        PreEditorDocument preEditorDocument;
+
+        // TODO: Make a global class and check from that class
+
         switch (fileExtension) {
-            // TODO: Make a global class and check from that class
             case "java":
             // TODO: case "class": decompile class files
-                this.setStyledDocument(new JavaSyntaxPreEditorDocument());
+                preEditorDocument = new JavaSyntaxPreEditorDocument();
+
                 this.autoComplete = new AutoComplete(this, new JavaCompletions());
                 break;
             default:
-                this.setStyledDocument(new DefaultPreEditorDocument());
+                preEditorDocument = new DefaultPreEditorDocument();
                 break;
         }
+
+        // Setting the document
+        this.setStyledDocument(preEditorDocument);
     }
 
     // FILE I/O FUNCTIONS ===
