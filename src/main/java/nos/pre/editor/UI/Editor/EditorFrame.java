@@ -1,13 +1,12 @@
 package nos.pre.editor.UI.Editor;
 
-import nos.pre.editor.UI.Fonts;
 import nos.pre.editor.UI.Welcome.WelcomeFrame;
 import nos.pre.editor.UI.toolWindows.projectTool.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowHolder;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;
-import nos.pre.editor.processManagers.EditorProcess;
+import nos.pre.editor.processes.EditorProcess;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
