@@ -151,15 +151,12 @@ public class PreTextPane extends JTextPane {
         });
 
         // Save Keyboard shortcut
-        String saveKey = "Save";
-
-        this.getActionMap().put(saveKey, new AbstractAction(saveKey) {
+        KeyboardShortcuts.addKeyboardShortcut("Save", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveFile();
             }
-        });
-        this.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_SAVE, saveKey);
+        }, KeyboardShortcuts.PRETEXTPANE_SAVE, this);
     }
 
     /**

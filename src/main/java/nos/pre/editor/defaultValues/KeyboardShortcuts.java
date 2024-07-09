@@ -12,4 +12,11 @@ public class KeyboardShortcuts { // TODO: Changeable & Store Defaults
     public static final KeyStroke PRETEXTPANE_AUTOCOMPLETE = KeyStroke.getKeyStroke("control SPACE");
 
     public static final KeyStroke PRETEXTPANE_FIND_REPLACE = KeyStroke.getKeyStroke("control F");
+
+    // Util Methods ===
+    public static void addKeyboardShortcut(String shortcutKey, AbstractAction abstractAction, KeyStroke keyStroke,
+                                           JComponent component) {
+        component.getActionMap().put(shortcutKey, abstractAction);
+        component.getInputMap().put(keyStroke, shortcutKey);
+    }
 }

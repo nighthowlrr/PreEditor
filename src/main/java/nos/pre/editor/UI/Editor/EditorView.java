@@ -153,9 +153,7 @@ public class EditorView extends JPanel {
     }
 
     private void addFindReplaceShortcut() {
-        String findReplaceKey = "findReplace";
-
-        this.preTextPane.getActionMap().put(findReplaceKey, new AbstractAction() {
+        KeyboardShortcuts.addKeyboardShortcut("FindReplace", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isFindReplaceShowing) {
@@ -168,8 +166,7 @@ public class EditorView extends JPanel {
                     isFindReplaceShowing = false;
                 }
             }
-        });
-        this.preTextPane.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_FIND_REPLACE, findReplaceKey);
+        }, KeyboardShortcuts.PRETEXTPANE_FIND_REPLACE, this.preTextPane);
     }
 
     public void focusPreTextPane() {

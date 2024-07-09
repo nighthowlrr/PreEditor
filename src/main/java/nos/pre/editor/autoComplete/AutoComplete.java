@@ -90,15 +90,12 @@ public class AutoComplete {
             }
         });
 
-        String autoCompleteKey = "AutoComplete";
-
-        this.preTextPane.getActionMap().put(autoCompleteKey, new AbstractAction() {
+        KeyboardShortcuts.addKeyboardShortcut("AutoComplete", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAutoCompleteMenuLater();
             }
-        });
-        this.preTextPane.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_AUTOCOMPLETE, autoCompleteKey);
+        }, KeyboardShortcuts.PRETEXTPANE_AUTOCOMPLETE, this.preTextPane);
     }
 
     private void initUI() {

@@ -9,9 +9,6 @@ import javax.swing.undo.UndoManager;
 import java.awt.event.ActionEvent;
 
 public class UndoRedoFunction {
-    private static final String undoKey = "Undo";
-    private static final String redoKey = "Redo";
-
     private final PreTextPane preTextPane;
 
     private final UndoManager undoManager = new UndoManager();
@@ -28,29 +25,27 @@ public class UndoRedoFunction {
         // Add UndoableEdit when edits are made to the document
         document.addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
 
+        // Add keyboard shortcuts for undo and redo actions
+
         // Undo action
-        this.preTextPane.getActionMap().put(undoKey, new AbstractAction(undoKey) {
+        KeyboardShortcuts.addKeyboardShortcut("Undo", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (undoManager.canUndo()) {
                     undoManager.undo();
                 }
             }
-        });
+        }, KeyboardShortcuts.PRETEXTPANE_UNDO, this.preTextPane);
 
         // Redo action
-        this.preTextPane.getActionMap().put(redoKey, new AbstractAction(redoKey) {
+        KeyboardShortcuts.addKeyboardShortcut("Redo", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (undoManager.canRedo()) {
                     undoManager.redo();
                 }
             }
-        });
-
-        // Add keyboard shortcuts for undo and redo
-        this.preTextPane.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_UNDO, undoKey);
-        this.preTextPane.getInputMap().put(KeyboardShortcuts.PRETEXTPANE_REDO, redoKey);
+        }, KeyboardShortcuts.PRETEXTPANE_REDO, this.preTextPane);
     }
 
     /**
