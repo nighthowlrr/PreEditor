@@ -1,14 +1,18 @@
 package nos.pre.editor.coderead.codeobjects.java;
 
+import com.sun.source.tree.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class JavaAnnotation {
     private final String annotationType;
     private final ArrayList<String> annotationArguments;
 
+    @Contract(pure = true)
     public JavaAnnotation(@NotNull String annotationType, @NotNull ArrayList<String> annotationArguments) {
         this.annotationType = annotationType;
         this.annotationArguments = annotationArguments;
@@ -39,5 +43,30 @@ public class JavaAnnotation {
         }
 
         return stringBuilder.toString();
+    }
+
+
+    public static @NotNull ArrayList<JavaAnnotation> getAnnotations(@NotNull MethodTree methodTree) {
+        return JavaAnnotation.getAnnotations(methodTree.getModifiers());
+    }
+    public static @NotNull ArrayList<JavaAnnotation> getAnnotations(@NotNull VariableTree variableTree) {
+        return JavaAnnotation.getAnnotations(variableTree.getModifiers());
+    }
+    public static @NotNull ArrayList<JavaAnnotation> getAnnotations(@NotNull ModifiersTree modifiersTree) {
+        ArrayList<JavaAnnotation> javaAnnotations = new ArrayList<>();
+
+        List<? extends AnnotationTree> annotationTrees = modifiersTree.getAnnotations();
+
+        for (AnnotationTree annotationTree : annotationTrees) {
+            List<? extends ExpressionTree> arguments = annotationTree.getArguments();
+
+            ArrayList<String> annotationArguments = arguments.stream()
+                    .map(Object::toString)
+                    .collect(Collectors.toCollection(ArrayList::new));
+
+            javaAnnotations.add(new JavaAnnotation(annotationTree.getAnnotationType().toString(), annotationArguments));
+        }
+
+        return javaAnnotations;
     }
 }
