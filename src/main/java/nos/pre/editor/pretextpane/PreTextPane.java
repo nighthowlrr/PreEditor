@@ -22,18 +22,33 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PreTextPane extends JTextPane {
+    // File ===
+    private final File openedFile;
+    public File getOpenedFile() {
+        return openedFile;
+    }
+
+    private boolean isFileSaved;
     private String savedFileText;
 
-    // Functionality enabled booleans ===
+    public boolean isFileSaved() {
+        return isFileSaved;
+    }
+
+    // Functionality booleans ===
     private boolean undoRedoEnabled; // True by default (set in constructor)
-    // TODO: ViewingModes: ReadOnly, EditingMode (May need to change saving code (e.g. boolean in EditingPaneMenu))
+    // TODO: ViewingModes: ReadOnly, EditingMode
 
     public boolean isUndoRedoEnabled() {
         return undoRedoEnabled;
     }
     public void setUndoRedoEnabled(boolean undoRedoEnabled) {
         this.undoRedoEnabled = undoRedoEnabled;
-        this.ensureAddUndoRedoFunction();
+        if (undoRedoEnabled) {
+            undoRedoFunction = new UndoRedoFunction(this); // TODO: Undo/Redo Functionality suddenly not working.
+        } else {
+            undoRedoFunction = null;
+        }
         this.preTextPaneMenu.updateMenuItems();
     }
 
@@ -43,7 +58,7 @@ public class PreTextPane extends JTextPane {
 
     private final PreTextPaneMenu preTextPaneMenu;
 
-    // LISTENERS
+    // Listeners ===
     private final ArrayList<FileSaveListener> fileSaveListenersList = new ArrayList<>();
     public void addFileSaveListener(FileSaveListener fileSaveListener) {
         fileSaveListenersList.add(fileSaveListener);
@@ -52,13 +67,14 @@ public class PreTextPane extends JTextPane {
         fileSaveListenersList.remove(fileSaveListener);
     }
 
-    private final File openedFile;
-
-    private boolean isFileSaved;
-
-
+    /**
+     * Constructor for PreTextPane
+     * @param openedFile File to open
+     */
     public PreTextPane(File openedFile) {
         this.openedFile = openedFile;
+
+        // Setting up TextComponent
 
         this.setDoubleBuffered(true);
         this.setFocusable(true);
@@ -75,38 +91,31 @@ public class PreTextPane extends JTextPane {
         // LinePainter linePainter = new LinePainter(this, UIColors.PRETEXTPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
         // TODO: linePainter temporarily disabled. See line highlight task in Todoist Project.
 
-        addLanguageFeatures();
+        // Adding Functionality
 
         addSaveFunctionality();
-        setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed) (see ensureAddUndoRedoFunction();)
+        addLanguageFeatures();
+        setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed)
     }
 
     private void addLanguageFeatures() {
         String fileName = this.openedFile.getName();
         String fileExtension = this.openedFile.getName().substring(fileName.lastIndexOf(".") + 1);
 
-        PreEditorDocument preEditorDocument;
-
-        // TODO: Make a global class and check from that class
-
         switch (fileExtension) {
-            case "java":
             // TODO: case "class": decompile class files
-                preEditorDocument = new JavaSyntaxPreEditorDocument();
-
+            case "java":
+                this.setStyledDocument(new JavaSyntaxPreEditorDocument());
                 this.autoComplete = new AutoComplete(this, new JavaCompletions());
                 break;
             default:
-                preEditorDocument = new DefaultPreEditorDocument();
+                this.setStyledDocument(new DefaultPreEditorDocument());
+                this.autoComplete = null;
                 break;
         }
-
-        // Setting the document
-        this.setStyledDocument(preEditorDocument);
     }
 
-    // FILE I/O FUNCTIONS ===
-
+    // FILE I/O METHODS ===
     public boolean openFile() {
         this.setText("");
 
@@ -126,6 +135,24 @@ public class PreTextPane extends JTextPane {
 
             return true;
         } else return false;
+    }
+
+    /**
+     * If <code>openedFile</code> is not saved, then saves the file, and runs <code>FileSaveListener.fileSaved()</code>
+     * method for all FileSaveListeners
+     */
+    public void saveFile() {
+        if (! isFileSaved) {
+            if (FileIO.saveFile(this.openedFile, this.getText())) {
+                isFileSaved = true;
+                try {
+                    savedFileText = this.getDocument().getText(0, this.getDocument().getLength() - 1);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+                runFileSavedListeners();
+            }
+        }
     }
 
     private void addSaveFunctionality() {
@@ -157,22 +184,6 @@ public class PreTextPane extends JTextPane {
                 saveFile();
             }
         }, KeyboardShortcuts.PRETEXTPANE_SAVE, this);
-    }
-
-    /**
-     * If <code>openedFile</code> is not saved, then saves the file, and runs <code>FileSaveListener.fileSaved()</code>
-     * method for all FileSaveListeners
-     */
-    public void saveFile() {
-        if (FileIO.saveFile(this.openedFile, this.getText())) {
-            isFileSaved = true;
-            try {
-                savedFileText = this.getDocument().getText(0, this.getDocument().getLength() - 1);
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
-            runFileSavedListeners();
-        }
     }
 
     public void reloadFileFromDisk() {
@@ -210,7 +221,7 @@ public class PreTextPane extends JTextPane {
                     this.setCaretPosition(caretPos);
 
                 } else if (option == JOptionPane.NO_OPTION) { // Keep memory changes
-
+                    System.out.println("PreTextPane.reloadFileFromDisk: Keep memory changes (no option)");
                 } else if (option == JOptionPane.CANCEL_OPTION) { // Show difference
                     System.out.println("PreTextPane.reloadFileFromDisk: show difference (cancel option)");
                 }
@@ -219,11 +230,12 @@ public class PreTextPane extends JTextPane {
     }
 
     // CARET LOCATION METHODS ===
-
     /**
      * Get the line the caret is currently on.
      * @param offset Location of caret with reference to all text.
      * @return The line on which caret is currently on.
+     *
+     * @see #getCaretPositionInLine(int, int)
      */
     public int getCaretLinePosition(int offset) {
         Document document = this.getDocument();
@@ -236,6 +248,8 @@ public class PreTextPane extends JTextPane {
      * @param line The line in which caret is located.
      * @param offset Location of caret with reference to all text.
      * @return The char position of caret in the specified line.
+     *
+     * @see #getCaretLinePosition(int)
      */
     public int getCaretPositionInLine(int line, int offset) {
         Element map = this.getDocument().getDefaultRootElement();
@@ -243,36 +257,32 @@ public class PreTextPane extends JTextPane {
         return offset - lineElem.getStartOffset();
     }
 
-    // UNDO/REDO FUNCTIONS ===
-
+    // UNDO/REDO METHODS ===
     /**
-     * If <code>undoRedoEnabled</code> is <code>True</code>, creates new <code>UndoRedoFunction</code> object.
-     * Otherwise, sets <code>undoRedoFunction</code> to <code>null</code>.
+     * If there are any edits that can be undone, then undoes the appropriate edits.
+     * @see #redo()
+     * @see #isUndoRedoEnabled()
+     * @see #setUndoRedoEnabled(boolean)
      */
-    private void ensureAddUndoRedoFunction() {
-        if (undoRedoEnabled) {
-            undoRedoFunction = new UndoRedoFunction(this); // TODO: Undo/Redo Functionality suddenly not working.
-        } else {
-            undoRedoFunction = null;
+    public void undo() {
+        if (this.undoRedoFunction != null) {
+            this.undoRedoFunction.undo();
         }
     }
 
     /**
-     * If there are any edits that can be undone, then undoes the appropriate edits.
-     */
-    public void undo() {
-        this.undoRedoFunction.undo();
-    }
-
-    /**
      * If there are any edits that can be redone, then redoes the appropriate edits.
+     * @see #undo()
+     * @see #isUndoRedoEnabled()
+     * @see #setUndoRedoEnabled(boolean)
      */
     public void redo() {
-        this.undoRedoFunction.redo();
+        if (this.undoRedoFunction != null) {
+            this.undoRedoFunction.redo();
+        }
     }
 
     // CUSTOM LISTENER METHODS ===
-
     /**
      * If <code>fileSaveListenersList</code> is not empty, then run <code>FileSaveListener.fileSaved()</code> method of
      * all FileSaveListeners in the list.
@@ -299,16 +309,7 @@ public class PreTextPane extends JTextPane {
         }
     }
 
-    // GETTERS & SETTERS ===
-
-    public File getOpenedFile() {
-        return openedFile;
-    }
-
-    public boolean isFileSaved() {
-        return isFileSaved;
-    }
-
+    // INDENT METHODS ===
     public String getIndentStyle() {
         if (this.getStyledDocument() instanceof PreEditorDocument) {
             return ((PreEditorDocument) this.getStyledDocument()).getIndentStyle();
@@ -326,7 +327,6 @@ public class PreTextPane extends JTextPane {
     }
 
     // UTIL METHODS ===
-
     public void setSelection(int start, int end) {
         this.setSelectionStart(start);
         this.setSelectionEnd(end);
