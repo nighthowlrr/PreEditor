@@ -28,6 +28,9 @@ public class JavaMethod {
 
     private final ArrayList<String> thrownExceptions;
 
+    private final BlockTree methodBody;
+
+    @Contract(pure = true)
     public JavaMethod(ArrayList<JavaAnnotation> annotations, JavaModifiers.AccessModifiers accessModifier,
                       boolean isAbstract, boolean isStatic, boolean isTransient,
                       String returnType, String methodName,
@@ -47,6 +50,8 @@ public class JavaMethod {
 
         this.parameters = parameters;
         this.thrownExceptions = thrownExceptions;
+
+        this.methodBody = methodBody;
     }
 
     @Override
