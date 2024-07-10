@@ -50,10 +50,10 @@ public class TemplateCompletion extends BaseCompletion {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + ": inputText: " + this.inputText +
+        return "{" + this.getClass().getSimpleName() + ": inputText: " + this.inputText +
                 ", completionTextBeforeCaret: " + this.completionTextBeforeCaret +
                 ", completionTextAfterCaret: " + this.completionTextAfterCaret + ", summary: " + this.getSummary() +
-                ", relevance: " + this.getRelevance();
+                ", relevance: " + this.getRelevance() + "}";
     }
 
     @Override
