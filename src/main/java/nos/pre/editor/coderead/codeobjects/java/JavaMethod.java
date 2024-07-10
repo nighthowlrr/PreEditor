@@ -54,6 +54,45 @@ public class JavaMethod {
         this.methodBody = methodBody;
     }
 
+    // Getters & Setters ===
+    public ArrayList<JavaAnnotation> getAnnotations() {
+        return new ArrayList<>(this.annotations);
+    }
+
+    public JavaModifiers.AccessModifiers getAccessModifier() {
+        return this.accessModifier;
+    }
+
+    public boolean isAbstract() {
+        return this.isAbstract;
+    }
+    public boolean isStatic() {
+        return this.isStatic;
+    }
+    public boolean isTransient() {
+        return this.isTransient;
+    }
+
+    public String getMethodName() {
+        return this.methodName;
+    }
+
+    public String getReturnType() {
+        return this.returnType;
+    }
+
+    public ArrayList<JavaMethod.JavaParameter> getParameters() {
+        return new ArrayList<>(this.parameters);
+    }
+    public ArrayList<String> getThrownExceptions() {
+        return new ArrayList<>(this.thrownExceptions);
+    }
+
+    public BlockTree getMethodBody() {
+        return this.methodBody;
+    }
+    // ===
+
     @Override
     public String toString() {
         StringBuilder methodString = new StringBuilder();
@@ -97,6 +136,31 @@ public class JavaMethod {
         return methodString.toString();
     }
 
+    public record JavaParameter(ArrayList<JavaAnnotation> annotations, @NotNull String parameterType, @NotNull String parameterName) {
+        @Override
+        public @NotNull String toString() {
+            StringBuilder string = new StringBuilder();
+
+            if (! this.annotations.isEmpty()) {
+                for (JavaAnnotation annotation : this.annotations) {
+                    string.append(annotation).append(" ");
+                }
+            }
+
+            string.append(this.parameterType).append(" ").append(this.parameterName);
+
+            return string.toString();
+        }
+
+
+        public static @NotNull JavaParameter createJavaParameterObject(@NotNull VariableTree parameter) {
+            ArrayList<JavaAnnotation> annotations = JavaAnnotation.getAnnotations(parameter);
+
+            return new JavaMethod.JavaParameter(annotations, parameter.getType().toString(), parameter.getName().toString());
+        }
+    }
+
+    // Static MethodTree methods ===
 
     @Contract("_ -> new")
     public static @NotNull JavaMethod createJavaMethodObject(@NotNull MethodTree methodTree) {
@@ -143,28 +207,4 @@ public class JavaMethod {
                 methodTree.getBody());
     }
 
-
-    public record JavaParameter(ArrayList<JavaAnnotation> annotations, @NotNull String parameterType, @NotNull String parameterName) {
-        @Override
-        public @NotNull String toString() {
-            StringBuilder string = new StringBuilder();
-
-            if (! this.annotations.isEmpty()) {
-                for (JavaAnnotation annotation : this.annotations) {
-                    string.append(annotation).append(" ");
-                }
-            }
-
-            string.append(this.parameterType).append(" ").append(this.parameterName);
-
-            return string.toString();
-        }
-
-
-        public static @NotNull JavaParameter createJavaParameterObject(@NotNull VariableTree parameter) {
-            ArrayList<JavaAnnotation> annotations = JavaAnnotation.getAnnotations(parameter);
-
-            return new JavaMethod.JavaParameter(annotations, parameter.getType().toString(), parameter.getName().toString());
-        }
-    }
 }
