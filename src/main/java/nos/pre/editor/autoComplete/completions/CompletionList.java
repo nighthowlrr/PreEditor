@@ -28,16 +28,7 @@ public class CompletionList extends ArrayList<BaseCompletion> {
         completions.sort(new Comparator<>() {
             @Override
             public int compare(BaseCompletion o1, BaseCompletion o2) {
-                if (o1 instanceof KeywordCompletion keywordCompletion1 &&
-                        o2 instanceof KeywordCompletion keywordCompletion2) {
-
-                    return keywordCompletion1.getCompletionText().compareTo(keywordCompletion2.getCompletionText());
-                } else if (o1 instanceof TemplateCompletion templateCompletion1 &&
-                        o2 instanceof TemplateCompletion templateCompletion2) {
-
-                    return templateCompletion1.getInputText().compareTo(templateCompletion2.getCompletionText());
-                } else return 0;
-                //else throw new IllegalArgumentException("CompletionList.sortCompletions(): Alphabetical sort: Both Completion objects should be of same types.");
+                return o1.compareTo(o2);
             }
         });
 

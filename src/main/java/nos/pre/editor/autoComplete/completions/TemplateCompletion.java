@@ -56,6 +56,13 @@ public class TemplateCompletion extends BaseCompletion {
                 ", relevance: " + this.getRelevance();
     }
 
+    @Override
+    public int compareTo(@NotNull BaseCompletion c2) {
+        if (c2 instanceof TemplateCompletion templateCompletion) {
+            return this.getInputText().compareTo(templateCompletion.getInputText());
+        } else return 0;
+    }
+
     public String getInputText() {
         return inputText;
     }
