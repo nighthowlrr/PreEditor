@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.text.BadLocationException;
 
-public class BaseCompletion implements Comparable<BaseCompletion> {
+public abstract class BaseCompletion implements Comparable<BaseCompletion> {
     public static final int DEFAULT_RELEVANCE = 0;
     private static final String DEFAULT_SUMMARY = null;
 
@@ -68,4 +68,6 @@ public class BaseCompletion implements Comparable<BaseCompletion> {
     public int getRelevance() {
         return relevance;
     }
+
+    public abstract boolean isCompletionMatching(String subWordToMatch);
 }

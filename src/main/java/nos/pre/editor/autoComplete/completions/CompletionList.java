@@ -13,21 +13,8 @@ public class CompletionList extends ArrayList<BaseCompletion> {
         CompletionList matchingCompletions = new CompletionList();
 
         for (BaseCompletion completion : this) {
-            switch (completion) {
-                case KeywordCompletion keywordCompletion -> {
-                    if (keywordCompletion.getCompletionText().startsWith(subWordToMatch)) {
-                        matchingCompletions.add(keywordCompletion);
-                    }
-                }
-                case TemplateCompletion templateCompletion -> {
-                    if (templateCompletion.getInputText().startsWith(subWordToMatch)) {
-                        matchingCompletions.add(templateCompletion);
-                    }
-                }
-                default -> {
-                    throw new IllegalStateException("CompletionList.getMatchingCompletions: " +
-                            "Completion object not recognised: " + completion.getClass().getSimpleName());
-                }
+            if (completion.isCompletionMatching(subWordToMatch)) {
+                matchingCompletions.add(completion);
             }
         }
 
