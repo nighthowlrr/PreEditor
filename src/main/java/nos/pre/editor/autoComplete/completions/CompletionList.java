@@ -3,6 +3,7 @@ package nos.pre.editor.autoComplete.completions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -12,13 +13,20 @@ public class CompletionList extends ArrayList<BaseCompletion> {
         CompletionList matchingCompletions = new CompletionList();
 
         for (BaseCompletion completion : this) {
-            if (completion instanceof KeywordCompletion keywordCompletion) {
-                if (keywordCompletion.getCompletionText().startsWith(subWordToMatch)) {
-                    matchingCompletions.add(keywordCompletion);
+            switch (completion) {
+                case KeywordCompletion keywordCompletion -> {
+                    if (keywordCompletion.getCompletionText().startsWith(subWordToMatch)) {
+                        matchingCompletions.add(keywordCompletion);
+                    }
                 }
-            } else if (completion instanceof TemplateCompletion templateCompletion) {
-                if (templateCompletion.getInputText().startsWith(subWordToMatch)) {
-                    matchingCompletions.add(templateCompletion);
+                case TemplateCompletion templateCompletion -> {
+                    if (templateCompletion.getInputText().startsWith(subWordToMatch)) {
+                        matchingCompletions.add(templateCompletion);
+                    }
+                }
+                default -> {
+                    throw new IllegalStateException("CompletionList.getMatchingCompletions: " +
+                            "Completion object not recognised: " + completion.getClass().getSimpleName());
                 }
             }
         }
@@ -63,5 +71,20 @@ public class CompletionList extends ArrayList<BaseCompletion> {
 
     public static BaseCompletion[] getCompletionsAsArray(CompletionList listToArray) {
         return listToArray.toArray(new BaseCompletion[listToArray.size()]);
+    }
+
+    public static @NotNull CompletionList combineAndSortCompletions(CompletionList @NotNull ... completionLists) {
+        if (completionLists.length > 1) {
+            CompletionList masterCompletionList = new CompletionList();
+
+            Arrays.stream(completionLists).forEach(masterCompletionList::addAll);
+            CompletionList.sortCompletions(masterCompletionList);
+
+            return masterCompletionList;
+        } else if (completionLists.length == 1) {
+            return completionLists[0];
+        } else {
+            throw new IllegalArgumentException("CompletionList.combineAndSortCompletions(): no CompletionLists were provided");
+        }
     }
 }
