@@ -3,6 +3,7 @@ package nos.pre.editor.autoComplete.completions;
 import nos.pre.editor.pretextpane.PreTextPane;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 public class TemplateCompletion extends BaseCompletion {
@@ -17,7 +18,8 @@ public class TemplateCompletion extends BaseCompletion {
 
     public TemplateCompletion(String inputText, String completionTextBeforeCaret, String completionTextAfterCaret,
                               String summary, int relevance) {
-        super(completionTextBeforeCaret + completionTextAfterCaret, summary, relevance);
+        super(completionTextBeforeCaret + completionTextAfterCaret, summary, relevance,
+                new ImageIcon(TemplateCompletion.class.getResource("/icons/autoComplete/templateCompletionIcon.png")));
         this.inputText = inputText;
         this.completionTextBeforeCaret = completionTextBeforeCaret;
         this.completionTextAfterCaret = completionTextAfterCaret;

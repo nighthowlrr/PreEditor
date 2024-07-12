@@ -4,26 +4,37 @@ import nos.pre.editor.pretextpane.PreTextPane;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 public abstract class BaseCompletion implements Comparable<BaseCompletion> {
+    // Default values
     public static final int DEFAULT_RELEVANCE = 0;
-    private static final String DEFAULT_SUMMARY = null;
+    private static final String NULL_SUMMARY = null;
+    private static final ImageIcon NULL_ICON = null;
+
+    // --
 
     private final String completionText;
     private final String summary;
     private final int relevance;
 
+    private final ImageIcon icon;
+
     public BaseCompletion(String completionText) {
-        this(completionText, DEFAULT_SUMMARY, DEFAULT_RELEVANCE);
+        this(completionText, NULL_SUMMARY, DEFAULT_RELEVANCE);
     }
     public BaseCompletion(String completionText, String summary) {
         this(completionText, summary, DEFAULT_RELEVANCE);
     }
     public BaseCompletion(@NotNull String completionText, @Nullable String summary, int relevance) {
+        this(completionText, summary, relevance, NULL_ICON);
+    }
+    public BaseCompletion(@NotNull String completionText, @Nullable String summary, int relevance, @Nullable ImageIcon icon) {
         this.completionText = completionText;
         this.summary = summary;
         this.relevance = relevance;
+        this.icon = icon;
     }
 
     public void insertCompletion(@NotNull PreTextPane preTextPane, int insertPosition, int subWordLength) throws BadLocationException {
@@ -67,6 +78,10 @@ public abstract class BaseCompletion implements Comparable<BaseCompletion> {
 
     public int getRelevance() {
         return relevance;
+    }
+
+    public ImageIcon getIcon() {
+        return icon;
     }
 
     public abstract boolean isCompletionMatching(String subWordToMatch);

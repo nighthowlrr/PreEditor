@@ -84,4 +84,12 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
 
     // nice purple color = 0x6647D3
     // black theme black bg with readability = 0x0C0F14
+
+    // AUTOCOMPLETE MENU ICONS
+    public static final Color AUTOCOMPLETE_ICONS_TEXT = new Color(0xBAB6B6);
+
+    public static final Color AUTOCOMPLETE_ICONS_KEYWORD = new Color(0x606060);
+    public static final Color AUTOCOMPLETE_ICONS_TEMPLATE = new Color(0x606060);
+
+    public static final Color AUTOCOMPLETE_ICONS_JAVA_METHOD = new Color(0x0769A1);
 }

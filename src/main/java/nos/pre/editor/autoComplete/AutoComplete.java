@@ -106,26 +106,8 @@ public class AutoComplete {
         autoCompleteList.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
         autoCompleteList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         autoCompleteList.setVisibleRowCount(this.visibleRowCount);
-        autoCompleteList.setCellRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                // TODO: Proper list cell renderer component
 
-                final BaseCompletion completion = (BaseCompletion) value;
-
-                String text = completion.getAutoCompleteMenuText();
-
-                JComponent component = (JComponent) super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
-                if (isSelected) {
-                    component.setBackground(UIColors.AUTOCOMPLETE_MENU_SELECTED_BG);
-                } else component.setBackground(UIColors.AUTOCOMPLETE_MENU_BG);
-                component.setForeground(UIColors.AUTOCOMPLETE_MENU_FG);
-                component.setFont(preTextPane.getFont());
-                component.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
-
-                return component;
-            }
-        });
+        autoCompleteList.setCellRenderer(new AutoCompleteListCellRenderer());
 
         autoCompleteList.addMouseListener(new MouseAdapter() {
             @Override
@@ -245,5 +227,41 @@ public class AutoComplete {
 
     private void hideAutoCompleteMenu() {
         popupMenu.setVisible(false);
+    }
+
+    private class AutoCompleteListCellRenderer extends DefaultListCellRenderer {
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            Component component = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+            final BaseCompletion completion = (BaseCompletion) value;
+            String text = completion.getAutoCompleteMenuText();
+
+            if (component instanceof JLabel label) {
+                if (completion.getIcon() != null) {
+                    label.setIcon(completion.getIcon());
+                }
+                label.setText(text);
+
+                if (isSelected) {
+                    label.setBackground(UIColors.AUTOCOMPLETE_MENU_SELECTED_BG);
+                } else label.setBackground(UIColors.AUTOCOMPLETE_MENU_BG);
+                label.setForeground(UIColors.AUTOCOMPLETE_MENU_FG);
+                label.setFont(preTextPane.getFont());
+                label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+
+                return label;
+            } else return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
+    }
+
+    // Getters & Setters
+
+    protected CompletionList getBasicCompletions() {
+        return this.basicCompletions;
+    }
+
+    protected CodeRead getCodeRead() {
+        return this.codeRead;
     }
 }

@@ -2,10 +2,13 @@ package nos.pre.editor.autoComplete.completions;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+
 public class KeywordCompletion extends BaseCompletion {
 
     public KeywordCompletion(String keyword) {
-        super(keyword);
+        super(keyword, null, BaseCompletion.DEFAULT_RELEVANCE,
+                new ImageIcon(KeywordCompletion.class.getResource("/icons/autoComplete/keywordIcon.png")));
     }
 
     @Override

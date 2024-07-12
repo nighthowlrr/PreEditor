@@ -44,6 +44,13 @@
       <artifactId>autocomplete</artifactId>
       <version>3.3.1</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.batik/org.apache.batik.transcoder -->
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>batik-all</artifactId>
+      <version>1.17</version>
+    </dependency>
   </dependencies>
 
   <build>
