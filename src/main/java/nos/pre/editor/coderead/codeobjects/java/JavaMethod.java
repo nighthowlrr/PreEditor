@@ -5,6 +5,7 @@ import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.VariableTree;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.lang.model.element.Modifier;
 import java.util.ArrayList;
@@ -162,8 +163,19 @@ public class JavaMethod {
 
     // Static MethodTree methods ===
 
-    @Contract("_ -> new")
-    public static @NotNull JavaMethod createJavaMethodObject(@NotNull MethodTree methodTree) {
+    /**
+     * Creates and returns a new <code>JavaMethod</code> object using the <code>MethodTree</code> object passed.
+     * If the <code>MethodTree</code> represents a java constructor, then <code>null</code> is returned.
+     *
+     * @param methodTree The <code>MethodTree</code> object to use to create a <code>JavaMethod</code> object
+     * @return Returns the new <code>JavaMethod</code> object,
+     * or <code>null</code> if <code>MethodTree</code> represents a constructor.
+     */
+    public static @Nullable JavaMethod createJavaMethodObject(@NotNull MethodTree methodTree) {
+        if (methodTree.getName().toString().equals("<init>")) { // If the method is a constructor, do not proceed.
+            return null;
+        }
+
         // Annotations
         ArrayList<JavaAnnotation> methodAnnotations = JavaAnnotation.getAnnotations(methodTree);
 
