@@ -28,7 +28,7 @@ public class CompletionList extends ArrayList<BaseCompletion> {
         completions.sort(new Comparator<>() {
             @Override
             public int compare(BaseCompletion o1, BaseCompletion o2) {
-                return o1.compareTo(o2);
+                return o1.getCompletionText().compareTo(o2.getCompletionText());
             }
         });
 

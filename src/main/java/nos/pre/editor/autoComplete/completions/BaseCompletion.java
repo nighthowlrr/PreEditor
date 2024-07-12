@@ -12,7 +12,6 @@ public abstract class BaseCompletion implements Comparable<BaseCompletion> {
     public static final int DEFAULT_RELEVANCE = 0;
     private static final String NULL_SUMMARY = null;
     private static final ImageIcon NULL_ICON = null;
-
     // --
 
     private final String completionText;
