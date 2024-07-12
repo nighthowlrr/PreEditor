@@ -22,10 +22,10 @@ public abstract class BaseCompletion implements Comparable<BaseCompletion> {
     private final ImageIcon icon;
 
     public BaseCompletion(String completionText) {
-        this(completionText, NULL_SUMMARY, DEFAULT_RELEVANCE);
+        this(completionText, NULL_SUMMARY, DEFAULT_RELEVANCE, NULL_ICON);
     }
     public BaseCompletion(String completionText, String summary) {
-        this(completionText, summary, DEFAULT_RELEVANCE);
+        this(completionText, summary, DEFAULT_RELEVANCE, NULL_ICON);
     }
     public BaseCompletion(@NotNull String completionText, @Nullable String summary, int relevance) {
         this(completionText, summary, relevance, NULL_ICON);
