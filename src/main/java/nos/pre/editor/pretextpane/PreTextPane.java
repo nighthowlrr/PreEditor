@@ -93,8 +93,10 @@ public class PreTextPane extends JTextPane {
 
         // Adding Functionality
 
-        addSaveFunctionality();
         addLanguageFeatures();
+        addSaveFunctionality();
+        // Save document listener added after setting document (addLanguageFeatures()) so that listener is added to language document.
+
         setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed)
     }
 
