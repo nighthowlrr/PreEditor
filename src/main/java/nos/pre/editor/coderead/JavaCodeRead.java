@@ -2,6 +2,9 @@ package nos.pre.editor.coderead;
 
 import com.sun.source.tree.*;
 import com.sun.source.util.JavacTask;
+import nos.pre.editor.autoComplete.completions.CompletionList;
+import nos.pre.editor.autoComplete.completions.java.JavaMethodCallCompletion;
+import nos.pre.editor.coderead.codeobjects.java.JavaMethod;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
@@ -10,7 +13,10 @@ import javax.tools.ToolProvider;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class JavaCodeRead extends CodeRead {
     public JavaCodeRead(File javaFile) {
@@ -41,5 +47,22 @@ public class JavaCodeRead extends CodeRead {
                 .filter(MethodTree.class::isInstance)
                 .map(MethodTree.class::cast)
                 .toList();
+    }
+
+    private ArrayList<JavaMethod> getClassJavaMethods() {
+        return getClassMethods()
+                .stream()
+                .map(JavaMethod::createJavaMethodObject)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public CompletionList getClassMethodCompletions() {
+        ArrayList<JavaMethod> classJavaMethods = getClassJavaMethods();
+        CompletionList classMethodCompletions = new CompletionList();
+
+        classJavaMethods.stream().map(JavaMethodCallCompletion::new).forEach(classMethodCompletions::add);
+
+        return classMethodCompletions;
     }
 }
