@@ -1,6 +1,9 @@
 package nos.pre.editor.pretextpane;
 
 import nos.pre.editor.autoComplete.AutoComplete;
+import nos.pre.editor.autoComplete.JavaAutoComplete;
+import nos.pre.editor.coderead.CodeRead;
+import nos.pre.editor.coderead.JavaCodeRead;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;
@@ -55,6 +58,7 @@ public class PreTextPane extends JTextPane {
     // Functionality objects ===
     private UndoRedoFunction undoRedoFunction;
     private AutoComplete autoComplete;
+    private CodeRead codeRead;
 
     private final PreTextPaneMenu preTextPaneMenu;
 
@@ -108,11 +112,13 @@ public class PreTextPane extends JTextPane {
             // TODO: case "class": decompile class files
             case "java":
                 this.setStyledDocument(new JavaSyntaxPreEditorDocument());
-                this.autoComplete = new AutoComplete(this, new JavaCompletions());
+                this.codeRead = new JavaCodeRead(this.openedFile);
+                this.autoComplete = new JavaAutoComplete(this, (JavaCodeRead) this.codeRead);
                 break;
             default:
                 this.setStyledDocument(new DefaultPreEditorDocument());
                 this.autoComplete = null;
+                this.codeRead = null;
                 break;
         }
     }
