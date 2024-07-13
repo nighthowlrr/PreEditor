@@ -12,7 +12,6 @@ import nos.pre.editor.editor.PreEditorDocument;
 import nos.pre.editor.files.FileIO;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
-import nos.pre.editor.languages.java.JavaCompletions;
 import nos.pre.editor.languages.java.JavaSyntaxPreEditorDocument;
 
 import javax.swing.*;
