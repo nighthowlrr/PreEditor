@@ -10,8 +10,8 @@ import javax.swing.text.BadLocationException;
 public abstract class BaseCompletion implements Comparable<BaseCompletion> {
     // Default values
     public static final int DEFAULT_RELEVANCE = 0;
-    private static final String NULL_SUMMARY = null;
-    private static final ImageIcon NULL_ICON = null;
+    public static final String NULL_SUMMARY = null;
+    public static final ImageIcon NULL_ICON = null;
     // --
 
     private final String completionText;
@@ -36,15 +36,12 @@ public abstract class BaseCompletion implements Comparable<BaseCompletion> {
         this.icon = icon;
     }
 
-    public void insertCompletion(@NotNull PreTextPane preTextPane, int insertPosition, int subWordLength) throws BadLocationException {
-        preTextPane.getDocument().insertString(insertPosition, this.completionText.substring(subWordLength), null);
-    }
+    public abstract void insertCompletion(@NotNull PreTextPane preTextPane, int insertPosition, int subWordLength)
+            throws BadLocationException;
 
-    public String getAutoCompleteMenuText() {
-        if (this.summary != null) {
-            return this.completionText + "  -  " + this.summary;
-        } else return this.completionText;
-    }
+    public abstract String getAutoCompleteMenuText();
+
+    public abstract boolean isCompletionMatching(String subWordToMatch);
 
     @Override
     public int compareTo(@NotNull BaseCompletion c2) {
@@ -82,6 +79,4 @@ public abstract class BaseCompletion implements Comparable<BaseCompletion> {
     public ImageIcon getIcon() {
         return icon;
     }
-
-    public abstract boolean isCompletionMatching(String subWordToMatch);
 }

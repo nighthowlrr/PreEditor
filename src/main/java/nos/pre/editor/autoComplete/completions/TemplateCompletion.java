@@ -41,13 +41,13 @@ public class TemplateCompletion extends BaseCompletion {
     }
 
     @Override
-    public boolean isCompletionMatching(String subWordToMatch) {
-        return this.getInputText().startsWith(subWordToMatch);
+    public String getAutoCompleteMenuText() {
+        return this.inputText + "  -  " + this.getSummary();
     }
 
     @Override
-    public String getAutoCompleteMenuText() {
-        return this.inputText + "  -  " + this.getSummary();
+    public boolean isCompletionMatching(String subWordToMatch) {
+        return this.getInputText().startsWith(subWordToMatch);
     }
 
     @Override
