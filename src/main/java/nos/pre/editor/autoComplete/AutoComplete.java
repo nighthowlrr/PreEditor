@@ -1,21 +1,26 @@
 package nos.pre.editor.autoComplete;
 
+import nos.pre.editor.coderead.CodeRead;
 import nos.pre.editor.pretextpane.PreTextPane;
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
 import nos.pre.editor.autoComplete.completions.CompletionList;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AutoComplete {
+public abstract class AutoComplete {
+    // TODO: when key typed in last 5 lines of file, and autoCompleteMenu is shown, no more key inputs are taken...
+
     private final int visibleRowCount = 5; // TODO: Implement scrolling
 
     private final PreTextPane preTextPane;
-    private final CompletionList completions;
+    private final CompletionList basicCompletions;
+    private final CodeRead codeRead;
 
     private final JPopupMenu popupMenu = new JPopupMenu();
     private final JList<BaseCompletion> autoCompleteList = new JList<>();
@@ -23,9 +28,10 @@ public class AutoComplete {
     private String currentSubWord;
     private int currentInsertPosition;
 
-    public AutoComplete(PreTextPane preTextPane, CompletionList completions) {
+    public AutoComplete(PreTextPane preTextPane, CompletionList basicCompletions, CodeRead codeRead) {
         this.preTextPane = preTextPane;
-        this.completions = completions;
+        this.basicCompletions = basicCompletions;
+        this.codeRead = codeRead;
 
         initUI();
 
@@ -98,6 +104,12 @@ public class AutoComplete {
         }, KeyboardShortcuts.PRETEXTPANE_AUTOCOMPLETE, this.preTextPane);
     }
 
+    // Completions code ===
+
+    protected abstract @NotNull CompletionList getAllMatchingCompletions(String subWord);
+
+    // AutoComplete Menu code ===
+
     private void initUI() {
         popupMenu.setOpaque(false);
         popupMenu.setBorder(BorderFactory.createEmptyBorder());
@@ -163,12 +175,12 @@ public class AutoComplete {
         hideAutoCompleteMenu();
         popupMenu.removeAll();
 
-        BaseCompletion[] matchingCompletions = CompletionList.getCompletionsAsArray(this.completions.getMatchingCompletions(subWord));
-        if (matchingCompletions.length == 0) {
+        CompletionList matchingCompletions = this.getAllMatchingCompletions(subWord);
+        if (matchingCompletions.isEmpty()) { // If there are no completions, return.
             return;
         }
 
-        autoCompleteList.setListData(matchingCompletions);
+        autoCompleteList.setListData(CompletionList.getCompletionsAsArray(matchingCompletions));
         autoCompleteList.setSelectedIndex(0);
 
         popupMenu.add(autoCompleteList);
