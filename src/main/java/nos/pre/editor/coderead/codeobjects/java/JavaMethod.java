@@ -183,6 +183,15 @@ public class JavaMethod {
         Set<Modifier> modifiersTree = methodTree.getModifiers().getFlags();
         List<String> modifiersList = modifiersTree.stream().map(Modifier::toString).toList();
 
+        JavaModifiers.AccessModifiers accessModifier;
+
+        switch (modifiersList.getFirst().toLowerCase()) {
+            case "public" -> accessModifier = JavaModifiers.AccessModifiers.PUBLIC;
+            case "protected" -> accessModifier = JavaModifiers.AccessModifiers.PROTECTED;
+            case "private" -> accessModifier = JavaModifiers.AccessModifiers.PRIVATE;
+            default -> accessModifier = JavaModifiers.AccessModifiers.PACKAGE_PROTECTED;
+        }
+
         boolean isAbstract = false;
         boolean isStatic = false;
         boolean isTransient = false;
@@ -213,10 +222,8 @@ public class JavaMethod {
                 .map(JavaParameter::createJavaParameterObject)
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        // TODO: accessModifier
-        return new JavaMethod(methodAnnotations, null, isAbstract, isStatic, isTransient,
+        return new JavaMethod(methodAnnotations, accessModifier, isAbstract, isStatic, isTransient,
                 returnType, methodName, javaParameters, exceptions,
                 methodTree.getBody());
     }
-
 }
