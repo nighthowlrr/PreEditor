@@ -3,7 +3,7 @@ package nos.pre.editor.pretextpane;
 import nos.pre.editor.autoComplete.AutoComplete;
 import nos.pre.editor.autoComplete.JavaAutoComplete;
 import nos.pre.editor.coderead.CodeRead;
-import nos.pre.editor.coderead.JavaCodeRead;
+import nos.pre.editor.coderead.java.JavaCodeRead;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;

@@ -1,8 +1,9 @@
-package nos.pre.editor.coderead.codeobjects.java;
+package nos.pre.editor.coderead.java.codeobjects;
 
 import com.sun.source.tree.BlockTree;
 import com.sun.source.tree.MethodTree;
 import com.sun.source.tree.VariableTree;
+import nos.pre.editor.coderead.java.JavaModifiers;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

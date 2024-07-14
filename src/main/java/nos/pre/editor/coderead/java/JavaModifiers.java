@@ -1,4 +1,4 @@
-package nos.pre.editor.coderead.codeobjects.java;
+package nos.pre.editor.coderead.java;
 
 import org.jetbrains.annotations.Contract;
 

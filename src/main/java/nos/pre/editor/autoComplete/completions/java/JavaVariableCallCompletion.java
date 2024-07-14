@@ -1,7 +1,7 @@
 package nos.pre.editor.autoComplete.completions.java;
 
 import nos.pre.editor.autoComplete.completions.BaseCompletion;
-import nos.pre.editor.coderead.codeobjects.java.JavaVariable;
+import nos.pre.editor.coderead.java.codeobjects.JavaVariable;
 import nos.pre.editor.pretextpane.PreTextPane;
 import org.jetbrains.annotations.NotNull;
 

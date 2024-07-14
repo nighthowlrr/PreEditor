@@ -1,12 +1,13 @@
-package nos.pre.editor.coderead;
+package nos.pre.editor.coderead.java;
 
 import com.sun.source.tree.*;
 import com.sun.source.util.JavacTask;
 import nos.pre.editor.autoComplete.completions.CompletionList;
 import nos.pre.editor.autoComplete.completions.java.JavaMethodCallCompletion;
 import nos.pre.editor.autoComplete.completions.java.JavaVariableCallCompletion;
-import nos.pre.editor.coderead.codeobjects.java.JavaMethod;
-import nos.pre.editor.coderead.codeobjects.java.JavaVariable;
+import nos.pre.editor.coderead.CodeRead;
+import nos.pre.editor.coderead.java.codeobjects.JavaMethod;
+import nos.pre.editor.coderead.java.codeobjects.JavaVariable;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
