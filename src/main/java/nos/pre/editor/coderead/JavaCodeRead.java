@@ -26,7 +26,6 @@ public class JavaCodeRead extends CodeRead {
     }
 
     // GET CLASS MEMBER TREES ===
-
     private List<? extends Tree> getClassMembersList() {
         try {
             JavaCompiler javaCompiler = ToolProvider.getSystemJavaCompiler();

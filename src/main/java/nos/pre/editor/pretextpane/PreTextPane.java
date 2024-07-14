@@ -38,7 +38,7 @@ public class PreTextPane extends JTextPane {
     }
 
     // Functionality booleans ===
-    private boolean undoRedoEnabled; // True by default (set in constructor)
+    private boolean undoRedoEnabled; // True by default
     // TODO: ViewingModes: ReadOnly, EditingMode
 
     public boolean isUndoRedoEnabled() {
@@ -47,7 +47,7 @@ public class PreTextPane extends JTextPane {
     public void setUndoRedoEnabled(boolean undoRedoEnabled) {
         this.undoRedoEnabled = undoRedoEnabled;
         if (undoRedoEnabled) {
-            undoRedoFunction = new UndoRedoFunction(this); // TODO: Undo/Redo Functionality suddenly not working.
+            undoRedoFunction = new UndoRedoFunction(this);
         } else {
             undoRedoFunction = null;
         }
@@ -78,7 +78,6 @@ public class PreTextPane extends JTextPane {
         this.openedFile = openedFile;
 
         // Setting up TextComponent
-
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         this.setFont(UIFonts.PRETEXTPANE_FONT);
@@ -92,10 +91,9 @@ public class PreTextPane extends JTextPane {
         this.setComponentPopupMenu(this.preTextPaneMenu);
 
         // LinePainter linePainter = new LinePainter(this, UIColors.PRETEXTPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
-        // TODO: linePainter temporarily disabled. See line highlight task in Todoist Project.
+        // TODO: linePainter temporarily disabled.
 
         // Adding Functionality
-
         addLanguageFeatures();
         addSaveFunctionality();
         // Save document listener added after setting document (addLanguageFeatures()) so that listener is added to language document.
@@ -108,7 +106,6 @@ public class PreTextPane extends JTextPane {
         String fileExtension = this.openedFile.getName().substring(fileName.lastIndexOf(".") + 1);
 
         switch (fileExtension) {
-            // TODO: case "class": decompile class files
             case "java":
                 this.setStyledDocument(new JavaSyntaxPreEditorDocument());
                 this.codeRead = new JavaCodeRead(this.openedFile);
@@ -120,6 +117,7 @@ public class PreTextPane extends JTextPane {
                 this.codeRead = null;
                 break;
         }
+        // TODO: case "class": decompile class files
     }
 
     // FILE I/O METHODS ===
@@ -289,6 +287,13 @@ public class PreTextPane extends JTextPane {
         }
     }
 
+    // AUTOCOMPLETE METHODS ===
+    public void showAutoCompleteMenuLater() {
+        if (this.autoComplete != null) {
+            this.autoComplete.showAutoCompleteMenuLater();
+        }
+    }
+
     // CUSTOM LISTENER METHODS ===
     /**
      * If <code>fileSaveListenersList</code> is not empty, then run <code>FileSaveListener.fileSaved()</code> method of
@@ -337,11 +342,5 @@ public class PreTextPane extends JTextPane {
     public void setSelection(int start, int end) {
         this.setSelectionStart(start);
         this.setSelectionEnd(end);
-    }
-
-    public void showAutoCompleteMenuLater() {
-        if (this.autoComplete != null) {
-            this.autoComplete.showAutoCompleteMenuLater();
-        }
     }
 }
