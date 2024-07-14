@@ -17,7 +17,8 @@ public class JavaAutoComplete extends AutoComplete {
 
         CompletionList matchingBasicCompletions = this.getBasicCompletions().getMatchingCompletions(subWord);
         CompletionList matchingMethodCompletions = javaCodeRead.getClassMethodCompletions().getMatchingCompletions(subWord);
+        CompletionList matchingVariableCompletions = javaCodeRead.getClassVariableCompletions().getMatchingCompletions(subWord);
 
-        return CompletionList.combineAndSortCompletions(matchingBasicCompletions, matchingMethodCompletions);
+        return CompletionList.combineAndSortCompletions(matchingBasicCompletions, matchingMethodCompletions, matchingVariableCompletions);
     }
 }
