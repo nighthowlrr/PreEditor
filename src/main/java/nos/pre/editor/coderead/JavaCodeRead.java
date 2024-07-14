@@ -42,21 +42,21 @@ public class JavaCodeRead extends CodeRead {
             throw new RuntimeException(e);
         }
     }
+
+    // Java Methods ===
     private List<MethodTree> getClassMethods() {
         return this.getClassMembersList().stream()
                 .filter(MethodTree.class::isInstance)
                 .map(MethodTree.class::cast)
                 .toList();
     }
-
     private ArrayList<JavaMethod> getClassJavaMethods() {
-        return getClassMethods()
+        return this.getClassMethods()
                 .stream()
                 .map(JavaMethod::createJavaMethodObject)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
-
     public CompletionList getClassMethodCompletions() {
         ArrayList<JavaMethod> classJavaMethods = getClassJavaMethods();
         CompletionList classMethodCompletions = new CompletionList();

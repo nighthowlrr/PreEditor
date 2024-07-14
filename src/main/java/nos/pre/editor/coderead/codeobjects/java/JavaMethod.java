@@ -55,7 +55,7 @@ public class JavaMethod {
         this.methodBody = methodBody;
     }
 
-    // Getters & Setters ===
+    // Getters ===
     public ArrayList<JavaAnnotation> getAnnotations() {
         return new ArrayList<>(this.annotations);
     }
