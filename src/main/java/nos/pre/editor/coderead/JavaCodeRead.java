@@ -4,7 +4,9 @@ import com.sun.source.tree.*;
 import com.sun.source.util.JavacTask;
 import nos.pre.editor.autoComplete.completions.CompletionList;
 import nos.pre.editor.autoComplete.completions.java.JavaMethodCallCompletion;
+import nos.pre.editor.autoComplete.completions.java.JavaVariableCallCompletion;
 import nos.pre.editor.coderead.codeobjects.java.JavaMethod;
+import nos.pre.editor.coderead.codeobjects.java.JavaVariable;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
@@ -41,6 +43,26 @@ public class JavaCodeRead extends CodeRead {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // Java Variables ===
+    private List<VariableTree> getClassVariables() {
+        return this.getClassMembersList().stream()
+                .filter(VariableTree.class::isInstance)
+                .map(VariableTree.class::cast)
+                .toList();
+    }
+    private ArrayList<JavaVariable> getClassJavaVariables() {
+        return this.getClassVariables()
+                .stream()
+                .map(JavaVariable::createJavaVariableObject)
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+    public CompletionList getClassVariableCompletions() {
+        return this.getClassJavaVariables()
+                .stream()
+                .map(JavaVariableCallCompletion::new)
+                .collect(Collectors.toCollection(CompletionList::new));
     }
 
     // Java Methods ===
