@@ -5,13 +5,15 @@ import nos.pre.editor.coderead.codeobjects.java.JavaVariable;
 import nos.pre.editor.pretextpane.PreTextPane;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 
 public class JavaVariableCallCompletion extends BaseCompletion {
     private final JavaVariable javaVariable;
 
     public JavaVariableCallCompletion(@NotNull JavaVariable javaVariable) {
-        super(javaVariable.getVariableName(), javaVariable.getVariableType()); // TODO: Icon
+        super(javaVariable.getVariableName(), javaVariable.getVariableType(), BaseCompletion.DEFAULT_RELEVANCE,
+                new ImageIcon(JavaVariableCallCompletion.class.getResource("/icons/autoComplete/java/javaVariableIcon.png"))); // TODO: Icon
         this.javaVariable = javaVariable;
     }
 
