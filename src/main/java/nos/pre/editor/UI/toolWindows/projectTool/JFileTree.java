@@ -1,38 +1,71 @@
 package nos.pre.editor.UI.toolWindows.projectTool;
 
-import org.jetbrains.annotations.Contract;
+import nos.pre.editor.defaultValues.UIColors;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-import javax.swing.filechooser.FileSystemView;
 
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.io.File;
 import java.util.*;
-import java.util.List;
 
 public class JFileTree extends JTree {
-    private File startingPath;
-
-    public JFileTree() {
-        this.setEditable(false);
-    }
-
-    public void setStartingPath(File startingPath) {
-        this.startingPath = startingPath;
-        FileSystemModel fileSystemModel = new FileSystemModel(startingPath);
-        this.setModel(fileSystemModel);
-        this.setCellRenderer(new FileSystemModel.FileTreeCellRenderer());
-    }
+    private final File startingPath;
     public File getStartingPath() {
         return this.startingPath;
     }
 
+    public JFileTree(File projectPath) {
+        this.startingPath = projectPath;
+
+        this.setModel(new DefaultTreeModel(addFileNodes(null, this.startingPath)));
+        this.setCellRenderer(new FileTreeCellRenderer());
+        this.setEditable(false);
+    }
+
+    private @NotNull DefaultMutableTreeNode addFileNodes(DefaultMutableTreeNode parentNode, @NotNull File directory) {
+        DefaultMutableTreeNode treeNode;
+        if (parentNode != null) { // If this treeNode will be parent node...
+            treeNode = new DefaultMutableTreeNode(directory.getName());
+            parentNode.add(treeNode);
+        } else {
+            treeNode = new DefaultMutableTreeNode(directory.getPath());
+        }
+
+        ArrayList<String> childNames = new ArrayList<>();
+        if (directory.list() != null) {
+            Collections.addAll(childNames, directory.list());
+        }
+        childNames.sort(String.CASE_INSENSITIVE_ORDER);
+
+        ArrayList<File> folders = new ArrayList<>();
+        ArrayList<File> files = new ArrayList<>();
+
+        // Sort all files and folders
+        for (String currentChildName : childNames) {
+            String currentChildPath = directory.getPath() + File.separator + currentChildName;
+
+            File file = new File(currentChildPath);
+            if (file.isDirectory()) {
+                folders.add(file);
+            } else {
+                files.add(file);
+            }
+        }
+
+        // First add all folders
+        for (File file : folders) {
+            addFileNodes(treeNode, file);
+        }
+
+        // Add all files afterwards
+        for (File file : files) {
+            treeNode.add(new DefaultMutableTreeNode(file.getName()));
+        }
+
+        return treeNode;
+    }
 
     /**
      * Takes <code>TreePath</code> from jFileTree
@@ -52,133 +85,15 @@ public class JFileTree extends JTree {
         return sb.toString();
     }
 
+    private static class FileTreeCellRenderer extends DefaultTreeCellRenderer {
+        public FileTreeCellRenderer() {
+            this.setBackgroundSelectionColor(UIColors.PROJECT_TOOL_WINDOW_FILESELECTED_FOCUSED);
+            this.setBackgroundNonSelectionColor(new Color(0x0FFFFFF, true));
 
-    private static class FileSystemModel implements TreeModel {
-        private final File rootPath;
+            this.setTextSelectionColor(Color.WHITE);
+            this.setTextNonSelectionColor(Color.WHITE);
 
-        private final List<TreeModelListener> listeners = new ArrayList<>();
-
-        public FileSystemModel(File startingPath) {
-            this.rootPath = startingPath;
-        }
-
-        /**
-         * Returns the path for the root file
-         * @return The path for the root file.
-         */
-        @Override
-        public Object getRoot() {
-            return this.rootPath;
-        }
-
-        @Override
-        public Object getChild(Object parent, int index) {
-            File parentFile = (File) parent;
-
-            String[] children = parentFile.list();
-
-            if (children != null) {
-                return new TreeFile(parentFile, children[index]);
-            } else return null;
-        }
-
-        @Override
-        public int getChildCount(Object parent) {
-            File parentFile = (File) parent;
-
-            if (parentFile.isDirectory()) {
-                String[] children = parentFile.list();
-                if (children != null) {
-                    return children.length;
-                }
-            }
-            return 0;
-        }
-
-        @Override
-        public boolean isLeaf(Object node) {
-            File file = (File) node;
-            return file.isFile();
-        }
-
-        @Override
-        public void valueForPathChanged(@NotNull TreePath path, Object newValue) {
-            File oldFile = (File) path.getLastPathComponent();
-            String oldFileParentPath = oldFile.getParent();
-
-            String newFileName = (String) newValue;
-            File targetFile = new File(oldFileParentPath, newFileName);
-            boolean renamed = oldFile.renameTo(targetFile);
-
-            if (renamed) {
-                File parent = new File(oldFileParentPath);
-                int[] changedChildrenIndices = {
-                        getIndexOfChild(parent, targetFile)
-                };
-                Object[] changedChildren = {
-                        targetFile
-                };
-                fireTreeNodesChanged(path.getParentPath(), changedChildrenIndices, changedChildren);
-            }
-        }
-
-        @Override
-        public int getIndexOfChild(Object parent, Object child) {
-            File parentFile = (File) parent;
-            File childFile = (File) child;
-
-            String[] children = parentFile.list();
-            if (children != null) {
-                for (int i = 0; i < children.length; i++) {
-                    if (Objects.equals(childFile, new File(children[i]))) {
-                        return i;
-                    }
-                }
-            }
-            return -1;
-        }
-
-        @Override
-        public void addTreeModelListener(TreeModelListener l) {
-            listeners.add(l);
-        }
-        @Override
-        public void removeTreeModelListener(TreeModelListener l) {
-            listeners.remove(l);
-        }
-
-        private void fireTreeNodesChanged(TreePath parentPath, int[] indices, Object[] children) {
-            TreeModelEvent event = new TreeModelEvent(this, parentPath, indices, children);
-            Iterator<TreeModelListener> iterator = listeners.iterator();
-            TreeModelListener listener;
-            while (iterator.hasNext()) {
-                listener = iterator.next();
-                listener.treeNodesChanged(event);
-            }
-        }
-
-        private static class TreeFile extends File {
-            public TreeFile(File parent, String child) {
-                super(parent, child);
-            }
-
-            @Contract(pure = true)
-            public @NotNull String toString() {
-                return getName();
-                // Otherwise, each node would show the full path of the file.
-            }
-        }
-
-        private static class FileTreeCellRenderer extends DefaultTreeCellRenderer {
-            public FileTreeCellRenderer() {
-                this.setBackgroundSelectionColor(new Color(0x40FFFFFF, true));
-                this.setBackgroundNonSelectionColor(new Color(0x0FFFFFF, true));
-
-                this.setTextSelectionColor(Color.WHITE);
-                this.setTextNonSelectionColor(Color.WHITE);
-
-                this.setBorderSelectionColor(new Color(0x0FFFFFF, true));
-            }
+            this.setBorderSelectionColor(new Color(0x0FFFFFF, true));
         }
     }
 }

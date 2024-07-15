@@ -89,20 +89,20 @@ public class EditorFrame extends JFrame {
         rightToolWindowHolder.setBorder(BorderFactory.createLineBorder(UIColors.EDITOR_FRAME_DIVIDER_COLOR, 1));
 
         this.addToolWindowHolder(leftToolWindowHolder);
-        //this.addToolWindowHolder(bottomToolWindowHolder);
-        //this.addToolWindowHolder(rightToolWindowHolder);
+        // TODO: this.addToolWindowHolder(bottomToolWindowHolder);
+        //  this.addToolWindowHolder(rightToolWindowHolder);
 
         parentPanel.add(viewsPanel, BorderLayout.CENTER);
     }
 
     // TOOL WINDOWS ===
-    private final ProjectToolWindow projectToolWindow = new ProjectToolWindow(ToolWindow.ToolWindowLocation.LEFT_TOP);
+    private ProjectToolWindow projectToolWindow;
 
     /**
      * Adds all tool windows
      */
     private void addToolWindows() {
-        projectToolWindow.setProjectPath(this.editorProcess.getProjectPath());
+        this.projectToolWindow = new ProjectToolWindow(ToolWindow.ToolWindowLocation.LEFT_TOP, this.editorProcess.getProjectPath());
         projectToolWindow.linkToEditorTabbedPane(this.editorTabbedPane);
         this.addToolWindow(projectToolWindow);
     }
