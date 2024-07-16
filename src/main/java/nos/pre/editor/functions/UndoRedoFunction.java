@@ -51,7 +51,7 @@ public class UndoRedoFunction {
     /**
      * If there are any edits that can be undone, then undoes the appropriate edits.
      */
-    public void undo() {
+    public void undoIfPossible() {
         if (undoManager.canUndo()) {
             undoManager.undo();
         }
@@ -60,7 +60,7 @@ public class UndoRedoFunction {
     /**
      * If there are any edits that can be redone, then redoes the appropriate edits.
      */
-    public void redo() {
+    public void redoIfPossible() {
         if (undoManager.canRedo()) {
             undoManager.redo();
         }

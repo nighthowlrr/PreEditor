@@ -265,25 +265,25 @@ public class PreTextPane extends JTextPane {
     // UNDO/REDO METHODS ===
     /**
      * If there are any edits that can be undone, then undoes the appropriate edits.
-     * @see #redo()
+     * @see #redoIfPossible()
      * @see #isUndoRedoEnabled()
      * @see #setUndoRedoEnabled(boolean)
      */
-    public void undo() {
+    public void undoIfPossible() {
         if (this.undoRedoFunction != null) {
-            this.undoRedoFunction.undo();
+            this.undoRedoFunction.undoIfPossible();
         }
     }
 
     /**
      * If there are any edits that can be redone, then redoes the appropriate edits.
-     * @see #undo()
+     * @see #undoIfPossible()
      * @see #isUndoRedoEnabled()
      * @see #setUndoRedoEnabled(boolean)
      */
-    public void redo() {
+    public void redoIfPossible() {
         if (this.undoRedoFunction != null) {
-            this.undoRedoFunction.redo();
+            this.undoRedoFunction.redoIfPossible();
         }
     }
 

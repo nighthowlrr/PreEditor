@@ -18,8 +18,7 @@ import javax.swing.text.*;
  *  line height for each line. TextLineNumber supports wrapped lines and will highlight the line number of the current
  *  line in the text component.
  *
- *  <p>This class was designed to be used as a component added to the row header
- *  of a JScrollPane.</p>
+ *  <p>This class was designed to be used as a component added to the row header of a JScrollPane.</p>
  */
 public class TextLineNumber extends JPanel implements CaretListener, DocumentListener, PropertyChangeListener {
     public final static float LEFT = 0.0f;

@@ -57,11 +57,11 @@ public class PreTextPaneMenu extends JPopupMenu {
 
         if (this.preTextPane.isUndoRedoEnabled()) { // Only add Undo/Redo options if Undo/Redo is enabled
             undoItem.setEnabled(true);
-            undoItem.addActionListener(e -> this.preTextPane.undo());
+            undoItem.addActionListener(e -> this.preTextPane.undoIfPossible());
             menuItems.add(undoItem);
 
             redoItem.setEnabled(true);
-            redoItem.addActionListener(e -> this.preTextPane.redo());
+            redoItem.addActionListener(e -> this.preTextPane.redoIfPossible());
             menuItems.add(redoItem);
         }
 
