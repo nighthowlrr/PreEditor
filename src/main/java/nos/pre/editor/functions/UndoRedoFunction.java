@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.text.Document;
 import javax.swing.undo.UndoManager;
 import java.awt.event.ActionEvent;
+import java.util.Objects;
 
 public class UndoRedoFunction {
     private final PreTextPane preTextPane;
@@ -23,9 +24,11 @@ public class UndoRedoFunction {
         Document document = this.preTextPane.getDocument();
 
         // Add UndoableEdit when edits are made to the document
-        document.addUndoableEditListener(e -> undoManager.addEdit(e.getEdit()));
-
-        // Add keyboard shortcuts for undo and redo actions
+        document.addUndoableEditListener(e -> {
+            if (!Objects.equals(e.getEdit().getPresentationName(), "style change")) {
+                undoManager.addEdit(e.getEdit());
+            }
+        });
 
         // Undo action
         KeyboardShortcuts.addKeyboardShortcut("Undo", new AbstractAction() {

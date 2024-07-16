@@ -46,11 +46,10 @@ public class PreTextPane extends JTextPane {
     }
     public void setUndoRedoEnabled(boolean undoRedoEnabled) {
         this.undoRedoEnabled = undoRedoEnabled;
-        if (undoRedoEnabled) {
-            undoRedoFunction = new UndoRedoFunction(this);
-        } else {
-            undoRedoFunction = null;
-        }
+
+        if (undoRedoEnabled) undoRedoFunction = new UndoRedoFunction(this);
+        else undoRedoFunction = null;
+
         this.preTextPaneMenu.updateMenuItems();
     }
 
@@ -86,6 +85,7 @@ public class PreTextPane extends JTextPane {
 
         PreCaret preCaret = new PreCaret();
         preCaret.registerEditingPane(this);
+        // --
 
         preTextPaneMenu = new PreTextPaneMenu(this);
         this.setComponentPopupMenu(this.preTextPaneMenu);
@@ -93,12 +93,23 @@ public class PreTextPane extends JTextPane {
         // LinePainter linePainter = new LinePainter(this, UIColors.PRETEXTPANE_CURRENT_LINE_HIGHLIGHT); // To highlight the current line
         // TODO: linePainter temporarily disabled.
 
-        // Adding Functionality
+        setupPreFileTextPane();
+    }
+
+    /**
+     * Setup PreTextPane functionality required before opening file.
+     */
+    private void setupPreFileTextPane() {
         addLanguageFeatures();
         addSaveFunctionality();
         // Save document listener added after setting document (addLanguageFeatures()) so that listener is added to language document.
+    }
 
-        setUndoRedoEnabled(false); // TODO: Temporarily false (until undo/redo is fixed)
+    /**
+     * Setup PreTextPane functionality required after opening file.
+     */
+    private void setupPostFileTextPane() {
+        setUndoRedoEnabled(true);
     }
 
     private void addLanguageFeatures() {
@@ -137,6 +148,8 @@ public class PreTextPane extends JTextPane {
                 e.printStackTrace();
             }
             runFileSavedListeners();
+
+            setupPostFileTextPane();
 
             return true;
         } else return false;
