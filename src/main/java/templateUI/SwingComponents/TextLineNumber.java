@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.beans.*;
 import java.util.HashMap;
 import javax.swing.*;
@@ -24,8 +25,6 @@ public class TextLineNumber extends JPanel implements CaretListener, DocumentLis
     public final static float LEFT = 0.0f;
     public final static float CENTER = 0.5f;
     public final static float RIGHT = 1.0f;
-
-    private Border outerBorder = new MatteBorder(0, 0, 0, 1, Color.GRAY);
 
     private final static int HEIGHT = Integer.MAX_VALUE - 1000000;
 
@@ -230,8 +229,8 @@ public class TextLineNumber extends JPanel implements CaretListener, DocumentLis
 
         //  Determine the rows to draw within the clipped bounds.
         Rectangle clip = g2d.getClipBounds();
-        int rowStartOffset = component.viewToModel( new Point(0, clip.y) );
-        int endOffset = component.viewToModel( new Point(0, clip.y + clip.height) );
+        int rowStartOffset = component.viewToModel2D(new Point(0, clip.y));
+        int endOffset = component.viewToModel2D(new Point(0, clip.y + clip.height));
 
         while (rowStartOffset <= endOffset) {
             try {
@@ -286,14 +285,15 @@ public class TextLineNumber extends JPanel implements CaretListener, DocumentLis
      */
     private int getOffsetY(int rowStartOffset, @NotNull FontMetrics fontMetrics) throws BadLocationException {
         //  Get the bounding rectangle of the row
-        Rectangle r = component.modelToView( rowStartOffset );
+        Rectangle2D r = component.modelToView2D(rowStartOffset);
+
         int lineHeight = fontMetrics.getHeight();
-        int y = r.y + r.height;
+        int y = r.getBounds().y + r.getBounds().height;
         int descent = 0;
 
         //  The text needs to be positioned above the bottom of the bounding
         //  rectangle based on the descent of the font(s) contained on the row.
-        if (r.height == lineHeight) { // default font is being used
+        if (r.getBounds().height == lineHeight) { // default font is being used
             descent = fontMetrics.getDescent();
         } else {  // We need to check all the attributes for font changes
             if (fonts == null)
@@ -362,12 +362,12 @@ public class TextLineNumber extends JPanel implements CaretListener, DocumentLis
         SwingUtilities.invokeLater(() -> {
             try {
                 int endPos = component.getDocument().getLength();
-                Rectangle rect = component.modelToView(endPos);
+                Rectangle2D rect = component.modelToView2D(endPos);
 
-                if (rect != null && rect.y != lastHeight) {
+                if (rect != null && rect.getBounds().y != lastHeight) {
                     setPreferredWidth();
                     getParent().repaint();
-                    lastHeight = rect.y;
+                    lastHeight = rect.getBounds().y;
                 }
             } catch (BadLocationException ex) {
                 ex.printStackTrace();
