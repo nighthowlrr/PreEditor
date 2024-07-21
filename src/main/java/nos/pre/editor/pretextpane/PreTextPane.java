@@ -119,7 +119,7 @@ public class PreTextPane extends JTextPane {
         switch (fileExtension) {
             case "java":
                 this.setStyledDocument(new JavaSyntaxPreEditorDocument());
-                this.codeRead = new JavaCodeRead(this.openedFile);
+                this.codeRead = new JavaCodeRead(this.getDocument(), this.openedFile);
                 this.autoComplete = new JavaAutoComplete(this, (JavaCodeRead) this.codeRead);
                 break;
             default:

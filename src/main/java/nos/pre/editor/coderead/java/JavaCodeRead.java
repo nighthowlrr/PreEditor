@@ -9,6 +9,7 @@ import nos.pre.editor.coderead.CodeRead;
 import nos.pre.editor.coderead.java.codeobjects.JavaMethod;
 import nos.pre.editor.coderead.java.codeobjects.JavaVariable;
 
+import javax.swing.text.Document;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
@@ -22,8 +23,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class JavaCodeRead extends CodeRead {
-    public JavaCodeRead(File javaFile) {
-        super(javaFile);
+    private final File javaFile;
+    public File getJavaFile() { return javaFile; }
+
+    public JavaCodeRead(Document document, File javaFile) {
+        super(document);
+        this.javaFile = javaFile;
     }
 
     // GET CLASS MEMBER TREES ===
@@ -32,7 +37,7 @@ public class JavaCodeRead extends CodeRead {
             JavaCompiler javaCompiler = ToolProvider.getSystemJavaCompiler();
             StandardJavaFileManager fileManager = javaCompiler.getStandardFileManager(null, null, StandardCharsets.UTF_8);
 
-            Iterable<? extends JavaFileObject> javaFileObjects = fileManager.getJavaFileObjectsFromFiles(List.of(this.getCodeFile()));
+            Iterable<? extends JavaFileObject> javaFileObjects = fileManager.getJavaFileObjectsFromFiles(List.of(this.getJavaFile()));
             JavacTask javacTask = (JavacTask) javaCompiler.getTask(null, fileManager, null, null, null, javaFileObjects);
             Iterable<? extends CompilationUnitTree> javaFileObjectTrees = javacTask.parse();
 

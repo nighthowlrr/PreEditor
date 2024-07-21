@@ -2,16 +2,16 @@ package nos.pre.editor.coderead;
 
 import org.jetbrains.annotations.Contract;
 
-import java.io.File;
+import javax.swing.text.Document;
 
 public class CodeRead {
-    private final File codeFile;
-    public File getCodeFile() {
-        return codeFile;
+    private final Document document;
+    public Document getDocument() {
+        return document;
     }
 
     @Contract(pure = true)
-    public CodeRead(File codeFile) {
-        this.codeFile = codeFile;
+    public CodeRead(Document document) {
+        this.document = document;
     }
 }
