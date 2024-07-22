@@ -2,6 +2,7 @@ package nos.pre.editor.pretextpane;
 
 import nos.pre.editor.autoComplete.AutoComplete;
 import nos.pre.editor.autoComplete.JavaAutoComplete;
+import nos.pre.editor.functions.BracketMatching;
 import nos.pre.editor.coderead.CodeRead;
 import nos.pre.editor.coderead.java.JavaCodeRead;
 import nos.pre.editor.defaultValues.KeyboardShortcuts;
@@ -110,6 +111,9 @@ public class PreTextPane extends JTextPane {
      */
     private void setupPostFileTextPane() {
         setUndoRedoEnabled(true);
+
+        BracketMatching bracketMatching = new BracketMatching(this.getDocument(), this.getHighlighter(), UIColors.PRETEXTPANE_BRACKET_MATCHING_HIGHLIGHT);
+        this.addCaretListener(bracketMatching::updateBracketMatching);
     }
 
     private void addLanguageFeatures() {

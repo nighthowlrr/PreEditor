@@ -39,6 +39,7 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color PRETEXTPANE_SELECTION_COLOR = new Color(0xA6D2FF);
     public static final Color PRETEXTPANE_SELECTION_COLOR_UNFOCUSED = new Color(0x5C92BC);
     public static final Color PRETEXTPANE_CURRENT_LINE_HIGHLIGHT = new Color(255, 255, 255, 20);
+    public static final Color PRETEXTPANE_BRACKET_MATCHING_HIGHLIGHT = new Color(255, 255, 255, 70);
 
     // PRETEXTPANE_AUTOCOMPLETE_MENU
     public static final Color AUTOCOMPLETE_MENU_BG = new Color(0x2B2D30);
