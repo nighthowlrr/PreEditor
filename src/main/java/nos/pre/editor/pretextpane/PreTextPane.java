@@ -14,6 +14,7 @@ import nos.pre.editor.files.FileIO;
 import nos.pre.editor.files.FileSaveListener;
 import nos.pre.editor.functions.UndoRedoFunction;
 import nos.pre.editor.languages.java.JavaSyntaxPreEditorDocument;
+import util.FileUtil;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -117,8 +118,7 @@ public class PreTextPane extends JTextPane {
     }
 
     private void addLanguageFeatures() {
-        String fileName = this.openedFile.getName();
-        String fileExtension = this.openedFile.getName().substring(fileName.lastIndexOf(".") + 1);
+        String fileExtension = FileUtil.getFileExtension(this.openedFile);
 
         switch (fileExtension) {
             case "java":
