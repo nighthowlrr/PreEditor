@@ -71,7 +71,7 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
 
     // TOOL_WINDOW_BAR
     public static final Color TOOL_WINDOW_BAR_BG = new Color(0x2B2D30);
-    public static final Color TOOL_WINDOW_BAR_TOOLBUTTON_BG = UIColors.TOOL_WINDOW_BAR_BG.brighter();
+    public static final Color TOOL_WINDOW_BAR_TOOLBUTTON_BG = UIColors.TOOL_WINDOW_BAR_BG.brighter(); // 0x3D4044
     // TODO: Brighter temporarily. Make same color, only brighter color for selected button (associated toolwindow of button is opened)
     public static final Color TOOL_WINDOW_BAR_TOOLBUTTON_FG = new Color(0xFFFFFF);
 
