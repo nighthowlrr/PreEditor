@@ -45,7 +45,8 @@ public class UIColors { // TODO: Changeable & Default Themes. Make a theme reade
     public static final Color AUTOCOMPLETE_MENU_BG = new Color(0x2B2D30);
     public static final Color AUTOCOMPLETE_MENU_SELECTED_BG = new Color(0x43454a);
     public static final Color AUTOCOMPLETE_MENU_FG = new Color(0xFFFFFF);
-    public static final Color AUTOCOMPLETE_MENU_BOTTOM_TEXT_BAR_BG = new Color(0x393B40); // TODO: Unused.
+    public static final Color AUTOCOMPLETE_MENU_BOTTOM_TIP_BAR_BG = new Color(0x393B40); // TODO: Unused.
+    public static final Color AUTOCOMPLETE_MENU_BOTTOM_TIP_BAR_FG = UIColors.GLOBAL_FG_LVL2;
 
     // EDITOR_FIND_REPLACE
     public static final Color FIND_REPLACE_UI_BG = new Color(0x1E1F22);
