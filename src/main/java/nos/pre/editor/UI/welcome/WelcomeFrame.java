@@ -1,9 +1,9 @@
-package nos.pre.editor.UI.Welcome;
+package nos.pre.editor.UI.welcome;
 
 import nos.pre.editor.About;
 import nos.pre.editor.UI.Fonts;
-import nos.pre.editor.UI.Welcome.Views.BasicSettingsView;
-import nos.pre.editor.UI.Welcome.Views.ProjectsListView;
+import nos.pre.editor.UI.welcome.views.BasicSettingsView;
+import nos.pre.editor.UI.welcome.views.ProjectsListView;
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;
 import templateUI.SwingComponents.jScrollPane;

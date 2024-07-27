@@ -1,4 +1,4 @@
-package nos.pre.editor.UI.Settings;
+package nos.pre.editor.UI.settings;
 
 import nos.pre.editor.defaultValues.UIColors;
 import nos.pre.editor.defaultValues.UIFonts;

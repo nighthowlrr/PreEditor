@@ -14,14 +14,14 @@ Hierarchy of UI elements in **EditorFrame**.
       - bottomToolWindowHolder (ToolWindowHolder - JSplitPane) (_ToolHolderLocation.BOTTOM_) (check `EditorFrame.addToolWindowHolder()`)
       - rightToolWindowHolder (ToolWindowHolder - JSplitPane) (_ToolHolderLocation.RIGHT_) (check `EditorFrame.addToolWindowHolder()`)
 
-Class: `nos.pre.editor.UI.Editor.EditorFrame`
+Class: `nos.pre.editor.UI.editor.EditorFrame`
 
 ---
 
 - EditorTabbedPane (JTabbedPane)
   - Each tab's component is a new instance of `EditorView`
 
-Class: `nos.pre.editor.UI.Editor.EditorTabbedPane`
+Class: `nos.pre.editor.UI.editor.EditorTabbedPane`
 
 ---
 
@@ -35,4 +35,4 @@ Class: `nos.pre.editor.UI.Editor.EditorTabbedPane`
     - `Box.createHorizontalGlue()`
     - caretLocationLabel (JLabel)
 
-Class: `nos.pre.editor.UI.Editor.EditorView`
+Class: `nos.pre.editor.UI.editor.EditorView`

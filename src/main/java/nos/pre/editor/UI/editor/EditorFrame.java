@@ -1,6 +1,6 @@
-package nos.pre.editor.UI.Editor;
+package nos.pre.editor.UI.editor;
 
-import nos.pre.editor.UI.Welcome.WelcomeFrame;
+import nos.pre.editor.UI.welcome.WelcomeFrame;
 import nos.pre.editor.UI.toolWindows.projectTool.ProjectToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.UI.toolWindows.ToolWindowHolder;

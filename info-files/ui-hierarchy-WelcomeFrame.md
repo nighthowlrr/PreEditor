@@ -23,18 +23,18 @@ Hierarchy of UI elements in **WelcomeFrame** and in **WelcomeFrameViews**:
         - newButton (JButton)
         - openButton (JButton)
 
-Class: `nos.pre.editor.UI.Welcome.WelcomeFrame.java`
+Class: `nos.pre.editor.UI.welcome.WelcomeFrame.java`
 
 ---
 
 - ProjectsListView (JPanel)
   - (empty)
 
-Class: `nos.pre.editor.UI.Welcome.Views.ProjectsListView`
+Class: `nos.pre.editor.UI.welcome.views.ProjectsListView`
 
 ---
 
 - BasicSettingsView (JPanel)
   - (empty)
 
-Class: `nos.pre.editor.UI.Welcome.Views.BasicSettingsView`
+Class: `nos.pre.editor.UI.welcome.views.BasicSettingsView`

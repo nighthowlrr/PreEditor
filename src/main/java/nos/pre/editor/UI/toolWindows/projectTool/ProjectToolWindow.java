@@ -1,6 +1,6 @@
 package nos.pre.editor.UI.toolWindows.projectTool;
 
-import nos.pre.editor.UI.Editor.EditorTabbedPane;
+import nos.pre.editor.UI.editor.EditorTabbedPane;
 import nos.pre.editor.UI.toolWindows.ToolWindow;
 import nos.pre.editor.defaultValues.UIColors;
 import org.jetbrains.annotations.NotNull;

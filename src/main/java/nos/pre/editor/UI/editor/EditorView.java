@@ -1,4 +1,4 @@
-package nos.pre.editor.UI.Editor;
+package nos.pre.editor.UI.editor;
 
 import nos.pre.editor.pretextpane.PreTextPane;
 import nos.pre.editor.pretextpane.FindReplace;
