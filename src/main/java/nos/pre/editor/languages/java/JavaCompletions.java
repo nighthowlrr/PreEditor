@@ -38,5 +38,8 @@ public class JavaCompletions extends CompletionList {
                 "private static final"));
 
         // TODO: Proper indentation and bracket location
+
+        this.add(new TemplateCompletion("St", "String", "", "String"));
+        this.add(new TemplateCompletion("thr", "throw new", "", "throw new"));
     }
 }
