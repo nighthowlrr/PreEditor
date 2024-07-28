@@ -1,0 +1,65 @@
+{
+  "themeName": "Nos PreEditor Default Dark",
+  "isThemeDark": true,
+  "themeInfo": {
+    "uiInfo": {
+      "globalAccentColor": "2767BA",
+      "globalForegroundLvl1Color": "FFFFFF",
+      "globalForegroundLvl2Color": "C1C1C1",
+      "globalForegroundLvl3Color": "818181",
+
+      "WelcomeFrameMainBackgroundColor": "1E1F22",
+      "WelcomeFrameSecondaryBackgroundColor": "2B2D30",
+
+      "SettingsFrameMainBackgroundColor": "1E1F22",
+      "SettingsFrameMainForegroundColor": "FFFFFF",
+
+      "EditorFrameDividerColor": "1E1F22",
+
+      "EditorTabbedPaneBackgroundColor": "2E2F30",
+      "EditorTabbedPaneForegroundColor": "FFFFFF",
+      "EditorTabbedPaneOpenTabIndicatorColor": "2767BA",
+      "EditorTabbedPaneOpenTabBackgroundColor": "2E2F30",
+
+      "PretextPaneBackgroundColor": "1E1F22",
+      "PretextPaneForegroundColor": "FFFFFF",
+      "PretextPaneCaretColor": "2767BA",
+      "PretextPaneSelectionColorFocused": "A6D2FF",
+      "PretextPaneSelectionColorUnfocused": "5C92BC",
+      "PretextPaneCurrentLineHighlight": "14FFFFFF",
+      "PretextPaneMatchingBracketHighlight": "46FFFFFF",
+
+      "AutocompleteMenuBackgroundColor": "2B2D30",
+      "AutocompleteMenuSelectedItemColor": "43454A",
+      "AutocompleteMenuForegroundColor": "FFFFFF",
+      "AutocompleteMenuBottomTipBarBackgroundColor": "393B40",
+      "AutocompleteMenuBottomTipBarForegroundColor": "C1C1C1",
+
+      "FindReplaceUIBackgroundColor": "1E1F22",
+      "FindReplaceUISelectedButtonBackgroundColor": "375FAD",
+      "FindReplaceUILabelsForegroundColor": "C1C1C1",
+      "FindReplaceUIInputForegroundColor": "FFFFFF",
+      "FindReplaceUIBorderColor": "2E3032",
+      "FindReplaceHighlight": "3CB9FF00",
+
+      "EditorLineNumbersForegroundColor": "5C5C5C",
+      "EditorLineNumbersCurrentLineForegroundColor": "FFFFFF",
+      "EditorLineNumbersSeparatorColor": "2E3032",
+
+      "EditorStatusBarBackgroundColor": "1E1F22",
+      "EditorStatusBarBorderColor": "2E3032",
+      "EditorStatusBarMainForegroundColor": "C0C0C0",
+      "EditorStatusBarSaveStatusUnsavedForegroundColor": "ED5757",
+
+      "ToolWindowBarBackgroundColor": "2B2D30",
+      "ToolWindowBarToolButtonBackgroundColor": "3D4044",
+      "ToolWindowBarToolButtonForegroundColor": "FFFFFF",
+
+      "ToolWindowHolderBackgroundColor": "2B2D30",
+
+      "ProjectToolWindowBackgroundColor": "2B2D30",
+      "ProjectToolWindowSelectedFileColorFocused": "802767BA",
+      "ProjectToolWindowSelectedFileColorUnfocused": "4DFFFFFF"
+    }
+  }
+}
