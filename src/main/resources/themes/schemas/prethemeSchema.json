@@ -1,0 +1,222 @@
+{
+  "$schema": "",
+  "$id": "",
+  "title": "Nos PreEditor theme.pretheme.json Schema",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "themeName": {
+      "description": "Name of the theme",
+      "type": "string"
+    },
+    "isThemeDark": {
+      "description": "Boolean specifying if the theme is a dark theme",
+      "type": "boolean"
+    },
+    "themeInfo": {
+      "type": "object",
+      "properties": {
+        "uiInfo": {
+          "type": "object",
+          "properties": {
+            "globalAccentColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "globalForegroundLvl1Color": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "globalForegroundLvl2Color": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "globalForegroundLvl3Color": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "WelcomeFrameMainBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "WelcomeFrameSecondaryBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "SettingsFrameMainBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "SettingsFrameMainForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "EditorFrameDividerColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "EditorTabbedPaneBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorTabbedPaneForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorTabbedPaneOpenTabIndicatorColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorTabbedPaneOpenTabBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "PretextPaneBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "PretextPaneForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "PretextPaneCaretColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "PretextPaneSelectionColorFocused": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "PretextPaneSelectionColorUnfocused": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "PretextPaneCurrentLineHighlight": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "PretextPaneMatchingBracketHighlight": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "AutocompleteMenuBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "AutocompleteMenuSelectedItemColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "AutocompleteMenuForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "AutocompleteMenuBottomTipBarBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "AutocompleteMenuBottomTipBarForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "FindReplaceUIBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "FindReplaceUISelectedButtonBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "FindReplaceUILabelsForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "FindReplaceUIInputForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "FindReplaceUIBorderColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "FindReplaceHighlight": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "EditorLineNumbersForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorLineNumbersCurrentLineForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorLineNumbersSeparatorColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "EditorStatusBarBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorStatusBarBorderColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorStatusBarMainForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "EditorStatusBarSaveStatusUnsavedForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "ToolWindowBarBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "ToolWindowBarToolButtonBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "ToolWindowBarToolButtonForegroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "ToolWindowHolderBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+
+            "ProjectToolWindowBackgroundColor": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "ProjectToolWindowSelectedFileColorFocused": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            },
+            "ProjectToolWindowSelectedFileColorUnfocused": {
+              "description": "Must be a hexadecimal color value.",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required": ["uiInfo"]
+    }
+
+  },
+  "required": ["themeName", "isThemeDark", "themeInfo"]
+}
