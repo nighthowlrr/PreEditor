@@ -140,7 +140,6 @@ public class jTabbedPane extends JTabbedPane {
         private void setDefaults() {
             this.tabIndicatorColor = UIColors.EDITOR_TABBED_PANE_OPENTAB_INDICATOR;
             this.tabIndicatorBG = UIColors.EDITOR_TABBED_PANE_OPENTAB_BG;
-            // TODO: Interface "Default-able..." for UI classes for library and L&F later
         }
 
 
